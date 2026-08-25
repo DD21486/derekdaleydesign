@@ -48,4 +48,187 @@
   .scrollbar-none::-webkit-scrollbar {
     display: none;
   }
+
+  @keyframes about-backdrop-in {
+    from {
+      opacity: 0;
+      backdrop-filter: blur(0);
+      -webkit-backdrop-filter: blur(0);
+    }
+
+    to {
+      opacity: 1;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+
+  @keyframes about-content-in {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes about-image-in {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+    }
+
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .about-backdrop-enter {
+    opacity: 0;
+    animation: about-backdrop-in 0.5s ease forwards;
+  }
+
+  .about-content-enter {
+    opacity: 0;
+    animation: about-content-in 0.3s ease 0.5s forwards;
+  }
+
+  .about-image-enter {
+    opacity: 0;
+    animation: about-image-in 0.2s ease forwards;
+  }
+
+  @keyframes about-modal-exit {
+    0% {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    50% {
+      opacity: 1;
+      filter: blur(12px);
+    }
+
+    100% {
+      opacity: 0;
+      filter: blur(12px);
+    }
+  }
+
+  @keyframes about-backdrop-exit {
+    0% {
+      opacity: 1;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    50% {
+      opacity: 1;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    100% {
+      opacity: 0;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  }
+
+  .about-modal-exit {
+    animation: about-modal-exit 0.5s ease forwards;
+    pointer-events: none;
+  }
+
+  .about-backdrop-exit {
+    animation: about-backdrop-exit 0.5s ease forwards;
+    pointer-events: none;
+  }
+
+  @keyframes page-enter {
+    from {
+      opacity: 0;
+      filter: blur(12px);
+    }
+
+    to {
+      opacity: 1;
+      filter: blur(0);
+    }
+  }
+
+  .page-enter {
+    opacity: 0;
+    animation: page-enter 0.35s ease forwards;
+  }
+
+  @keyframes page-enter-fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  .page-enter-fade {
+    opacity: 0;
+    animation: page-enter-fade 0.5s ease forwards;
+  }
+
+  @keyframes folder-trail-fade {
+    0% {
+      opacity: 0.4;
+      filter: blur(0);
+    }
+
+    100% {
+      opacity: 0;
+      filter: blur(3px);
+    }
+  }
+
+  .folder-trail {
+    animation: folder-trail-fade 600ms ease-out forwards;
+  }
+
+  @keyframes work-toast-in {
+    0% {
+      opacity: 0;
+      transform: translateY(1.25rem) scale(0.92);
+    }
+
+    70% {
+      opacity: 1;
+      transform: translateY(-0.2rem) scale(1.03);
+    }
+
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  @keyframes work-toast-out {
+    from {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(1.25rem) scale(0.92);
+    }
+  }
+
+  .work-toast-enter {
+    animation: work-toast-in 420ms cubic-bezier(0.22, 1.25, 0.36, 1) forwards;
+  }
+
+  .work-toast-exit {
+    animation: work-toast-out 320ms cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  }
 }

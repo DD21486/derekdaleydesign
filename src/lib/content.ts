@@ -1,20 +1,62 @@
 export type WorkItem = {
   id: string;
   title: string;
-  subtitle: string;
-  description: string;
-  tags: string[];
-  href: string;
-  color: string;
+  company: string;
+  date: string;
+  folders: {
+    cap: string;
+    left: string;
+    right: string;
+  };
 };
 
 export type NavLink = {
   id: string;
   label: string;
+  tooltip: string;
   href: string;
   icon: "github" | "linkedin" | "email" | "link";
   external?: boolean;
 };
+
+export type CompanyLinkData = {
+  name: string;
+  icon: string;
+  href: string;
+  previewLabel?: string;
+  previewVideo?: string;
+};
+
+export type BioSegment =
+  | { type: "text"; value: string }
+  | { type: "bold"; value: string }
+  | { type: "muted"; value: string }
+  | { type: "company"; company: CompanyLinkData };
+
+export type BioParagraph = {
+  segments: BioSegment[];
+};
+
+export const companies = {
+  pantomath: {
+    name: "Pantomath",
+    icon: "/icons/pantomath_mini_white.png",
+    href: "#",
+    previewVideo: "/videos/pantomath_1.mp4",
+  },
+  barstool: {
+    name: "Barstool Sports",
+    icon: "/icons/barstool_mini_white.png",
+    href: "#",
+    previewVideo: "/videos/Barstool.mp4",
+  },
+  kroger: {
+    name: "Kroger",
+    icon: "/icons/kroger_mini_white.png",
+    href: "#",
+    previewLabel: "Placeholder",
+  },
+} satisfies Record<string, CompanyLinkData>;
 
 export const siteConfig = {
   name: "Derek Daley",
@@ -22,40 +64,58 @@ export const siteConfig = {
   email: "hello@example.com",
   location: "CIN",
   secondaryLocation: "NYC",
-  avatar: "/derek_portrait_1.png",
+  avatar: "/derek_portrait_1_small.png",
   avatarHover: "/baby_derek.png",
 };
 
 export const bio = {
   intro: [
     {
-      text: "Currently leading design solo at ",
-      bold: "Pantomath",
-      suffix:
-        " — a Series B company where I design tools & AI that automate data operations at enterprise scale. I own product, marketing, and brand design end-to-end.",
+      segments: [
+        { type: "text", value: "Currently leading design at " },
+        { type: "company", company: companies.pantomath },
+        { type: "muted", value: " (Seed→Series B | $10M+ ARR growth)" },
+        {
+          type: "text",
+          value:
+            ". I design tools and AI experiences that automate data operations at enterprise scale. I design in code daily, ship straight to production, and own product, marketing, and brand end-to-end as a team of one.",
+        },
+      ],
     },
     {
-      text: "Previously Sr. Product Designer at ",
-      bold: "Barstool Sports",
-      suffix:
-        " in NYC, and UI/Product Designer at ",
-      bold2: "Kroger",
-      suffix2:
-        " — America's largest grocery chain. A decade of turning complex problems into clear, human-centered interfaces.",
+      segments: [
+        { type: "text", value: "Previously " },
+        { type: "company", company: companies.barstool },
+        { type: "muted", value: " (NYC)" },
+        { type: "text", value: " and " },
+        { type: "company", company: companies.kroger },
+        { type: "muted", value: " (Cincy)" },
+        {
+          type: "text",
+          value:
+            ". A decade designing B2C and B2B at scale for the world's biggest media and retail brands.",
+        },
+      ],
     },
     {
-      text: "These days I'm ",
-      bold: "leaning into the unknown",
-      suffix:
-        ", embracing AI, and building beyond my job description — the most effective designer and builder I can be.",
+      segments: [
+        { type: "text", value: "These days I'm " },
+        { type: "bold", value: "leaning into the unknown" },
+        {
+          type: "text",
+          value:
+            ", embracing AI, and building beyond my job description — the most effective designer and builder I can be.",
+        },
+      ],
     },
-  ],
+  ] satisfies BioParagraph[],
 };
 
 export const navLinks: NavLink[] = [
   {
     id: "linkedin",
     label: "LinkedIn",
+    tooltip: "Connect On Linkedin",
     href: "https://www.linkedin.com/in/daleyd4/",
     icon: "linkedin",
     external: true,
@@ -63,73 +123,77 @@ export const navLinks: NavLink[] = [
   {
     id: "github",
     label: "GitHub",
-    href: "https://github.com/placeholder",
+    tooltip: "My Github",
+    href: "https://github.com/DD21486",
     icon: "github",
     external: true,
   },
   {
     id: "email",
     label: "Copy my email",
+    tooltip: "Copy My Email",
     href: "mailto:hello@example.com",
     icon: "email",
   },
 ];
 
+const barstoolFolders = {
+  cap: "/slides/barstooltv_folder_cap.png",
+  left: "/slides/barstooltv_folder_slide_left_1.png",
+  right: "/slides/barstooltv_folder_slide_right_2.png",
+};
+
+const stellaBlueFolders = {
+  cap: "/slides/stellablue_folder_cap.png",
+  left: "/slides/stellablue_folder_slide_left_1.png",
+  right: "/slides/stellablue_folder_slide_right_1.png",
+};
+
 export const recentWork: WorkItem[] = [
   {
-    id: "pantomath",
-    title: "Enterprise Data Ops",
-    subtitle: "Pantomath · 2023 — Present",
-    description:
-      "Designing AI-powered tools that automate data operations at enterprise scale — from 0→1 product to marketing and brand.",
-    tags: ["Product Design", "AI", "Enterprise"],
-    href: "#",
-    color: "#1a1a2e",
-  },
-  {
     id: "barstool",
-    title: "Internal Tools & Ecommerce",
-    subtitle: "Barstool Sports · 2022 — 2023",
-    description:
-      "Built internal tools and ecommerce experiences for one of the most recognizable media brands in sports.",
-    tags: ["Product Design", "Ecommerce", "Media"],
-    href: "#",
-    color: "#16213e",
+    title: "BarstoolTV",
+    company: "Barstool Sports",
+    date: "Spring 23'",
+    folders: barstoolFolders,
   },
   {
-    id: "kroger",
-    title: "Pickup & Savings",
-    subtitle: "Kroger · 2018 — 2022",
-    description:
-      "Designed pickup and savings experiences for America's largest grocery chain at a pivotal growth moment.",
-    tags: ["UI Design", "Retail", "Mobile"],
-    href: "#",
-    color: "#0f3460",
-  },
-  {
-    id: "side-project-1",
-    title: "Side Project One",
-    subtitle: "Personal · 2024",
-    description:
-      "Placeholder for a side project — update with your latest experiment, tool, or creative build.",
-    tags: ["Side Project", "AI", "Prototype"],
-    href: "#",
-    color: "#2d2d2d",
-  },
-  {
-    id: "side-project-2",
-    title: "Side Project Two",
-    subtitle: "Personal · 2023",
-    description:
-      "Placeholder for another side project — swap in screenshots and a case study link when ready.",
-    tags: ["Side Project", "Design", "Code"],
-    href: "#",
-    color: "#3d3d3d",
+    id: "stella-blue",
+    title: "Stella Blue",
+    company: "Stella Blue",
+    date: "Fall 24'",
+    folders: stellaBlueFolders,
   },
 ];
 
 export const stats = [
-  { value: "10+", label: "Years designing" },
-  { value: "4", label: "Companies shipped at" },
-  { value: "1", label: "Solo design lead" },
+  { value: "10+", label: "Years designing", icon: "/icons/calendar.svg" },
+  { value: "6", label: "Companies shipped at", icon: "/icons/ship.svg" },
+  { value: "4", label: "States lives in", icon: "/icons/globe.svg" },
 ];
+
+export type AboutBentoImage = {
+  src: string;
+  alt: string;
+};
+
+export const aboutContent = {
+  text: "I live in Cincinnati with my wife Kendall, son Charles, and our pup Hadley. I'm a creative at heart, constantly building side projects and expanding my horizons in new directions. I travel back to NYC a few times a year to play bass in a band, I bleed black and orange on Sundays (Go Bengals), and overall, I'm just building the life I've always wanted.",
+  columns: [
+    [
+      { src: "/about/daley_img_topleft_square.png", alt: "Stadium visit" },
+      { src: "/about/daley_img_midleft_square.png", alt: "Bass guitar" },
+      { src: "/about/daley_img_botleft_vertical.png", alt: "With the dog" },
+    ],
+    [
+      { src: "/about/daley_img_midtop_vertical.png", alt: "On the pier" },
+      { src: "/about/daley_img_middle_square.png", alt: "By the water" },
+      { src: "/about/daley_img_botmid_square.png", alt: "Friends" },
+    ],
+    [
+      { src: "/about/daley_img_topright_square.png", alt: "Basketball" },
+      { src: "/about/daley_img_mdiright_vertical.png", alt: "With baby" },
+      { src: "/about/daley_img_botright_square.png", alt: "Group photo" },
+    ],
+  ] satisfies AboutBentoImage[][],
+};

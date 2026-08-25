@@ -9,7 +9,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Derek Daley — Senior Product Designer",
+  title: "Derek Daley Design",
   description:
     "Product designer with 10+ years turning complex problems into clear, human-centered interfaces. Currently leading design at Pantomath.",
 };
