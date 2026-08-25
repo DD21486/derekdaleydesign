@@ -41,20 +41,20 @@ export const companies = {
   pantomath: {
     name: "Pantomath",
     icon: "/icons/pantomath_mini_white.png",
-    href: "#",
+    href: "https://www.pantomath.com/",
     previewVideo: "/videos/pantomath_1.mp4",
   },
   barstool: {
     name: "Barstool Sports",
     icon: "/icons/barstool_mini_white.png",
-    href: "#",
+    href: "https://www.barstoolsports.com/",
     previewVideo: "/videos/Barstool.mp4",
   },
   kroger: {
     name: "Kroger",
     icon: "/icons/kroger_mini_white.png",
-    href: "#",
-    previewLabel: "Placeholder",
+    href: "https://www.thekrogerco.com/",
+    previewVideo: "/videos/Kroger.mp4",
   },
 } satisfies Record<string, CompanyLinkData>;
 
@@ -163,6 +163,34 @@ export const recentWork: WorkItem[] = [
     company: "Stella Blue",
     date: "Fall 24'",
     folders: stellaBlueFolders,
+  },
+];
+
+export type HobbyProject = {
+  id: string;
+  title: string;
+  subtitle: string;
+  image: string;
+};
+
+export const hobbyProjects: HobbyProject[] = [
+  {
+    id: "coney-counter",
+    title: "Coney Counter",
+    subtitle: "Cincinnati Coney Tracking Webapp",
+    image: "/coneycounter.png",
+  },
+  {
+    id: "mesh",
+    title: "MESH",
+    subtitle: "Towerdefense Video Game",
+    image: "/MESH.png",
+  },
+  {
+    id: "sysmud",
+    title: "Sysmud",
+    subtitle: "In-browser MMO Experiment",
+    image: "/sysmud.png",
   },
 ];
 
