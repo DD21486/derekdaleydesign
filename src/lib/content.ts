@@ -137,6 +137,12 @@ export const navLinks: NavLink[] = [
   },
 ];
 
+const pantomathFolders = {
+  cap: "/slides/pantomath_folder_cap.png",
+  left: "/slides/pantomath_folder_slide_left_1.png",
+  right: "/slides/pantomath_folder_slide_right_2.png",
+};
+
 const barstoolFolders = {
   cap: "/slides/barstooltv_folder_cap.png",
   left: "/slides/barstooltv_folder_slide_left_1.png",
@@ -150,6 +156,13 @@ const stellaBlueFolders = {
 };
 
 export const recentWork: WorkItem[] = [
+  {
+    id: "pantomath",
+    title: "Pantomath",
+    company: "Pantomath",
+    date: "Spring 26'",
+    folders: pantomathFolders,
+  },
   {
     id: "barstool",
     title: "BarstoolTV",
