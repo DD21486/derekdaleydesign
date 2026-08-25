@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --surface: #fafafa;
+  --surface-elevated: #ffffff;
+  --surface-muted: #f0f0f0;
+  --foreground: #0a0a0a;
+  --foreground-muted: #525252;
+  --foreground-subtle: #a3a3a3;
+  --accent: #2563eb;
+}
+
+.dark {
+  --surface: #0a0a0a;
+  --surface-elevated: #141414;
+  --surface-muted: #1a1a1a;
+  --foreground: #fafafa;
+  --foreground-muted: #a3a3a3;
+  --foreground-subtle: #525252;
+  --accent: #60a5fa;
+}
+
+@layer base {
+  html {
+    @apply antialiased;
+  }
+
+  body {
+    @apply bg-surface text-foreground;
+    font-feature-settings: normal;
+    font-variant-ligatures: normal;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: color-mix(in srgb, var(--foreground) 20%, transparent);
+  }
+}
+
+@layer utilities {
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+}

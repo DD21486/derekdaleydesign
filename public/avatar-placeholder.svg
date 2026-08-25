@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
+  <rect width="80" height="80" fill="#1a1a1a"/>
+  <circle cx="40" cy="32" r="14" fill="#333"/>
+  <ellipse cx="40" cy="68" rx="22" ry="16" fill="#333"/>
+  <text x="40" y="76" text-anchor="middle" fill="#525252" font-family="system-ui,sans-serif" font-size="8">DD</text>
+</svg>
