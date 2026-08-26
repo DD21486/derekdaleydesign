@@ -1,3 +1,5 @@
+import type { HobbyIconName } from "@/lib/hobby-icons";
+
 export type WorkItem = {
   id: string;
   title: string;
@@ -179,11 +181,34 @@ export const recentWork: WorkItem[] = [
   },
 ];
 
+export type HobbyProjectStatus = "active" | "paused" | "completed";
+
+export type HobbySkill = {
+  label: string;
+  icon: HobbyIconName;
+};
+
+export type HobbyProjectDetail = {
+  date: string;
+  status: {
+    label: string;
+    tone: HobbyProjectStatus;
+    icon: HobbyIconName;
+  };
+  skills: HobbySkill[];
+  banner: string;
+  sections: {
+    title?: string;
+    paragraphs: string[];
+  }[];
+};
+
 export type HobbyProject = {
   id: string;
   title: string;
   subtitle: string;
   image: string;
+  detail?: HobbyProjectDetail;
 };
 
 export const hobbyProjects: HobbyProject[] = [
@@ -192,6 +217,38 @@ export const hobbyProjects: HobbyProject[] = [
     title: "Coney Counter",
     subtitle: "Cincinnati Coney Tracking Webapp",
     image: "/coneycounter.png",
+    detail: {
+      date: "September 2025",
+      status: {
+        label: "Paused",
+        tone: "paused",
+        icon: "pause",
+      },
+      skills: [
+        { label: "User Authentication", icon: "key-round" },
+        { label: "Database Design", icon: "database" },
+        { label: "Image Recognition", icon: "scan-eye" },
+        { label: "Full-stack Development", icon: "layers" },
+        { label: "API Architecture", icon: "network" },
+        { label: "Product Design", icon: "pen-tool" },
+      ],
+      banner: "/coney_counter_banner.png",
+      sections: [
+        {
+          title: "Why I built it",
+          paragraphs: [
+            "Coney Counter was my first real end-to-end web app — authentication, a database, image recognition, user accounts, and everything that comes with shipping something people can actually use. It taught me how software gets made, not just how it looks in a file.",
+            "I'm from Cincinnati and eat a lot of cheese coneys — twice a week at my local Skyline, in and out in fifteen minutes. I wanted to turn that habit into something I could use and share with people who get it.",
+          ],
+        },
+        {
+          title: "What it does",
+          paragraphs: [
+            "Track your coney consumption, compete on leaderboards, and earn achievements along the way. Part utility, part celebration of the cheese coney. It's paused for now, but the skills stuck — auth, databases, backend logic, and shipping something real.",
+          ],
+        },
+      ],
+    },
   },
   {
     id: "mesh",

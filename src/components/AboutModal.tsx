@@ -1,8 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
+import { OverlayModal } from "@/components/OverlayModal";
 import type { AboutBentoImage } from "@/lib/content";
 
 type AboutModalProps = {
@@ -11,8 +10,6 @@ type AboutModalProps = {
   text: string;
   columns: AboutBentoImage[][];
 };
-
-const EXIT_DURATION_MS = 500;
 
 function isVertical(src: string) {
   return src.includes("vertical");
@@ -23,69 +20,19 @@ function getCascadeDelay(columnIndex: number, rowIndex: number, columnCount: num
 }
 
 export function AboutModal({ open, onClose, text, columns }: AboutModalProps) {
-  const [mounted, setMounted] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  useEffect(() => {
-    if (open) setIsClosing(false);
-  }, [open]);
-
-  const handleClose = useCallback(() => {
-    if (isClosing) return;
-
-    setIsClosing(true);
-    window.setTimeout(() => {
-      onClose();
-      setIsClosing(false);
-    }, EXIT_DURATION_MS);
-  }, [isClosing, onClose]);
-
-  useEffect(() => {
-    if (!open && !isClosing) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") handleClose();
-    };
-
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.body.style.overflow = "";
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [open, isClosing, handleClose]);
-
-  if (!mounted || (!open && !isClosing)) return null;
-
   const columnCount = columns.length;
 
-  return createPortal(
-    <div className="fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="About me">
-      <button
-        type="button"
-        aria-label="Close about me"
-        className={`absolute inset-0 bg-black/20 backdrop-blur-md ${
-          isClosing ? "about-backdrop-exit" : "about-backdrop-enter"
-        }`}
-        onClick={handleClose}
-      />
-
-      <div
-        className={`absolute inset-0 overflow-y-auto ${isClosing ? "about-modal-exit" : ""}`}
-      >
-        <div className="mx-auto max-w-4xl px-4 py-10">
+  return (
+    <OverlayModal open={open} onClose={onClose} ariaLabel="About me">
+      {(close) => (
+        <>
           <div className="about-content-enter flex items-start justify-between gap-4">
             <p className="max-w-2xl text-[14px] leading-[1.65] text-black dark:text-neutral-300">
               {text}
             </p>
             <button
               type="button"
-              onClick={handleClose}
+              onClick={close}
               className="shrink-0 font-mono text-[13px] text-foreground-muted transition-colors hover:text-foreground"
             >
               [close]
@@ -115,9 +62,8 @@ export function AboutModal({ open, onClose, text, columns }: AboutModalProps) {
               </div>
             ))}
           </div>
-        </div>
-      </div>
-    </div>,
-    document.body,
+        </>
+      )}
+    </OverlayModal>
   );
 }

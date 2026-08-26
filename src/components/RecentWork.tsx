@@ -138,13 +138,17 @@ function WorkToast({ phase }: { phase: ToastPhase }) {
   return createPortal(
     <div className="pointer-events-none fixed bottom-6 left-1/2 z-[9999] -translate-x-1/2">
       <div
-        role="status"
-        aria-live="polite"
-        className={`rounded-full border border-white/10 bg-surface-elevated px-5 py-2.5 text-[13px] text-foreground shadow-[0_10px_40px_rgba(0,0,0,0.28)] ${
+        className={`work-toast-shimmer relative rounded-full ${
           phase === "enter" || phase === "show" ? "work-toast-enter" : "work-toast-exit"
         }`}
       >
-        That doesnt go there...
+        <div
+          role="status"
+          aria-live="polite"
+          className="relative rounded-full border border-white/10 bg-surface-elevated px-5 py-2.5 text-[13px] text-foreground shadow-[0_10px_40px_rgba(0,0,0,0.28)]"
+        >
+          That doesnt go there...
+        </div>
       </div>
     </div>,
     document.body,

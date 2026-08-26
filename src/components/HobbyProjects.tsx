@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { HobbyProjectModal } from "@/components/HobbyProjectModal";
 import type { HobbyProject } from "@/lib/content";
 
 type HobbyProjectsProps = {
@@ -14,7 +15,13 @@ function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value));
 }
 
-function HobbyProjectCard({ item }: { item: HobbyProject }) {
+function HobbyProjectCard({
+  item,
+  onSelect,
+}: {
+  item: HobbyProject;
+  onSelect: (item: HobbyProject) => void;
+}) {
   const imageRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHoveringImage, setIsHoveringImage] = useState(false);
@@ -44,13 +51,18 @@ function HobbyProjectCard({ item }: { item: HobbyProject }) {
 
   return (
     <article className="flex flex-col overflow-visible">
-      <div className="mx-auto w-[45%] overflow-visible">
+      <button
+        type="button"
+        onClick={() => onSelect(item)}
+        className="group/card mx-auto w-[45%] overflow-visible text-left"
+        aria-label={`Open ${item.title}`}
+      >
         <div
           ref={imageRef}
           onMouseEnter={() => setIsHoveringImage(true)}
           onMouseMove={handleImageMove}
           onMouseLeave={handleImageLeave}
-          className="relative aspect-square overflow-hidden rounded-2xl transition-transform duration-200 ease-out will-change-transform"
+          className="relative aspect-square cursor-pointer overflow-hidden rounded-2xl transition-transform duration-200 ease-out will-change-transform"
           style={{
             transform: `perspective(700px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${scale})`,
           }}
@@ -63,26 +75,39 @@ function HobbyProjectCard({ item }: { item: HobbyProject }) {
             className="pointer-events-none object-cover select-none"
           />
         </div>
-      </div>
-      <h3 className="mt-4 text-center text-[15px] font-semibold text-foreground">
-        {item.title}
-      </h3>
-      <p className="mt-1 text-center text-[13px] text-neutral-500">{item.subtitle}</p>
+        <h3 className="mt-4 text-center text-[15px] font-semibold text-foreground transition-colors group-hover/card:text-foreground-muted">
+          {item.title}
+        </h3>
+        <p className="mt-1 text-center text-[13px] text-neutral-500">{item.subtitle}</p>
+      </button>
     </article>
   );
 }
 
 export function HobbyProjects({ items }: HobbyProjectsProps) {
+  const [activeProject, setActiveProject] = useState<HobbyProject | null>(null);
+
   return (
-    <section aria-label="Hobby projects">
-      <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
-        Hobby Projects
-      </p>
-      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {items.map((item) => (
-          <HobbyProjectCard key={item.id} item={item} />
-        ))}
-      </div>
-    </section>
+    <>
+      <section aria-label="Hobby projects">
+        <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
+          Hobby Projects
+        </p>
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((item) => (
+            <HobbyProjectCard
+              key={item.id}
+              item={item}
+              onSelect={setActiveProject}
+            />
+          ))}
+        </div>
+      </section>
+
+      <HobbyProjectModal
+        project={activeProject}
+        onClose={() => setActiveProject(null)}
+      />
+    </>
   );
 }
