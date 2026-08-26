@@ -253,8 +253,45 @@ export const hobbyProjects: HobbyProject[] = [
   {
     id: "mesh",
     title: "MESH",
-    subtitle: "Towerdefense Video Game",
+    subtitle: "Roguelike Tower Defense Deckbuilder",
     image: "/MESH.png",
+    detail: {
+      date: "2024 — Present",
+      status: {
+        label: "In Development",
+        tone: "active",
+        icon: "play",
+      },
+      skills: [
+        { label: "Systems Design", icon: "network" },
+        { label: "Coding", icon: "layers" },
+        { label: "3D Development", icon: "scan-eye" },
+        { label: "Game & UI Design", icon: "pen-tool" },
+      ],
+      banner: "/coney_counter_banner.png",
+      sections: [
+        {
+          title: "Why I build it",
+          paragraphs: [
+            "I'm the developer on MESH — I design it, code it, and ship it in my free time under Retrograde Interactive, with Jakie on writing and card design. As a product designer by day, this is where I get to own the whole stack, not just the interface.",
+            "No roadmaps or stakeholders. I'm designing for fun, and that's the part I love most.",
+          ],
+        },
+        {
+          title: "What it pushes me on",
+          paragraphs: [
+            "MESH stretches me beyond product design — coding, 3D work, and systems design all in one project. I'm not mocking up behavior in Figma; I'm building it, breaking it, and feeling whether it actually works.",
+            "It's a roguelike tower defense deckbuilder at its core. The design challenge is making complex systems feel clear, rewarding, and worth one more run.",
+          ],
+        },
+        {
+          title: "Where it's at",
+          paragraphs: [
+            "Alpha demo is live with two bosses on Windows and macOS. Still in development — more sectors, deeper progression, and controller support on the way.",
+          ],
+        },
+      ],
+    },
   },
   {
     id: "sysmud",
