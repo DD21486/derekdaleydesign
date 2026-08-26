@@ -248,6 +248,66 @@
     }
   }
 
+  .case-study-fly-cap {
+    transition:
+      top 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      left 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      width 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      height 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .case-study-fly-cap-settled {
+    transition: none;
+  }
+
+  .case-study-fly-slide {
+    will-change: transform, top, left, width, height;
+  }
+
+  @keyframes case-study-fly-cap-out {
+    0% {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    45% {
+      opacity: 1;
+      filter: blur(14px);
+    }
+
+    100% {
+      opacity: 0;
+      filter: blur(14px);
+    }
+  }
+
+  .case-study-fly-cap-exit {
+    animation: case-study-fly-cap-out 0.2s ease forwards;
+    will-change: opacity, filter;
+  }
+
+  @keyframes case-study-exit {
+    0% {
+      opacity: 1;
+      filter: blur(0);
+    }
+
+    50% {
+      opacity: 1;
+      filter: blur(12px);
+    }
+
+    100% {
+      opacity: 0;
+      filter: blur(12px);
+    }
+  }
+
+  .case-study-exit {
+    animation: case-study-exit 380ms ease forwards;
+    pointer-events: none;
+  }
+
   .work-toast-shimmer::before {
     content: "";
     position: absolute;

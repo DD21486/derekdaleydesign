@@ -3,17 +3,11 @@
 import Image from "next/image";
 import { OverlayModal } from "@/components/OverlayModal";
 import { HobbyIcon } from "@/lib/hobby-icons";
-import type { HobbyProject, HobbyProjectStatus } from "@/lib/content";
+import type { HobbyProject } from "@/lib/content";
 
 type HobbyProjectModalProps = {
   project: HobbyProject | null;
   onClose: () => void;
-};
-
-const statusStyles: Record<HobbyProjectStatus, string> = {
-  active: "border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400",
-  paused: "text-foreground-subtle",
-  completed: "border-sky-500/30 bg-sky-500/10 text-sky-700 dark:text-sky-400",
 };
 
 function SidebarLabel({ children }: { children: React.ReactNode }) {
@@ -76,27 +70,21 @@ function HobbyProjectDetailContent({
         >
           <div>
             <SidebarLabel>Timeframe</SidebarLabel>
-            <p className="mt-2 flex items-center gap-2 text-[13px] text-foreground">
-              <HobbyIcon name="calendar" className="h-3.5 w-3.5 text-foreground-subtle" />
+            <p className="mt-2 flex items-center gap-2 text-[13px] text-foreground-muted">
+              <HobbyIcon name="calendar" className="h-3.5 w-3.5 shrink-0 text-foreground-subtle" />
               {detail.date}
             </p>
           </div>
 
           <div>
             <SidebarLabel>Status</SidebarLabel>
-            {detail.status.tone === "paused" ? (
-              <p className={`mt-2 flex items-center gap-2 text-[13px] ${statusStyles.paused}`}>
-                <HobbyIcon name={detail.status.icon} className="h-3.5 w-3.5" />
-                {detail.status.label}
-              </p>
-            ) : (
-              <span
-                className={`mt-2 inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-[0.12em] ${statusStyles[detail.status.tone]}`}
-              >
-                <HobbyIcon name={detail.status.icon} className="h-3 w-3" />
-                {detail.status.label}
-              </span>
-            )}
+            <p className="mt-2 flex items-center gap-2 text-[13px] text-foreground-muted">
+              <HobbyIcon
+                name={detail.status.icon}
+                className="h-3.5 w-3.5 shrink-0 text-foreground-subtle"
+              />
+              {detail.status.label}
+            </p>
           </div>
 
           <div>

@@ -12,6 +12,213 @@ export type WorkItem = {
   };
 };
 
+export type CaseStudySection = {
+  title: string;
+  paragraphs: string[];
+  bullets?: string[];
+};
+
+export type CaseStudyMeta = {
+  role: string;
+  team: string[];
+  timeline: string;
+  summary: string;
+};
+
+export type CaseStudy = {
+  slug: string;
+  meta: CaseStudyMeta;
+  sections: CaseStudySection[];
+};
+
+const loremParagraph =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+
+const loremParagraph2 =
+  "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+
+export const caseStudies: CaseStudy[] = [
+  {
+    slug: "pantomath",
+    meta: {
+      role: "Lead Product Designer",
+      team: [],
+      timeline: "Spring 26'",
+      summary:
+        "Placeholder case study content. Full write-up coming soon.",
+    },
+    sections: [
+      {
+        title: "Overview",
+        paragraphs: [loremParagraph, loremParagraph2],
+      },
+      {
+        title: "The Challenge",
+        paragraphs: [loremParagraph],
+      },
+      {
+        title: "The Solution",
+        paragraphs: [loremParagraph, loremParagraph2],
+      },
+    ],
+  },
+  {
+    slug: "barstool",
+    meta: {
+      role: "Lead Designer: User Experience, Interaction Design, Visual Design, User Flows, Research",
+      team: [
+        "Tucker Borgman, PM",
+        "Mike Nichols, SWE",
+        "Darren Carlin, SWE",
+      ],
+      timeline: "Designed and built in 6 weeks, debuted August '23",
+      summary:
+        "I led the design of a pay-per-view and on-demand video platform that lets Barstool release premium video content to its fan base. I conceptualized the full experience and a backend CMS where stakeholders can create pay-per-view events on the fly.",
+    },
+    sections: [
+      {
+        title: "Overview",
+        paragraphs: [
+          "The first event launched was wildly successful. Built with less than 24 hours' notice, it eclipsed 40,000+ pay-per-view buys. Barstool Sports is positioned for success, primed to seize a distinctive opportunity in the thriving pay-per-view market segment.",
+        ],
+      },
+      {
+        title: "The Problem",
+        paragraphs: [
+          "Barstool Sports was not fully capitalizing on its wealth of highly successful video content. Barstool had recently become the most liked brand account on TikTok, eclipsing 31M followers and 5 billion likes.",
+          "All this video content, no way to monetize it.",
+          "Studies show that pay for what you watch is becoming increasingly popular. The global live streaming pay-per-view market is expected to grow 15% annually from 2020 to 2027, reaching $2.3B by 2027. Barstool Sports was uniquely positioned to take full advantage of this growth, and my job was to design a platform to capture it.",
+        ],
+      },
+      {
+        title: "The Challenge",
+        paragraphs: [
+          "Designing an elegant and user-friendly pay-per-view platform that caters to both users and internal stakeholders.",
+        ],
+      },
+      {
+        title: "North Star Design Principles",
+        bullets: [
+          "User-Friendly Experience: Ensure that purchasing and watching events is as effortless for users as initiating internal PPV events.",
+          "Aesthetic Enhancement: Modernize and redefine the design system aesthetics of Barstool.tv in line with Barstool's distinctive style.",
+          "Exemplary Product Quality: Exceed user expectations by incorporating exceptional design to enhance the overall user experience.",
+        ],
+        paragraphs: [],
+      },
+      {
+        title: "Research, Requirements, Stakeholders",
+        paragraphs: [
+          "The work began with research on all major streaming platforms: Netflix, Amazon Video, Hulu, and more. Detailed patterns were examined, including purchase flows and page load interactions such as content loading and display methods. Through this, we identified industry-standard functionality and mapped it to the needs of Barstool's unique customers.",
+          "I also ensured that the design requirements listed in our product requirements document made sense, highlighting any discrepancies that needed further explanation or understanding.",
+          "Internal stakeholders were identified early in the process to ensure frequent input. Aligning the Barstool team's vision for Barstool.tv was a priority from day one.",
+        ],
+      },
+      {
+        title: "Crafting a Customizable User Interface",
+        paragraphs: [
+          "At the outset, I cataloged prevalent design elements in well-known interfaces like Netflix and Hulu. I compiled a list of these elements, specifying those that needed integration with our proprietary CMS so stakeholders could customize the experience without engineering support.",
+        ],
+      },
+      {
+        title: "Laying the Foundation",
+        paragraphs: [
+          "I meticulously crafted user flows for a diverse range of use cases, leaving no stone unturned to uncover gaps, delineate interactions, and establish a rock-solid foundation for the design.",
+        ],
+      },
+      {
+        title: "Streamlined, User-Friendly, and Adaptable UI",
+        paragraphs: [
+          "The interface balanced Barstool's bold brand with the clarity users expect from premium streaming products. Every screen was designed to feel native to Barstool while supporting fast event setup on the internal side.",
+        ],
+      },
+      {
+        title: "Results and Achievements",
+        paragraphs: [
+          "Platform Powerhouse: Developed a comprehensive pay-per-view platform complete with user authentication, payment processing, and an internal CMS backend. This backend empowers stakeholders to seamlessly integrate and manage assets, facilitating the swift creation, administration, and launch of pay-per-view events.",
+          "Exceeding Expectations: The maiden voyage of Barstool.tv pay-per-view exceeded expectations, generating 40,000+ pay-per-view purchases. Internally, enthusiasm and excitement took hold, fueled by Barstool's substantial investments in live comedy within New York City.",
+          "Whirlwind Event Launch: On Tuesday, August 15th, our team received a sudden request to support a pay-per-view event scheduled for the next night, the 20th-anniversary Barstool Sports Awards. This event was not originally supposed to be pay-per-view, but once leadership realized we had the capability, they decided to give it its first test. We managed to create assets, set up, and launch an entire pay-per-view event in under 24 hours.",
+          "Versatile Content Hub: The platform now stands as the optimal channel for releasing paid comedy specials, Barstool events, and an array of compelling content.",
+        ],
+      },
+    ],
+  },
+  {
+    slug: "stella-blue",
+    meta: {
+      role: "Senior UX / UI Designer: User Experience, Visual Design, User Flows, Research",
+      team: [
+        "Tucker Borgman, PM",
+        "Kat Gowin, PM",
+        "Joe Bona, SWE",
+        "Nick Morrison, SWE",
+      ],
+      timeline: "Designed and built in 8 weeks, launched November '22",
+      summary:
+        "In September 2022, Barstool launched Stella Blue, a direct-to-consumer coffee brand with Dan \"Big Cat\" Katz and his dog, Stella, as the face of the company. I led the strategy and design of the eCommerce website, surpassing the annual revenue target by 300%.",
+    },
+    sections: [
+      {
+        title: "Overview",
+        paragraphs: [
+          "My approach was rooted in user-centered design, data-driven decisions, and seamless collaboration with stakeholders to conceive, design, and develop the website.",
+        ],
+      },
+      {
+        title: "Competitive Analysis and Research",
+        paragraphs: [
+          "My journey began by delving into comprehensive competitive research, where I meticulously examined coffee and DTC eCommerce landscapes, uncovering noteworthy trends, patterns, and key competitors.",
+        ],
+        bullets: [
+          "The online coffee market is fiercely competitive, favoring vibrant, personalized brands.",
+          "Subscriptions and bundles boost average order value and revenue compared to selling individual coffee bags.",
+          "Some eCommerce experiences are overly complex; our aim was simplicity and user-friendliness.",
+        ],
+      },
+      {
+        title: "Designing User Pathways",
+        paragraphs: [
+          "For Stella Blue, we designed multiple coffee purchase paths. I created UX flows to identify gaps concurrently with wireframe development using FigJam.",
+        ],
+      },
+      {
+        title: "Brainstorming and Wireframing",
+        paragraphs: [
+          "Daily meetings with stakeholders involved brainstorming and refining ideas to chart the website's direction. We formulated key questions to guide our design:",
+        ],
+        bullets: [
+          "How can we amplify Dan's appeal for users in an engaging manner?",
+          "What strategies can simplify user entry into the subscription funnel?",
+          "Balancing a light and fun vibe with a polished eCommerce experience, how can we achieve this synergy?",
+        ],
+      },
+      {
+        title: "Visual Exploration and Brand Identity",
+        paragraphs: [
+          "While pinpointing eCommerce needs, we collaborated with stakeholders to envision the brand's imagery for the website. I developed mood boards featuring coffee-related visuals that aligned with the site's direction and crafted a style guide that harmonized with both the coffee packaging art and modern web design standards.",
+          "As we moved to the project's final stages, which included high-fidelity mockups, prototypes, and early development, our focus shifted from UX to UI. We had discussions on promoting our Coffee Club Subscription, improving our UI to highlight value propositions for better conversions, and other enhancements. As the experience evolved, we collaborated closely with developers to provide feedback as needed.",
+        ],
+      },
+      {
+        title: "Putting It All Together",
+        paragraphs: ["Key website successes:"],
+        bullets: [
+          "Engaging Video Header: Featuring a looping video of Dan, this header quickly captured users' attention and conveyed the brand's identity.",
+          "User-Friendly Subscription Flow: A straightforward build-your-own subscription experience, minimizing friction for seamless checkout.",
+          "Balancing Cartoon and Real Photography: Seamlessly integrated lighthearted cartoon branding with impactful real-world photography. We infused humor into the user experience for less serious elements, delighting users.",
+        ],
+      },
+      {
+        title: "A Phenomenal Launch and Charitable Impact",
+        paragraphs: [
+          "The Stella Blue website launched in mid-November 2022, achieving the year-end revenue goal within 48 hours. A testament to combining great personalities, brand, design, and engineering.",
+          "By the end of 2022, Stella Blue Coffee tripled its annual revenue goal, exclusively through the website, live for just a month and a half.",
+          "Stella Blue has garnered outstanding reviews and maintains its strong performance. Personally, I take great pride in our partnership with PAWS Chicago, contributing a portion of our proceeds to support local dog adoption efforts in Chicago.",
+        ],
+      },
+    ],
+  },
+];
+
 export type NavLink = {
   id: string;
   label: string;
@@ -106,7 +313,7 @@ export const bio = {
         {
           type: "text",
           value:
-            ", embracing AI, and building beyond my job description — the most effective designer and builder I can be.",
+            ", embracing AI, and building beyond my job description to become the most effective designer and builder I can be.",
         },
       ],
     },
@@ -181,6 +388,14 @@ export const recentWork: WorkItem[] = [
   },
 ];
 
+export function getWorkItemBySlug(slug: string) {
+  return recentWork.find((item) => item.id === slug);
+}
+
+export function getCaseStudyBySlug(slug: string) {
+  return caseStudies.find((study) => study.slug === slug);
+}
+
 export type HobbyProjectStatus = "active" | "paused" | "completed";
 
 export type HobbySkill = {
@@ -218,7 +433,7 @@ export const hobbyProjects: HobbyProject[] = [
     subtitle: "Cincinnati Coney Tracking Webapp",
     image: "/coneycounter.png",
     detail: {
-      date: "September 2025",
+      date: "Sep' 25",
       status: {
         label: "Paused",
         tone: "paused",
@@ -237,14 +452,16 @@ export const hobbyProjects: HobbyProject[] = [
         {
           title: "Why I built it",
           paragraphs: [
-            "Coney Counter was my first real end-to-end web app — authentication, a database, image recognition, user accounts, and everything that comes with shipping something people can actually use. It taught me how software gets made, not just how it looks in a file.",
-            "I'm from Cincinnati and eat a lot of cheese coneys — twice a week at my local Skyline, in and out in fifteen minutes. I wanted to turn that habit into something I could use and share with people who get it.",
+            "I'm from Cincinnati. I eat cheese coneys. A lot. Twice a week for lunch, to the point where the servers know my order when I sit at the bar and I don't have to say anything.",
+            "I thought it would be interesting to track my coney intake and go deep on learning how to build an end-to-end web app. So I did it.",
           ],
         },
         {
-          title: "What it does",
+          title: "What it is & what I learned",
           paragraphs: [
-            "Track your coney consumption, compete on leaderboards, and earn achievements along the way. Part utility, part celebration of the cheese coney. It's paused for now, but the skills stuck — auth, databases, backend logic, and shipping something real.",
+            "It's exactly what it says. Eat coneys, snap a pic of the receipt, get credit for coneys eaten, track analytics, and earn achievements. There are even coney brand leaderboards. King of Skyline? King of Gold Star? See where you stack up.",
+            "The project pushed me to learn a ton: Google auth, setting up and using a database, designing a suite of admin tools for user management, and the hardest part, image recognition. I tried not to route everything through AI and used OCR (optical character recognition) instead, which, as I learned, is very finicky.",
+            "Friends and family used and tested it, but I paused to focus on the birth of my first child. The base app still exists. Maybe I'll pick it back up one day.",
           ],
         },
       ],
@@ -253,10 +470,10 @@ export const hobbyProjects: HobbyProject[] = [
   {
     id: "mesh",
     title: "MESH",
-    subtitle: "Roguelike Tower Defense Deckbuilder",
+    subtitle: "TD Strategy Game",
     image: "/MESH.png",
     detail: {
-      date: "2024 — Present",
+      date: "Mar' 26 - Present",
       status: {
         label: "In Development",
         tone: "active",
@@ -268,26 +485,26 @@ export const hobbyProjects: HobbyProject[] = [
         { label: "3D Development", icon: "scan-eye" },
         { label: "Game & UI Design", icon: "pen-tool" },
       ],
-      banner: "/coney_counter_banner.png",
+      banner: "/mesh_banner.png",
       sections: [
         {
           title: "Why I build it",
           paragraphs: [
-            "I'm the developer on MESH — I design it, code it, and ship it in my free time under Retrograde Interactive, with Jakie on writing and card design. As a product designer by day, this is where I get to own the whole stack, not just the interface.",
+            "I'm the developer on MESH. I design it, code it, and ship it in my free time under Retrograde Interactive, with Jakie on writing and card design. As a product designer by day, this is where I get to own the whole stack, not just the interface.",
             "No roadmaps or stakeholders. I'm designing for fun, and that's the part I love most.",
           ],
         },
         {
           title: "What it pushes me on",
           paragraphs: [
-            "MESH stretches me beyond product design — coding, 3D work, and systems design all in one project. I'm not mocking up behavior in Figma; I'm building it, breaking it, and feeling whether it actually works.",
+            "MESH stretches me beyond product design: coding, 3D work, and systems design all in one project. I'm not mocking up behavior in Figma; I'm building it, breaking it, and feeling whether it actually works.",
             "It's a roguelike tower defense deckbuilder at its core. The design challenge is making complex systems feel clear, rewarding, and worth one more run.",
           ],
         },
         {
           title: "Where it's at",
           paragraphs: [
-            "Alpha demo is live with two bosses on Windows and macOS. Still in development — more sectors, deeper progression, and controller support on the way.",
+            "Alpha demo is live with two bosses on Windows and macOS. Still in development, with more sectors, deeper progression, and controller support on the way.",
           ],
         },
       ],
@@ -298,6 +515,21 @@ export const hobbyProjects: HobbyProject[] = [
     title: "Sysmud",
     subtitle: "In-browser MMO Experiment",
     image: "/sysmud.png",
+    detail: {
+      date: "Nov 26' - Jan 26'",
+      status: {
+        label: "In Development",
+        tone: "active",
+        icon: "play",
+      },
+      skills: [
+        { label: "Art Design", icon: "pen-tool" },
+        { label: "Complex Web Interactions", icon: "network" },
+        { label: "Database Design", icon: "database" },
+      ],
+      banner: "/sysmud_banner.png",
+      sections: [],
+    },
   },
 ];
 

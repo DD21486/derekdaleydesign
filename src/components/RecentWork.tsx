@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from "react";
 import { createPortal } from "react-dom";
+import { useCaseStudyTransition } from "@/components/CaseStudyTransitionProvider";
 import type { WorkItem } from "@/lib/content";
 
 type RecentWorkProps = {
@@ -259,8 +260,13 @@ function FolderStack({
     findCapAtPoint,
     handleDrop,
   } = useFolderDrag();
+  const { startCaseStudy, isTransitioning, flyingStackId } =
+    useCaseStudyTransition();
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const capElementRef = useRef<HTMLDivElement | null>(null);
+  const leftElementRef = useRef<HTMLDivElement | null>(null);
+  const rightElementRef = useRef<HTMLDivElement | null>(null);
   const dragRef = useRef<DragState | null>(null);
   const trailIdRef = useRef(0);
   const lastTrailRef = useRef({ x: 0, y: 0, time: 0 });
@@ -296,14 +302,36 @@ function FolderStack({
   const isDraggingHere = activeDragStackId === stackId;
   const isAnyDrag = activeDragStackId !== null;
   const isReturningHere = returnAnim !== null;
+  const isFlying = flyingStackId === stackId;
   const isCapHovered = hoveredCapStackId === stackId && isAnyDrag;
 
   const capRef = useCallback(
     (element: HTMLDivElement | null) => {
+      capElementRef.current = element;
       registerCap(stackId, element);
     },
     [registerCap, stackId],
   );
+
+  const handleCapClick = useCallback(() => {
+    if (isAnyDrag || returnAnim || isTransitioning) return;
+    const capElement = capElementRef.current;
+    const leftElement = leftElementRef.current;
+    const rightElement = rightElementRef.current;
+    if (!capElement || !leftElement || !rightElement) return;
+    startCaseStudy(
+      stackId,
+      { cap: capElement, left: leftElement, right: rightElement },
+      folders,
+    );
+  }, [
+    folders,
+    isAnyDrag,
+    isTransitioning,
+    returnAnim,
+    stackId,
+    startCaseStudy,
+  ]);
 
   spawnTrailRef.current = (trail) => {
     trailIdRef.current += 1;
@@ -661,7 +689,8 @@ function FolderStack({
       ))}
 
       <div
-        className={`absolute inset-0 z-0 origin-center touch-none ${folderTransition} ${hoverFanRight} ${isDraggingHere && drag?.side === "right" ? "cursor-grabbing" : isReturningHere ? "cursor-default" : "cursor-grab"}`}
+        ref={rightElementRef}
+        className={`absolute inset-0 z-0 origin-center touch-none ${folderTransition} ${hoverFanRight} ${isDraggingHere && drag?.side === "right" ? "cursor-grabbing" : isReturningHere ? "cursor-default" : "cursor-grab"} ${isFlying ? "opacity-0" : ""}`}
         style={layerStyle("right")}
         onPointerDown={(event) => startDrag("right", event)}
       >
@@ -676,7 +705,8 @@ function FolderStack({
       </div>
 
       <div
-        className={`absolute inset-0 z-10 origin-center touch-none ${folderTransition} ${hoverFanLeft} ${isDraggingHere && drag?.side === "left" ? "cursor-grabbing" : isReturningHere ? "cursor-default" : "cursor-grab"}`}
+        ref={leftElementRef}
+        className={`absolute inset-0 z-10 origin-center touch-none ${folderTransition} ${hoverFanLeft} ${isDraggingHere && drag?.side === "left" ? "cursor-grabbing" : isReturningHere ? "cursor-default" : "cursor-grab"} ${isFlying ? "opacity-0" : ""}`}
         style={layerStyle("left")}
         onPointerDown={(event) => startDrag("left", event)}
       >
@@ -693,7 +723,21 @@ function FolderStack({
       <div
         ref={capRef}
         style={capStyle}
-        className={`pointer-events-none absolute inset-0 z-20 origin-center ${folderTransition} ${capScaleClass}`}
+        role="button"
+        tabIndex={isAnyDrag || returnAnim ? -1 : 0}
+        onClick={handleCapClick}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            handleCapClick();
+          }
+        }}
+        aria-label={`Open ${stackId} case study`}
+        className={`absolute inset-0 z-20 origin-center ${folderTransition} ${capScaleClass} ${
+          isAnyDrag || returnAnim
+            ? "pointer-events-none"
+            : "pointer-events-auto cursor-pointer"
+        } ${isFlying ? "opacity-0" : ""}`}
       >
         <Image
           src={folders.cap}
