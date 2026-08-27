@@ -30,6 +30,7 @@ export type CaseStudyOverviewItem = {
 
 export type CaseStudyParagraphSegment =
   | { type: "text"; value: string }
+  | { type: "bold"; value: string }
   | { type: "link"; label: string; href: string };
 
 export type CaseStudyParagraph = string | CaseStudyParagraphSegment[];
@@ -182,12 +183,6 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        title: "The Challenge",
-        paragraphs: [
-          "Designing an elegant and user-friendly pay-per-view platform that caters to both users and internal stakeholders.",
-        ],
-      },
-      {
         title: "North Star Design Principles",
         bullets: [
           "User-Friendly Experience: Ensure that purchasing and watching events is as effortless for users as initiating internal PPV events.",
@@ -199,9 +194,31 @@ export const caseStudies: CaseStudy[] = [
       {
         title: "Research, Requirements, Stakeholders",
         paragraphs: [
-          "The work began with research on all major streaming platforms: Netflix, Amazon Video, Hulu, and more. Detailed patterns were examined, including purchase flows and page load interactions such as content loading and display methods. Through this, we identified industry-standard functionality and mapped it to the needs of Barstool's unique customers.",
-          "I also ensured that the design requirements listed in our product requirements document made sense, highlighting any discrepancies that needed further explanation or understanding.",
-          "Internal stakeholders were identified early in the process to ensure frequent input. Aligning the Barstool team's vision for Barstool.tv was a priority from day one.",
+          [
+            { type: "bold", value: "Competitive Analysis: " },
+            {
+              type: "text",
+              value:
+                "The work began with research on all major streaming platforms: Netflix, Amazon Video, Hulu, and more. Detailed patterns were examined, including purchase flows and page load interactions such as content loading and display methods. Through this, we identified industry-standard functionality and mapped it to the needs of Barstool's unique customers.",
+            },
+          ],
+          [
+            { type: "bold", value: "User Research: " },
+            {
+              type: "text",
+              value:
+                "We interviewed multiple Barstool viewers and discovered that the majority of PPV purchases happen within 30 minutes of a scheduled release. This means ",
+            },
+            { type: "bold", value: "simplicity" },
+            {
+              type: "text",
+              value:
+                " was the most important aspect when thinking about the UI design of the experience, as well as the purchase flow. Users should be able to purchase a PPV event ",
+            },
+            { type: "bold", value: "in as few clicks as possible" },
+            { type: "text", value: "." },
+          ],
+          "I also ensured that the design requirements listed in the PRD aligned with our research and the technical constraints involved in designing text and image slots that our internal CMS could populate on the template.",
         ],
       },
       {
@@ -220,7 +237,9 @@ export const caseStudies: CaseStudy[] = [
       {
         title: "Laying the Foundation",
         paragraphs: [
-          "I meticulously crafted user flows for a diverse range of use cases, leaving no stone unturned to uncover gaps, delineate interactions, and establish a rock-solid foundation for the design.",
+          "I meticulously crafted user flows for a diverse range of use cases, including time-gated user purchase flows. What did it feel like when a user wanted to buy a PPV event last minute? How quickly could they get through the payment flow? How quickly could they find what they were looking for?",
+          "For our internal users—the ones creating the events—I also mapped out flows. How fast could we get a PPV event live? What was the most complicated part of setting up an event, and how could I help simplify it?",
+          "I left no stone unturned to uncover gaps, delineate interactions, and establish a rock-solid foundation for the design.",
         ],
         media: [
           {

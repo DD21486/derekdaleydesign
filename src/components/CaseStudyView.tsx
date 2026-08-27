@@ -22,7 +22,7 @@ import type {
 
 function paragraphKey(paragraph: CaseStudyParagraph, index: number) {
   if (typeof paragraph === "string") return paragraph;
-  return `${index}-${paragraph.map((segment) => segment.type === "text" ? segment.value : segment.label).join("")}`;
+  return `${index}-${paragraph.map((segment) => (segment.type === "link" ? segment.label : segment.value)).join("")}`;
 }
 
 function CaseStudyParagraphText({
@@ -34,10 +34,20 @@ function CaseStudyParagraphText({
 
   return (
     <>
-      {paragraph.map((segment, segmentIndex) =>
-        segment.type === "text" ? (
-          <span key={segmentIndex}>{segment.value}</span>
-        ) : (
+      {paragraph.map((segment, segmentIndex) => {
+        if (segment.type === "text") {
+          return <span key={segmentIndex}>{segment.value}</span>;
+        }
+
+        if (segment.type === "bold") {
+          return (
+            <strong key={segmentIndex} className="font-semibold text-foreground">
+              {segment.value}
+            </strong>
+          );
+        }
+
+        return (
           <a
             key={segmentIndex}
             href={segment.href}
@@ -47,8 +57,8 @@ function CaseStudyParagraphText({
           >
             {segment.label}
           </a>
-        ),
-      )}
+        );
+      })}
     </>
   );
 }
