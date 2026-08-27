@@ -12,23 +12,64 @@ export type WorkItem = {
   };
 };
 
+export type CaseStudyMediaLayout = "contained" | "wide";
+
+export type CaseStudyMedia = {
+  src?: string;
+  alt: string;
+  layout: CaseStudyMediaLayout;
+  aspect?: string;
+  caption?: string;
+  afterParagraph?: number;
+};
+
+export type CaseStudyOverviewItem = {
+  label: string;
+  value: string;
+};
+
+export type CaseStudyParagraphSegment =
+  | { type: "text"; value: string }
+  | { type: "link"; label: string; href: string };
+
+export type CaseStudyParagraph = string | CaseStudyParagraphSegment[];
+
+export type CaseStudyOverviewIntro = {
+  title: string;
+  paragraphs: CaseStudyParagraph[];
+};
+
 export type CaseStudySection = {
   title: string;
-  paragraphs: string[];
+  paragraphs: CaseStudyParagraph[];
   bullets?: string[];
+  media?: CaseStudyMedia[];
+};
+
+export type CaseStudyRole = {
+  title: string;
+  focus: string;
+};
+
+export type CaseStudyTeamMember = {
+  name: string;
+  role: string;
 };
 
 export type CaseStudyMeta = {
-  role: string;
-  team: string[];
+  role: CaseStudyRole;
+  team: CaseStudyTeamMember[];
   timeline: string;
-  summary: string;
 };
 
 export type CaseStudy = {
   slug: string;
   meta: CaseStudyMeta;
+  overview: CaseStudyOverviewItem[];
+  overviewIntro: CaseStudyOverviewIntro;
+  hero?: CaseStudyMedia;
   sections: CaseStudySection[];
+  summaryWatermark?: string;
 };
 
 const loremParagraph =
@@ -41,17 +82,29 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "pantomath",
     meta: {
-      role: "Lead Product Designer",
+      role: {
+        title: "Lead Product Designer",
+        focus: "Product Design, Design Systems, Prototyping",
+      },
       team: [],
       timeline: "Spring 26'",
-      summary:
-        "Placeholder case study content. Full write-up coming soon.",
+    },
+    hero: {
+      alt: "Pantomath hero",
+      layout: "wide",
+      aspect: "21 / 9",
+    },
+    overview: [
+      { label: "Industry", value: "Enterprise SaaS" },
+      { label: "Client", value: "Pantomath" },
+      { label: "Platform", value: "Web (Desktop/Mobile)" },
+      { label: "Year", value: "2026" },
+    ],
+    overviewIntro: {
+      title: "Overview",
+      paragraphs: [loremParagraph, loremParagraph2],
     },
     sections: [
-      {
-        title: "Overview",
-        paragraphs: [loremParagraph, loremParagraph2],
-      },
       {
         title: "The Challenge",
         paragraphs: [loremParagraph],
@@ -64,30 +117,68 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: "barstool",
+    summaryWatermark: "/casestudy/barstooltv/barstool_ascii.gif",
     meta: {
-      role: "Lead Designer: User Experience, Interaction Design, Visual Design, User Flows, Research",
+      role: {
+        title: "Lead Designer",
+        focus:
+          "User Experience, Interaction Design, Visual Design, User Flows, Research",
+      },
       team: [
-        "Tucker Borgman, PM",
-        "Mike Nichols, SWE",
-        "Darren Carlin, SWE",
+        { name: "Tucker Borgman", role: "PM" },
+        { name: "Mike Nichols", role: "SWE" },
+        { name: "Darren Carlin", role: "SWE" },
       ],
       timeline: "Designed and built in 6 weeks, debuted August '23",
-      summary:
-        "I led the design of a pay-per-view and on-demand video platform that lets Barstool release premium video content to its fan base. I conceptualized the full experience and a backend CMS where stakeholders can create pay-per-view events on the fly.",
+    },
+    hero: {
+      src: "/casestudy/barstooltv/BarstoolTV_Header.webp",
+      alt: "BarstoolTV platform header",
+      layout: "wide",
+    },
+    overview: [
+      { label: "Industry", value: "Media" },
+      { label: "Client", value: "Barstool Sports" },
+      { label: "Platform", value: "Web (Desktop/Mobile)" },
+      { label: "Year", value: "2023" },
+    ],
+    overviewIntro: {
+      title: "Overview",
+      paragraphs: [
+        "I led the design of a pay-per-view and on-demand video platform. This platform facilitates the effortless release of premium video content to cater to Barstool's extensive fan base, providing them with top-tier paid content.",
+        "I conceptualized and designed the pay-per-view and on-demand video platform, complete with a robust backend CMS where stakeholders can efficiently create pay-per-view events on the fly.",
+      ],
     },
     sections: [
       {
-        title: "Overview",
-        paragraphs: [
-          "The first event launched was wildly successful. Built with less than 24 hours' notice, it eclipsed 40,000+ pay-per-view buys. Barstool Sports is positioned for success, primed to seize a distinctive opportunity in the thriving pay-per-view market segment.",
-        ],
-      },
-      {
         title: "The Problem",
         paragraphs: [
-          "Barstool Sports was not fully capitalizing on its wealth of highly successful video content. Barstool had recently become the most liked brand account on TikTok, eclipsing 31M followers and 5 billion likes.",
+          [
+            {
+              type: "text",
+              value:
+                "Barstool Sports was not fully capitalizing on its wealth of highly successful video content. ",
+            },
+            {
+              type: "link",
+              label: "Barstool had recently become the most liked brand on TikTok",
+              href: "https://socialblade.com/tiktok/lists/top/100/likes#6646764999833403398",
+            },
+            {
+              type: "text",
+              value: ", eclipsing 31M followers and 5 billion likes.",
+            },
+          ],
           "All this video content, no way to monetize it.",
           "Studies show that pay for what you watch is becoming increasingly popular. The global live streaming pay-per-view market is expected to grow 15% annually from 2020 to 2027, reaching $2.3B by 2027. Barstool Sports was uniquely positioned to take full advantage of this growth, and my job was to design a platform to capture it.",
+        ],
+        media: [
+          {
+            src: "/casestudy/barstooltv/Barstool_PPV_Market.png",
+            alt: "Pay-per-view market growth trend",
+            layout: "contained",
+            afterParagraph: 2,
+          },
         ],
       },
       {
@@ -118,17 +209,38 @@ export const caseStudies: CaseStudy[] = [
         paragraphs: [
           "At the outset, I cataloged prevalent design elements in well-known interfaces like Netflix and Hulu. I compiled a list of these elements, specifying those that needed integration with our proprietary CMS so stakeholders could customize the experience without engineering support.",
         ],
+        media: [
+          {
+            alt: "Customizable UI component mapping",
+            layout: "contained",
+            aspect: "4 / 3",
+          },
+        ],
       },
       {
         title: "Laying the Foundation",
         paragraphs: [
           "I meticulously crafted user flows for a diverse range of use cases, leaving no stone unturned to uncover gaps, delineate interactions, and establish a rock-solid foundation for the design.",
         ],
+        media: [
+          {
+            alt: "Pay-per-view user flows",
+            layout: "contained",
+            aspect: "16 / 10",
+          },
+        ],
       },
       {
         title: "Streamlined, User-Friendly, and Adaptable UI",
         paragraphs: [
           "The interface balanced Barstool's bold brand with the clarity users expect from premium streaming products. Every screen was designed to feel native to Barstool while supporting fast event setup on the internal side.",
+        ],
+        media: [
+          {
+            alt: "BarstoolTV interface screens",
+            layout: "wide",
+            aspect: "16 / 9",
+          },
         ],
       },
       {
@@ -145,24 +257,36 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: "stella-blue",
     meta: {
-      role: "Senior UX / UI Designer: User Experience, Visual Design, User Flows, Research",
+      role: {
+        title: "Senior UX / UI Designer",
+        focus: "User Experience, Visual Design, User Flows, Research",
+      },
       team: [
-        "Tucker Borgman, PM",
-        "Kat Gowin, PM",
-        "Joe Bona, SWE",
-        "Nick Morrison, SWE",
+        { name: "Tucker Borgman", role: "PM" },
+        { name: "Kat Gowin", role: "PM" },
+        { name: "Joe Bona", role: "SWE" },
+        { name: "Nick Morrison", role: "SWE" },
       ],
       timeline: "Designed and built in 8 weeks, launched November '22",
-      summary:
-        "In September 2022, Barstool launched Stella Blue, a direct-to-consumer coffee brand with Dan \"Big Cat\" Katz and his dog, Stella, as the face of the company. I led the strategy and design of the eCommerce website, surpassing the annual revenue target by 300%.",
+    },
+    hero: {
+      alt: "Stella Blue Coffee website hero",
+      layout: "wide",
+      aspect: "21 / 9",
+    },
+    overview: [
+      { label: "Industry", value: "Retail" },
+      { label: "Client", value: "Stella Blue Coffee" },
+      { label: "Platform", value: "Web (Desktop/Mobile)" },
+      { label: "Year", value: "2022" },
+    ],
+    overviewIntro: {
+      title: "Overview",
+      paragraphs: [
+        "My approach was rooted in user-centered design, data-driven decisions, and seamless collaboration with stakeholders to conceive, design, and develop the website.",
+      ],
     },
     sections: [
-      {
-        title: "Overview",
-        paragraphs: [
-          "My approach was rooted in user-centered design, data-driven decisions, and seamless collaboration with stakeholders to conceive, design, and develop the website.",
-        ],
-      },
       {
         title: "Competitive Analysis and Research",
         paragraphs: [
@@ -178,6 +302,13 @@ export const caseStudies: CaseStudy[] = [
         title: "Designing User Pathways",
         paragraphs: [
           "For Stella Blue, we designed multiple coffee purchase paths. I created UX flows to identify gaps concurrently with wireframe development using FigJam.",
+        ],
+        media: [
+          {
+            alt: "Stella Blue purchase path flows",
+            layout: "contained",
+            aspect: "16 / 10",
+          },
         ],
       },
       {
@@ -197,6 +328,13 @@ export const caseStudies: CaseStudy[] = [
           "While pinpointing eCommerce needs, we collaborated with stakeholders to envision the brand's imagery for the website. I developed mood boards featuring coffee-related visuals that aligned with the site's direction and crafted a style guide that harmonized with both the coffee packaging art and modern web design standards.",
           "As we moved to the project's final stages, which included high-fidelity mockups, prototypes, and early development, our focus shifted from UX to UI. We had discussions on promoting our Coffee Club Subscription, improving our UI to highlight value propositions for better conversions, and other enhancements. As the experience evolved, we collaborated closely with developers to provide feedback as needed.",
         ],
+        media: [
+          {
+            alt: "Stella Blue brand mood boards and style exploration",
+            layout: "wide",
+            aspect: "16 / 9",
+          },
+        ],
       },
       {
         title: "Putting It All Together",
@@ -205,6 +343,13 @@ export const caseStudies: CaseStudy[] = [
           "Engaging Video Header: Featuring a looping video of Dan, this header quickly captured users' attention and conveyed the brand's identity.",
           "User-Friendly Subscription Flow: A straightforward build-your-own subscription experience, minimizing friction for seamless checkout.",
           "Balancing Cartoon and Real Photography: Seamlessly integrated lighthearted cartoon branding with impactful real-world photography. We infused humor into the user experience for less serious elements, delighting users.",
+        ],
+        media: [
+          {
+            alt: "Stella Blue homepage and subscription flow",
+            layout: "wide",
+            aspect: "16 / 10",
+          },
         ],
       },
       {
