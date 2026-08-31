@@ -1,9 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import { OverlayModal } from "@/components/OverlayModal";
+import {
+  HobbyImageLightbox,
+  type HobbyLightboxImage,
+} from "@/components/HobbyImageLightbox";
 import { HobbyIcon } from "@/lib/hobby-icons";
-import type { HobbyProject } from "@/lib/content";
+import type { HobbyProject, HobbySectionBlock } from "@/lib/content";
 
 type HobbyProjectModalProps = {
   project: HobbyProject | null;
@@ -12,9 +17,97 @@ type HobbyProjectModalProps = {
 
 function SidebarLabel({ children }: { children: React.ReactNode }) {
   return (
-    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-foreground-subtle">
+    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-neutral-500 dark:text-neutral-400">
       {children}
     </p>
+  );
+}
+
+function ToolIcon({ tool }: { tool: { label: string; icon?: string } }) {
+  if (tool.icon) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={tool.icon}
+        alt=""
+        className="h-3.5 w-3.5 shrink-0 rounded-[3px] object-contain"
+      />
+    );
+  }
+
+  return (
+    <span
+      aria-hidden
+      className="h-3.5 w-3.5 shrink-0 rounded-[3px] border border-white/15 bg-surface-muted"
+    />
+  );
+}
+
+function HobbyExpandableImage({
+  src,
+  alt,
+  onExpand,
+}: {
+  src: string;
+  alt: string;
+  onExpand: (image: HobbyLightboxImage) => void;
+}) {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = event.currentTarget.getBoundingClientRect();
+    onExpand({ src, alt, rect });
+  };
+
+  return (
+    <button
+      type="button"
+      aria-label={`Expand ${alt}`}
+      onClick={handleClick}
+      className="group block w-full cursor-zoom-in overflow-hidden rounded-xl text-left"
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={1200}
+        height={800}
+        sizes="(max-width: 1024px) 100vw, 768px"
+        className="block h-auto w-full transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+      />
+    </button>
+  );
+}
+
+function HobbySectionBlockContent({
+  block,
+  onExpandImage,
+}: {
+  block: HobbySectionBlock;
+  onExpandImage: (image: HobbyLightboxImage) => void;
+}) {
+  if (block.type === "paragraph") {
+    return (
+      <p className="text-[14px] leading-[1.7] text-foreground/90">{block.text}</p>
+    );
+  }
+
+  if (block.type === "image") {
+    return (
+      <HobbyExpandableImage
+        src={block.src}
+        alt={block.alt}
+        onExpand={onExpandImage}
+      />
+    );
+  }
+
+  return (
+    <a
+      href={block.href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="flex w-full items-center justify-center rounded-lg border border-white/15 bg-surface-muted px-4 py-3 text-[14px] font-medium text-foreground transition-colors hover:border-white/25 hover:bg-surface-elevated"
+    >
+      {block.label}
+    </a>
   );
 }
 
@@ -26,9 +119,19 @@ function HobbyProjectDetailContent({
   close: () => void;
 }) {
   const { detail } = project;
+  const [lightboxImage, setLightboxImage] = useState<HobbyLightboxImage | null>(
+    null,
+  );
 
   return (
     <>
+      {lightboxImage ? (
+        <HobbyImageLightbox
+          {...lightboxImage}
+          onClose={() => setLightboxImage(null)}
+        />
+      ) : null}
+
       <div
         className="about-image-enter relative overflow-hidden rounded-xl"
         style={{ animationDelay: "0.5s" }}
@@ -65,13 +168,13 @@ function HobbyProjectDetailContent({
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2.15fr)] lg:gap-8">
         <aside
-          className="about-content-enter space-y-5 border-white/10 lg:border-r lg:pr-6"
+          className="about-content-enter flex flex-col gap-5 border-white/10 max-sm:grid max-sm:grid-cols-2 max-sm:gap-x-5 max-sm:gap-y-5 max-sm:border-b max-sm:pb-6 lg:border-r lg:pr-6"
           style={{ animationDelay: "0.6s" }}
         >
           <div>
             <SidebarLabel>Timeframe</SidebarLabel>
             <p className="mt-2 flex items-center gap-2 text-[13px] text-foreground-muted">
-              <HobbyIcon name="calendar" className="h-3.5 w-3.5 shrink-0 text-foreground-subtle" />
+              <HobbyIcon name="calendar" className="h-3.5 w-3.5 shrink-0 text-neutral-500 dark:text-neutral-400" />
               {detail.date}
             </p>
           </div>
@@ -81,7 +184,7 @@ function HobbyProjectDetailContent({
             <p className="mt-2 flex items-center gap-2 text-[13px] text-foreground-muted">
               <HobbyIcon
                 name={detail.status.icon}
-                className="h-3.5 w-3.5 shrink-0 text-foreground-subtle"
+                className="h-3.5 w-3.5 shrink-0 text-neutral-500 dark:text-neutral-400"
               />
               {detail.status.label}
             </p>
@@ -97,13 +200,30 @@ function HobbyProjectDetailContent({
                 >
                   <HobbyIcon
                     name={skill.icon}
-                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-foreground-subtle"
+                    className="mt-0.5 h-3.5 w-3.5 shrink-0 text-neutral-500 dark:text-neutral-400"
                   />
                   {skill.label}
                 </li>
               ))}
             </ul>
           </div>
+
+          {detail.tools.length > 0 ? (
+            <div>
+              <SidebarLabel>Tools used</SidebarLabel>
+              <ul className="mt-2 space-y-2.5">
+                {detail.tools.map((tool) => (
+                  <li
+                    key={tool.label}
+                    className="flex items-center gap-2 text-[13px] leading-snug text-foreground-muted"
+                  >
+                    <ToolIcon tool={tool} />
+                    {tool.label}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </aside>
 
         <div className="space-y-6">
@@ -116,14 +236,33 @@ function HobbyProjectDetailContent({
               {section.title ? (
                 <h3 className="text-[15px] font-semibold text-foreground">{section.title}</h3>
               ) : null}
-              {section.paragraphs.map((paragraph) => (
-                <p
-                  key={paragraph}
-                  className="text-[14px] leading-[1.7] text-foreground/90"
-                >
-                  {paragraph}
-                </p>
-              ))}
+              {section.blocks ? (
+                section.blocks.map((block, blockIndex) => (
+                  <HobbySectionBlockContent
+                    key={`${block.type}-${blockIndex}`}
+                    block={block}
+                    onExpandImage={setLightboxImage}
+                  />
+                ))
+              ) : (
+                <>
+                  {section.paragraphs?.map((paragraph) => (
+                    <p
+                      key={paragraph}
+                      className="text-[14px] leading-[1.7] text-foreground/90"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                  {section.image ? (
+                    <HobbyExpandableImage
+                      src={section.image.src}
+                      alt={section.image.alt}
+                      onExpand={setLightboxImage}
+                    />
+                  ) : null}
+                </>
+              )}
             </div>
           ))}
         </div>

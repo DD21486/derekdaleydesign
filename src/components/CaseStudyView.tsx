@@ -110,12 +110,12 @@ function CaseStudySectionBlock({
         ) : null}
         {section.bullets && section.bullets.length > 0 ? (
           <ul className="mt-6 list-disc space-y-3 pl-5">
-            {section.bullets.map((bullet) => (
+            {section.bullets.map((bullet, bulletIndex) => (
               <li
-                key={bullet}
+                key={paragraphKey(bullet, bulletIndex)}
                 className="text-[15px] leading-[1.75] text-foreground/90"
               >
-                {bullet}
+                <CaseStudyParagraphText paragraph={bullet} />
               </li>
             ))}
           </ul>

@@ -43,7 +43,7 @@ export type CaseStudyOverviewIntro = {
 export type CaseStudySection = {
   title: string;
   paragraphs: CaseStudyParagraph[];
-  bullets?: string[];
+  bullets?: CaseStudyParagraph[];
   media?: CaseStudyMedia[];
 };
 
@@ -185,9 +185,29 @@ export const caseStudies: CaseStudy[] = [
       {
         title: "North Star Design Principles",
         bullets: [
-          "User-Friendly Experience: Ensure that purchasing and watching events is as effortless for users as initiating internal PPV events.",
-          "Aesthetic Enhancement: Modernize and redefine the design system aesthetics of Barstool.tv in line with Barstool's distinctive style.",
-          "Exemplary Product Quality: Exceed user expectations by incorporating exceptional design to enhance the overall user experience.",
+          [
+            { type: "bold", value: "Simplicity: " },
+            {
+              type: "text",
+              value: "People want to purchase and watch with zero friction.",
+            },
+          ],
+          [
+            { type: "bold", value: "Consistency: " },
+            {
+              type: "text",
+              value:
+                "Barstool.tv's previous look and feel weren't up to par with where the Barstool brand was at the time. Take this opportunity to aesthetically improve the platform and apply design systems thinking to future-proof it.",
+            },
+          ],
+          [
+            { type: "bold", value: "Industry Standards: " },
+            {
+              type: "text",
+              value:
+                "Purchasing and watching pay-per-view content doesn't need a reinvention. Make sure our experience is familiar and consistent with industry-standard practices, and based on strong UX fundamentals.",
+            },
+          ],
         ],
         paragraphs: [],
       },
@@ -207,8 +227,11 @@ export const caseStudies: CaseStudy[] = [
             {
               type: "text",
               value:
-                "We interviewed multiple Barstool viewers and discovered that the majority of PPV purchases happen within 30 minutes of a scheduled release. This means ",
+                "We interviewed multiple Barstool viewers and discovered that the majority of PPV purchases happen within 30 minutes of a scheduled release. As social media channels start to promote events, fomo spikes. When that fomo spikes, it's that moment we have to capitalize. Any friction could lose a sale.",
             },
+          ],
+          [
+            { type: "text", value: "This means " },
             { type: "bold", value: "simplicity" },
             {
               type: "text",
@@ -219,6 +242,14 @@ export const caseStudies: CaseStudy[] = [
             { type: "text", value: "." },
           ],
           "I also ensured that the design requirements listed in the PRD aligned with our research and the technical constraints involved in designing text and image slots that our internal CMS could populate on the template.",
+        ],
+        media: [
+          {
+            src: "/casestudy/barstooltv/video_streamingBar.png",
+            alt: "Video streaming platform UI patterns comparison",
+            layout: "contained",
+            afterParagraph: 0,
+          },
         ],
       },
       {
@@ -238,7 +269,7 @@ export const caseStudies: CaseStudy[] = [
         title: "Laying the Foundation",
         paragraphs: [
           "I meticulously crafted user flows for a diverse range of use cases, including time-gated user purchase flows. What did it feel like when a user wanted to buy a PPV event last minute? How quickly could they get through the payment flow? How quickly could they find what they were looking for?",
-          "For our internal users—the ones creating the events—I also mapped out flows. How fast could we get a PPV event live? What was the most complicated part of setting up an event, and how could I help simplify it?",
+          "For our internal users, the ones creating the events, I also mapped out flows. How fast could we get a PPV event live? What was the most complicated part of setting up an event, and how could I help simplify it?",
           "I left no stone unturned to uncover gaps, delineate interactions, and establish a rock-solid foundation for the design.",
         ],
         media: [
@@ -567,6 +598,16 @@ export type HobbySkill = {
   icon: HobbyIconName;
 };
 
+export type HobbyTool = {
+  label: string;
+  icon?: string;
+};
+
+export type HobbySectionBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "image"; src: string; alt: string }
+  | { type: "cta"; label: string; href: string };
+
 export type HobbyProjectDetail = {
   date: string;
   status: {
@@ -575,10 +616,16 @@ export type HobbyProjectDetail = {
     icon: HobbyIconName;
   };
   skills: HobbySkill[];
+  tools: HobbyTool[];
   banner: string;
   sections: {
     title?: string;
-    paragraphs: string[];
+    paragraphs?: string[];
+    image?: {
+      src: string;
+      alt: string;
+    };
+    blocks?: HobbySectionBlock[];
   }[];
 };
 
@@ -589,6 +636,24 @@ export type HobbyProject = {
   image: string;
   detail?: HobbyProjectDetail;
 };
+
+const hobbyToolIconPaths: Partial<Record<string, string>> = {
+  Cursor: "/icons/cursor.svg",
+  Claude: "/icons/claude.svg",
+  ChatGPT: "/icons/chatgpt.svg",
+  Figma: "/icons/figma.svg",
+  Illustrator: "/icons/illustrator.svg",
+  Neon: "/icons/neon.svg",
+  Photoshop: "/icons/photoshop.svg",
+  Blender: "/icons/blender.svg",
+  Godot: "/icons/godot.svg",
+  Aesprite: "/icons/aesprite.svg",
+};
+
+function hobbyTool(label: string): HobbyTool {
+  const icon = hobbyToolIconPaths[label];
+  return icon ? { label, icon } : { label };
+}
 
 export const hobbyProjects: HobbyProject[] = [
   {
@@ -611,6 +676,14 @@ export const hobbyProjects: HobbyProject[] = [
         { label: "API Architecture", icon: "network" },
         { label: "Product Design", icon: "pen-tool" },
       ],
+      tools: [
+        "Cursor",
+        "Claude",
+        "ChatGPT",
+        "Figma",
+        "Illustrator",
+        "Neon",
+      ].map(hobbyTool),
       banner: "/coney_counter_banner.png",
       sections: [
         {
@@ -619,6 +692,10 @@ export const hobbyProjects: HobbyProject[] = [
             "I'm from Cincinnati. I eat cheese coneys. A lot. Twice a week for lunch, to the point where the servers know my order when I sit at the bar and I don't have to say anything.",
             "I thought it would be interesting to track my coney intake and go deep on learning how to build an end-to-end web app. So I did it.",
           ],
+          image: {
+            src: "/hobby/coneycounter_1.png",
+            alt: "Coney Counter app overview",
+          },
         },
         {
           title: "What it is & what I learned",
@@ -627,6 +704,10 @@ export const hobbyProjects: HobbyProject[] = [
             "The project pushed me to learn a ton: Google auth, setting up and using a database, designing a suite of admin tools for user management, and the hardest part, image recognition. I tried not to route everything through AI and used OCR (optical character recognition) instead, which, as I learned, is very finicky.",
             "Friends and family used and tested it, but I paused to focus on the birth of my first child. The base app still exists. Maybe I'll pick it back up one day.",
           ],
+          image: {
+            src: "/hobby/coneycounter_2.png",
+            alt: "Coney Counter tracking and analytics",
+          },
         },
       ],
     },
@@ -649,26 +730,60 @@ export const hobbyProjects: HobbyProject[] = [
         { label: "3D Development", icon: "scan-eye" },
         { label: "Game & UI Design", icon: "pen-tool" },
       ],
+      tools: [
+        "Cursor",
+        "Claude",
+        "Figma",
+        "Photoshop",
+        "Illustrator",
+        "Blender",
+        "Godot",
+      ].map(hobbyTool),
       banner: "/mesh_banner.png",
       sections: [
         {
-          title: "Why I build it",
-          paragraphs: [
-            "I'm the developer on MESH. I design it, code it, and ship it in my free time under Retrograde Interactive, with Jakie on writing and card design. As a product designer by day, this is where I get to own the whole stack, not just the interface.",
-            "No roadmaps or stakeholders. I'm designing for fun, and that's the part I love most.",
-          ],
-        },
-        {
-          title: "What it pushes me on",
-          paragraphs: [
-            "MESH stretches me beyond product design: coding, 3D work, and systems design all in one project. I'm not mocking up behavior in Figma; I'm building it, breaking it, and feeling whether it actually works.",
-            "It's a roguelike tower defense deckbuilder at its core. The design challenge is making complex systems feel clear, rewarding, and worth one more run.",
-          ],
-        },
-        {
-          title: "Where it's at",
-          paragraphs: [
-            "Alpha demo is live with two bosses on Windows and macOS. Still in development, with more sectors, deeper progression, and controller support on the way.",
+          title: "Why I'm Building It",
+          blocks: [
+            {
+              type: "paragraph",
+              text: "I've always been around video games. I watched my older brother play them, that led to me playing them. I grew up in the golden age of video games. I always wanted to create my own.",
+            },
+            {
+              type: "image",
+              src: "/hobby/MESH_3.png",
+              alt: "Early MESH prototype",
+            },
+            {
+              type: "paragraph",
+              text: "As my skills started growing, I realized that I may be able to. In 2020 I created a small prototype, handwritten code, took forever, but it was thrilling. I then moved to NYC and paused that dream.",
+            },
+            {
+              type: "paragraph",
+              text: "Fast forward to 2026, I have been using AI to create tons of prototypes, and I finally found the idea for MESH and ran with it. In my free time, I don't even play games anymore, I just create them.",
+            },
+            {
+              type: "image",
+              src: "/hobby/MESH_1.png",
+              alt: "MESH gameplay screenshot",
+            },
+            {
+              type: "paragraph",
+              text: "It pushes my design skills in ways I never realized and in a lot of ways past just design. Roadmapping, designing end to end, coding and launching a game solo has reignited my passion for design in ways I never realized. Building a game is being laser focused on the user and experience.",
+            },
+            {
+              type: "image",
+              src: "/hobby/MESH_2.png",
+              alt: "MESH UI and systems design",
+            },
+            {
+              type: "paragraph",
+              text: "You can learn more about MESH on itch.io.",
+            },
+            {
+              type: "cta",
+              label: "Learn More about MESH",
+              href: "https://retrogradeinteractive.itch.io/mesh",
+            },
           ],
         },
       ],
@@ -682,17 +797,47 @@ export const hobbyProjects: HobbyProject[] = [
     detail: {
       date: "Nov 26' - Jan 26'",
       status: {
-        label: "In Development",
-        tone: "active",
-        icon: "play",
+        label: "Paused",
+        tone: "paused",
+        icon: "pause",
       },
       skills: [
         { label: "Art Design", icon: "pen-tool" },
         { label: "Complex Web Interactions", icon: "network" },
         { label: "Database Design", icon: "database" },
       ],
+      tools: ["Cursor", "Claude", "Figma", "Aesprite", "Neon"].map(hobbyTool),
       banner: "/sysmud_banner.png",
-      sections: [],
+      sections: [
+        {
+          title: "Why I built it",
+          blocks: [
+            {
+              type: "paragraph",
+              text: "Sysmud came about when I was on paternity leave and wanted to create a retro-style video game right in the browser. At first it was single player, but I wanted to push myself a bit on how to design/implement a database solution for a game where every action is saved.",
+            },
+            {
+              type: "image",
+              src: "/hobby/sysmud1.png",
+              alt: "Sysmud gameplay screenshot",
+            },
+            {
+              type: "image",
+              src: "/hobby/sysmud2.png",
+              alt: "Sysmud world exploration screenshot",
+            },
+            {
+              type: "paragraph",
+              text: "It's a fully playable game with creatures to fight, sounds, gear to find, and a small world to explore. If you want to check it out, you can play it by visiting the temporary link below.",
+            },
+            {
+              type: "cta",
+              label: "Test out SYSMUD",
+              href: "https://sysmud.vercel.app/login.html",
+            },
+          ],
+        },
+      ],
     },
   },
 ];
