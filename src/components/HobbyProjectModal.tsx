@@ -325,7 +325,10 @@ export function HobbyProjectModal({ project, onClose }: HobbyProjectModalProps) 
       {(close) =>
         project ? (
           project.detail ? (
-            <HobbyProjectDetailContent project={project} close={close} />
+            <HobbyProjectDetailContent
+              project={{ ...project, detail: project.detail }}
+              close={close}
+            />
           ) : (
             <HobbyProjectFallbackContent project={project} close={close} />
           )
