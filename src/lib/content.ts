@@ -38,6 +38,7 @@ export type CaseStudyParagraph = string | CaseStudyParagraphSegment[];
 export type CaseStudyOverviewIntro = {
   title: string;
   paragraphs: CaseStudyParagraph[];
+  media?: CaseStudyMedia[];
 };
 
 export type CaseStudySection = {
@@ -65,12 +66,15 @@ export type CaseStudyMeta = {
 
 export type CaseStudy = {
   slug: string;
+  headline?: string;
   meta: CaseStudyMeta;
   overview: CaseStudyOverviewItem[];
   overviewIntro: CaseStudyOverviewIntro;
   hero?: CaseStudyMedia;
   sections: CaseStudySection[];
   summaryWatermark?: string;
+  summaryAccent?: "red" | "blue";
+  viewNext?: string;
 };
 
 const loremParagraph =
@@ -82,42 +86,333 @@ const loremParagraph2 =
 export const caseStudies: CaseStudy[] = [
   {
     slug: "pantomath",
+    headline: "Redesigning Lineage at Scale: A Pantomath Case Study",
+    summaryAccent: "blue",
     meta: {
       role: {
         title: "Lead Product Designer",
-        focus: "Product Design, Design Systems, Prototyping",
+        focus: "Lineage, Interaction Design, Prototyping",
       },
-      team: [],
+      team: [
+        { name: "Aidan Zebertavage", role: "PM" },
+        { name: "Sean Spade", role: "Dev" },
+      ],
       timeline: "Spring 26'",
     },
     hero: {
-      alt: "Pantomath hero",
+      alt: "Final lineage graph: large pipeline with minimap visible",
       layout: "wide",
       aspect: "21 / 9",
+      caption: "Hero: final lineage graph at scale with minimap",
     },
     overview: [
       { label: "Industry", value: "Enterprise SaaS" },
       { label: "Client", value: "Pantomath" },
-      { label: "Platform", value: "Web (Desktop/Mobile)" },
+      { label: "Platform", value: "Web" },
       { label: "Year", value: "2026" },
     ],
     overviewIntro: {
       title: "Overview",
-      paragraphs: [loremParagraph, loremParagraph2],
+      paragraphs: [
+        "Lineage is one of Pantomath's biggest differentiators. It's often what makes new users say \"that's cool\" the moment they see it. But Pantomath's customers are enterprise, and their pipelines are huge: sometimes thousands of assets.",
+        "Lineage hadn't been redesigned since MVP. Years of patches had pushed it past its limits. We rebuilt it from the ground up: the experience, the interactions, and the rendering tech underneath.",
+      ],
     },
     sections: [
       {
-        title: "The Challenge",
-        paragraphs: [loremParagraph],
+        title: "The Problem",
+        paragraphs: [
+          [
+            { type: "bold", value: "Technical: " },
+            {
+              type: "text",
+              value:
+                "Large pipelines loaded slowly. The biggest ones sometimes didn't load at all.",
+            },
+          ],
+          [
+            { type: "bold", value: "Experiential: " },
+            {
+              type: "text",
+              value:
+                "Even when they loaded, pipelines were too dense to make sense of. Cool in a demo, useless in real work.",
+            },
+          ],
+          "Fixing one without the other wouldn't work. The backend rebuild needed a UX layer designed for scale, and vice versa.",
+        ],
+        media: [
+          {
+            alt: "Small pipeline vs. enterprise-scale pipeline side by side",
+            layout: "wide",
+            aspect: "16 / 10",
+            caption: "Demo-scale vs. enterprise-scale pipeline density",
+          },
+        ],
+      },
+      {
+        title: "Research & Discovery",
+        paragraphs: [
+          "I ran focused feedback sessions with paying customers and enterprise teams to understand exactly how they used lineage and where it broke down. Findings were documented for the team to reference long-term.",
+          "That last insight reframed the project. The fix wasn't just \"load faster.\" It was rethinking whether the full graph needed to render up front at all. Usually, it didn't.",
+          [
+            { type: "bold", value: "Metaplane" },
+            {
+              type: "text",
+              value:
+                ": strong column-level lineage, but lacks job transformation logic for the full picture.",
+            },
+          ],
+          [
+            { type: "bold", value: "BigEye" },
+            {
+              type: "text",
+              value: ": comparably deep, but visually overwhelming.",
+            },
+          ],
+          "Pantomath was already the more visual, lineage-forward option. Post Series-B, the company was also moving toward a broader platform, with lineage as the core everything else orbits around. The redesign needed to hold up as that centerpiece.",
+        ],
+        media: [
+          {
+            alt: "Research synthesis doc, blurred/redacted",
+            layout: "contained",
+            aspect: "4 / 3",
+            caption: "Research synthesis artifact",
+            afterParagraph: 0,
+          },
+          {
+            alt: "Metaplane, BigEye, and Pantomath lineage views compared",
+            layout: "wide",
+            aspect: "16 / 9",
+            caption: "Competitive landscape: lineage UX comparison",
+            afterParagraph: 1,
+          },
+          {
+            alt: "Persona grid: Author, DRE, Manager, CFO/CDO",
+            layout: "contained",
+            aspect: "16 / 10",
+            caption: "Personas: icon, name, and one-line goal per role",
+          },
+        ],
+        bullets: [
+          [
+            { type: "bold", value: "Lineage impresses at first, then loses value" },
+            { type: "text", value: ": Build tooling for real, ongoing workflows" },
+          ],
+          [
+            { type: "bold", value: "Full pipelines are neat but too big to analyze" },
+            {
+              type: "text",
+              value: ": Add zoom, a Google Maps-style minimap, and platform grouping",
+            },
+          ],
+          [
+            { type: "bold", value: "Users lean on lineage to explain data to stakeholders" },
+            { type: "text", value: ": Add export (image, CSV)" },
+          ],
+          [
+            {
+              type: "bold",
+              value: "Users usually want one piece of a pipeline, not the whole thing",
+            },
+            { type: "text", value: ": Let users slice, filter, and focus" },
+          ],
+          [
+            {
+              type: "bold",
+              value: "Large pipelines load slowly or not at all",
+            },
+            {
+              type: "text",
+              value: ": Question whether everything needs to load at once",
+            },
+          ],
+          [
+            { type: "bold", value: "The Author" },
+            { type: "text", value: ": wants to visualize and understand pipelines." },
+          ],
+          [
+            { type: "bold", value: "The Data Reliability Engineer" },
+            {
+              type: "text",
+              value: ": wants to spot problems and support incident analysis.",
+            },
+          ],
+          [
+            { type: "bold", value: "The Manager" },
+            { type: "text", value: ": secondary use case." },
+          ],
+          [
+            { type: "bold", value: "The CFO / CDO" },
+            {
+              type: "text",
+              value:
+                ": cares that lineage looks credible enough to help sell the product.",
+            },
+          ],
+        ],
+      },
+      {
+        title: "Design Process",
+        paragraphs: [
+          "Finding the right rendering tech. Design and engineering iterated together:",
+          [
+            { type: "bold", value: "React Flow (HTML)" },
+            {
+              type: "text",
+              value: ": hit performance limits at scale.",
+            },
+          ],
+          [
+            { type: "bold", value: "Sigma.js (WebGL)" },
+            {
+              type: "text",
+              value: ": faster, but too rigid for the interactions we needed.",
+            },
+          ],
+          [
+            { type: "bold", value: "Reagraph (WebGL)" },
+            {
+              type: "text",
+              value:
+                ": closest fit. Our engineer forked it and rewrote much of it for our exact use case.",
+            },
+          ],
+          "From sketch to shipped:",
+          "Rough wireframes for the core mechanics: a lineage explorer, impact \"radius,\" tracing, and a Google Maps-style minimap.",
+          "Looping demo videos to validate interactions early, before heavy engineering investment.",
+          "High-fidelity prototypes, stress-tested against real large-scale pipeline data, not curated demo data.",
+          "The through-line: let people see the whole picture without forcing them to process it all at once.",
+        ],
+        media: [
+          {
+            alt: "Tech exploration: React Flow, Sigma.js, Reagraph",
+            layout: "wide",
+            aspect: "16 / 9",
+            caption: "Rendering tech exploration",
+            afterParagraph: 0,
+          },
+          {
+            alt: "Early wireframes: explorer, radius/tracing, minimap",
+            layout: "wide",
+            aspect: "16 / 10",
+            caption: "Wireframe set: core mechanics",
+          },
+          {
+            alt: "Looping demo GIF: early interactive prototype",
+            layout: "contained",
+            aspect: "16 / 10",
+            caption: "Early interactive prototype demo",
+          },
+          {
+            alt: "High-fidelity mockups: minimap, filtered view, export flow",
+            layout: "wide",
+            aspect: "16 / 9",
+            caption: "High-fidelity mockups: final interaction patterns",
+          },
+        ],
+      },
+      {
+        title: "The List View",
+        paragraphs: [
+          "Not every user wanted the graph at all. Some just wanted the data.",
+          "We added a list view as a lightweight alternative to the graphical experience. No need to load the full visual graph just to look up or analyze a pipeline. Users start at a depth of 1 and expand outward, node by node, revealing more of the pipeline as needed instead of rendering everything up front.",
+          "This turned out to be one of the most useful additions for analysis-heavy work: scanning, comparing, and exporting were all faster in list form than in the graph, especially for users who just needed the data, not the visualization.",
+        ],
+        media: [
+          {
+            alt: "List view at depth 1, then expanded several levels deeper",
+            layout: "wide",
+            aspect: "16 / 10",
+            caption: "List view: depth 1 vs. expanded",
+            afterParagraph: 1,
+          },
+          {
+            alt: "List view demo: expanding depth and exporting to CSV",
+            layout: "contained",
+            aspect: "16 / 10",
+            caption: "List view demo: expand and export",
+          },
+        ],
+        bullets: [
+          [
+            { type: "bold", value: "Depth-based expansion" },
+            {
+              type: "text",
+              value: ": start narrow, expand outward only as far as needed.",
+            },
+          ],
+          [
+            { type: "bold", value: "No graph load required" },
+            {
+              type: "text",
+              value: ": instant, lightweight way to explore a pipeline.",
+            },
+          ],
+          [
+            { type: "bold", value: "Built for analysis" },
+            {
+              type: "text",
+              value: ": easier to scan and compare than a dense visual graph.",
+            },
+          ],
+          [
+            { type: "bold", value: "Export-friendly" },
+            {
+              type: "text",
+              value:
+                ": pairs naturally with CSV export for reporting and deeper analysis.",
+            },
+          ],
+        ],
       },
       {
         title: "The Solution",
-        paragraphs: [loremParagraph, loremParagraph2],
+        paragraphs: [],
+        bullets: [
+          "On-click loading for 100% of pipelines, in under 5 seconds.",
+          "Minimap + grouping by platform, so users orient before zooming in.",
+          "Slice-and-dice tools to investigate one part of a pipeline without loading the whole thing.",
+          "List view as a graph-free alternative, built for fast analysis and export.",
+          "Export to image and CSV, so lineage can leave the app.",
+          "Visual refresh to feel modern and world-class, not just functional.",
+        ],
+        media: [
+          {
+            alt: "Final demo: large pipeline, minimap, zoom, slice, export",
+            layout: "wide",
+            aspect: "21 / 9",
+            caption: "Final demo: open, orient, zoom, slice, export",
+          },
+          {
+            alt: "Feature callout strip: minimap, slice/filter, export",
+            layout: "wide",
+            aspect: "16 / 6",
+            caption: "Feature highlights: minimap, slice & filter, export",
+          },
+        ],
+      },
+      {
+        title: "Results",
+        paragraphs: [],
+        bullets: [
+          "100% of pipelines load on click, in under 5 seconds, including ones that previously failed to load at all.",
+          "Clearer, more direct control for users exploring lineage. Search and filtering replaced passive browsing.",
+          "Lineage went from a one-time \"wow\" to a tool teams actually return to for investigation, stakeholder conversations, and incident analysis.",
+        ],
+        media: [
+          {
+            alt: "Before and after: old lineage view vs. redesigned experience",
+            layout: "wide",
+            aspect: "16 / 10",
+            caption: "Before / after: the payoff",
+          },
+        ],
       },
     ],
   },
   {
     slug: "barstool",
+    viewNext: "pantomath",
     summaryWatermark: "/casestudy/barstooltv/barstool_ascii.gif",
     meta: {
       role: {
@@ -259,9 +554,9 @@ export const caseStudies: CaseStudy[] = [
         ],
         media: [
           {
+            src: "/casestudy/barstooltv/barstooltv_customizableInterface.png",
             alt: "Customizable UI component mapping",
             layout: "contained",
-            aspect: "4 / 3",
           },
         ],
       },
@@ -274,9 +569,9 @@ export const caseStudies: CaseStudy[] = [
         ],
         media: [
           {
+            src: "/casestudy/barstooltv/Barstooltv_foundation.png",
             alt: "Pay-per-view user flows",
             layout: "contained",
-            aspect: "16 / 10",
           },
         ],
       },
@@ -287,19 +582,47 @@ export const caseStudies: CaseStudy[] = [
         ],
         media: [
           {
+            src: "/casestudy/barstooltv/BarstoolTV_Streamlined.png",
             alt: "BarstoolTV interface screens",
             layout: "wide",
-            aspect: "16 / 9",
           },
         ],
       },
       {
         title: "Results and Achievements",
         paragraphs: [
-          "Platform Powerhouse: Developed a comprehensive pay-per-view platform complete with user authentication, payment processing, and an internal CMS backend. This backend empowers stakeholders to seamlessly integrate and manage assets, facilitating the swift creation, administration, and launch of pay-per-view events.",
-          "Exceeding Expectations: The maiden voyage of Barstool.tv pay-per-view exceeded expectations, generating 40,000+ pay-per-view purchases. Internally, enthusiasm and excitement took hold, fueled by Barstool's substantial investments in live comedy within New York City.",
-          "Whirlwind Event Launch: On Tuesday, August 15th, our team received a sudden request to support a pay-per-view event scheduled for the next night, the 20th-anniversary Barstool Sports Awards. This event was not originally supposed to be pay-per-view, but once leadership realized we had the capability, they decided to give it its first test. We managed to create assets, set up, and launch an entire pay-per-view event in under 24 hours.",
-          "Versatile Content Hub: The platform now stands as the optimal channel for releasing paid comedy specials, Barstool events, and an array of compelling content.",
+          [
+            { type: "bold", value: "Platform Powerhouse: " },
+            {
+              type: "text",
+              value:
+                "Developed a comprehensive pay-per-view platform complete with user authentication, payment processing, and an internal CMS backend. This backend empowers stakeholders to seamlessly integrate and manage assets, facilitating the swift creation, administration, and launch of pay-per-view events.",
+            },
+          ],
+          [
+            { type: "bold", value: "Exceeding Expectations: " },
+            {
+              type: "text",
+              value:
+                "The maiden voyage of Barstool.tv pay-per-view exceeded expectations, generating 40,000+ pay-per-view purchases. Internally, enthusiasm and excitement took hold, fueled by Barstool's substantial investments in live comedy within New York City.",
+            },
+          ],
+          [
+            { type: "bold", value: "Whirlwind Event Launch: " },
+            {
+              type: "text",
+              value:
+                "On Tuesday, August 15th, our team received a sudden request to support a pay-per-view event scheduled for the next night, the 20th-anniversary Barstool Sports Awards. This event was not originally supposed to be pay-per-view, but once leadership realized we had the capability, they decided to give it its first test. We managed to create assets, set up, and launch an entire pay-per-view event in under 24 hours.",
+            },
+          ],
+          [
+            { type: "bold", value: "Versatile Content Hub: " },
+            {
+              type: "text",
+              value:
+                "The platform now stands as the optimal channel for releasing paid comedy specials, Barstool events, and an array of compelling content.",
+            },
+          ],
         ],
       },
     ],
@@ -349,7 +672,7 @@ export const caseStudies: CaseStudy[] = [
         ],
       },
       {
-        title: "Designing User Pathways",
+        title: "User Discovery",
         paragraphs: [
           "For Stella Blue, we designed multiple coffee purchase paths. I created UX flows to identify gaps concurrently with wireframe development using FigJam.",
         ],
@@ -562,7 +885,7 @@ const stellaBlueFolders = {
 export const recentWork: WorkItem[] = [
   {
     id: "pantomath",
-    title: "Pantomath",
+    title: "Graphical Lineage",
     company: "Pantomath",
     date: "Spring 26'",
     folders: pantomathFolders,
@@ -872,4 +1195,99 @@ export const aboutContent = {
       { src: "/about/daley_img_botright_square.png", alt: "Group photo" },
     ],
   ] satisfies AboutBentoImage[][],
+};
+
+export type LifeGraphNode = {
+  id: string;
+  title: string;
+  tooltipTitle?: string;
+  year: string;
+  description: string;
+  image?: string;
+  x: number;
+  y: number;
+  primary?: boolean;
+};
+
+export type LifeGraphEdge = {
+  from: string;
+  to: string;
+};
+
+export const lifeGraphContent = {
+  nodes: [
+    {
+      id: "college-years",
+      title: "College Years",
+      year: "2012",
+      description:
+        "Attend Northern Kentucky University, getting involved in startup and on-campus organizations.",
+      image: "/about/daley_img_topleft_square.png",
+      x: 120,
+      y: 260,
+      primary: true,
+    },
+    {
+      id: "web-editor",
+      title: "Web Editor",
+      tooltipTitle: "Web Editor @ The Northerner",
+      year: "2012–2014",
+      description:
+        "Spend 2 years during school as the Web Editor @ The Northerner, NKU's student newspaper. Built websites and interactive web media for a variety of stories. Won multiple-state awards.",
+      image: "/about/daley_img_midleft_square.png",
+      x: 220,
+      y: 120,
+    },
+    {
+      id: "startup-founder",
+      title: "Startup",
+      tooltipTitle: "Startup Founder",
+      year: "2013–2015",
+      description:
+        "Came up with a startup idea, pitched, and won first place in a state wide competition earning $5k in seed funding. Worked to bring the idea to life for two years before calling it.",
+      image: "/about/daley_img_botmid_square.png",
+      x: 240,
+      y: 400,
+    },
+    {
+      id: "graduate",
+      title: "Graduate",
+      year: "2016",
+      description:
+        "Graduate with a Ba. of Arts in Media Informatics. Finish up college with an offer waiting to join CompleteSet.",
+      image: "/about/daley_img_middle_square.png",
+      x: 320,
+      y: 280,
+      primary: true,
+    },
+    {
+      id: "completeset",
+      title: "CompleteSet",
+      year: "2017",
+      description:
+        "Worked as a Visual Specialist out of college at a fast paced startup, doing everything from design, to marketing, to photography.",
+      image: "/about/daley_img_midtop_vertical.png",
+      x: 520,
+      y: 280,
+      primary: true,
+    },
+    {
+      id: "kroger-contractor",
+      title: "The Kroger Co. (Contractor)",
+      year: "2018",
+      description:
+        "Joined The Kroger Co. as a contracting UI designer, designing experiences for millions of users daily.",
+      image: "/about/daley_img_mdiright_vertical.png",
+      x: 720,
+      y: 280,
+      primary: true,
+    },
+  ] satisfies LifeGraphNode[],
+  edges: [
+    { from: "college-years", to: "graduate" },
+    { from: "college-years", to: "web-editor" },
+    { from: "college-years", to: "startup-founder" },
+    { from: "graduate", to: "completeset" },
+    { from: "completeset", to: "kroger-contractor" },
+  ] satisfies LifeGraphEdge[],
 };

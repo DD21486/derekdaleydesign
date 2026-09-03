@@ -156,7 +156,7 @@ function WorkToast({ phase }: { phase: ToastPhase }) {
   );
 }
 
-function FolderDragProvider({ children }: { children: ReactNode }) {
+export function FolderDragProvider({ children }: { children: ReactNode }) {
   const capRegistryRef = useRef(new Map<string, HTMLElement>());
   const [activeDragStackId, setActiveDragStackId] = useState<string | null>(null);
   const [hoveredCapStackId, setHoveredCapStackId] = useState<string | null>(null);
@@ -752,7 +752,7 @@ function FolderStack({
   );
 }
 
-function WorkItemCard({ item }: { item: WorkItem }) {
+export function WorkItemCard({ item }: { item: WorkItem }) {
   return (
     <article className="flex flex-col items-center">
       <FolderStack stackId={item.id} folders={item.folders} />

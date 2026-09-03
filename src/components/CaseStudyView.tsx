@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import { CaseStudyViewNext } from "@/components/CaseStudyViewNext";
 import { EnterItem } from "@/components/EnterItem";
 import { CaseStudyCredits } from "@/components/CaseStudyCredits";
 import { CaseStudyMediaBlock } from "@/components/CaseStudyMediaBlock";
@@ -171,7 +172,7 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
               Case Study
             </p>
             <h1 className="mt-3 text-[32px] font-semibold tracking-tight text-foreground">
-              {work.title}
+              {caseStudy.headline ?? work.title}
             </h1>
             <p className="mt-2 text-[14px] text-neutral-500">
               {work.company} / {work.date}
@@ -194,6 +195,7 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
         <EnterItem index={enterIndex++} fadeOnly>
           <CaseStudySummaryPanel
             watermark={caseStudy.summaryWatermark}
+            accent={caseStudy.summaryAccent}
             className="mt-4"
           >
             <div className="space-y-12">
@@ -216,6 +218,13 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
                   ),
                 )}
               </div>
+              {caseStudy.overviewIntro.media?.map((media) => (
+                <CaseStudyMediaBlock
+                  key={media.alt}
+                  media={media}
+                  className="mt-8"
+                />
+              ))}
             </section>
 
             <CaseStudyCredits meta={caseStudy.meta} />
@@ -256,6 +265,10 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
             );
           })}
         </div>
+
+        {caseStudy.viewNext ? (
+          <CaseStudyViewNext slug={caseStudy.viewNext} enterIndex={enterIndex++} />
+        ) : null}
       </div>
     </div>
   );

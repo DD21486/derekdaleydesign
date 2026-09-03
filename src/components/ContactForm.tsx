@@ -19,7 +19,7 @@ export function ContactForm() {
   return (
     <section className="mt-16 border-t border-white/5 pt-12">
       <h2 className="text-[15px] font-medium text-foreground">
-        Send a note — or find me in Cincinnati
+        Send a note, or find me in Cincinnati
       </h2>
 
       <form
@@ -64,7 +64,7 @@ export function ContactForm() {
             <path d="m2 7 10 7 10-7" />
           </svg>
         </span>
-        <span className="text-foreground-muted">—</span>
+        <span className="text-foreground-muted">·</span>
         <span className="text-foreground">
           {copied ? "Copied!" : "Copy my email"}
         </span>
