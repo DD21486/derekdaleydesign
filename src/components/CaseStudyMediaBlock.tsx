@@ -5,7 +5,27 @@ type CaseStudyMediaBlockProps = {
   className?: string;
 };
 
+function isVideoSrc(src: string) {
+  return /\.(mp4|webm|mov)$/i.test(src);
+}
+
 function MediaFrame({ media }: { media: CaseStudyMedia }) {
+  if (media.src && isVideoSrc(media.src)) {
+    return (
+      <video
+        src={media.src}
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-label={media.alt}
+        className="h-auto w-full rounded-2xl object-cover"
+        style={media.aspect ? { aspectRatio: media.aspect } : undefined}
+      />
+    );
+  }
+
   if (media.src) {
     return (
       // eslint-disable-next-line @next/next/no-img-element

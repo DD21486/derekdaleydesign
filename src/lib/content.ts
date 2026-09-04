@@ -100,9 +100,9 @@ export const caseStudies: CaseStudy[] = [
       timeline: "Spring 26'",
     },
     hero: {
+      src: "/casestudy/lineage/Header.mp4",
       alt: "Final lineage graph: large pipeline with minimap visible",
       layout: "wide",
-      aspect: "21 / 9",
       caption: "Hero: final lineage graph at scale with minimap",
     },
     overview: [
@@ -180,17 +180,11 @@ export const caseStudies: CaseStudy[] = [
             afterParagraph: 0,
           },
           {
-            alt: "Metaplane, BigEye, and Pantomath lineage views compared",
+            src: "/casestudy/lineage/metaplane-bigeye.png",
+            alt: "Metaplane and BigEye lineage views compared",
             layout: "wide",
-            aspect: "16 / 9",
-            caption: "Competitive landscape: lineage UX comparison",
-            afterParagraph: 1,
-          },
-          {
-            alt: "Persona grid: Author, DRE, Manager, CFO/CDO",
-            layout: "contained",
-            aspect: "16 / 10",
-            caption: "Personas: icon, name, and one-line goal per role",
+            caption: "Competitive landscape: Metaplane vs. BigEye",
+            afterParagraph: 3,
           },
         ],
         bullets: [
@@ -226,29 +220,52 @@ export const caseStudies: CaseStudy[] = [
               value: ": Question whether everything needs to load at once",
             },
           ],
+        ],
+      },
+      {
+        title: "Personas Identified",
+        paragraphs: [
+          "Research kept pointing to four roles. Authors and DREs used lineage as a daily tool. Managers and executives used it to explain, sell, and get oriented. Same graph, different jobs.",
           [
-            { type: "bold", value: "The Author" },
-            { type: "text", value: ": wants to visualize and understand pipelines." },
-          ],
-          [
-            { type: "bold", value: "The Data Reliability Engineer" },
-            {
-              type: "text",
-              value: ": wants to spot problems and support incident analysis.",
-            },
-          ],
-          [
-            { type: "bold", value: "The Manager" },
-            { type: "text", value: ": secondary use case." },
-          ],
-          [
-            { type: "bold", value: "The CFO / CDO" },
+            { type: "bold", value: "Data Author" },
             {
               type: "text",
               value:
-                ": cares that lineage looks credible enough to help sell the product.",
+                ": builds and owns the pipelines. They open lineage to see how their work connects: upstream sources, downstream dependents, and what a change would break. The full graph impressed them once, then got too dense to think with. Authors needed to start from a single asset, slice to the piece they cared about, and understand a pipeline without drowning in it.",
             },
           ],
+          [
+            { type: "bold", value: "Data Reliability Engineer" },
+            {
+              type: "text",
+              value:
+                ": lives in incidents. When something fails, they need to trace impact fast: what broke, what's downstream, and who to tell. The old lineage either didn't load at enterprise scale or was too messy to investigate. DREs needed on-click loading in seconds, clearer tracing, a list view for scanning, and export so findings could leave the app and go into the incident thread.",
+            },
+          ],
+          [
+            { type: "bold", value: "Manager" },
+            {
+              type: "text",
+              value:
+                ": a secondary user, not in the graph every day. They show up for reviews, status conversations, and scope questions, and they inherit whatever Authors and DREs can produce. They needed a view that made sense at a glance and a way to take it with them: export to image or CSV, not another tour of a dense canvas.",
+            },
+          ],
+          [
+            { type: "bold", value: "CFO / CDO" },
+            {
+              type: "text",
+              value:
+                ": rarely a daily user, but often the buyer. Lineage is what gets shown in a sales cycle and in conversations about whether the platform is ready for enterprise scale. If it looks slow, dated, or broken on a real pipeline, the deal suffers. They needed the product to feel credible and world-class: fast on huge graphs, visually modern, something a champion could demo without apology.",
+            },
+          ],
+        ],
+        media: [
+          {
+            alt: "Persona grid: Author, DRE, Manager, CFO/CDO",
+            layout: "contained",
+            aspect: "16 / 10",
+            caption: "Personas: Data Author, DRE, Manager, and CFO / CDO",
+          },
         ],
       },
       {
