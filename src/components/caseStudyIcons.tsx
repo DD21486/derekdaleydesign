@@ -65,7 +65,13 @@ const caseStudyIconBySectionId: Record<string, CaseStudyIconName> = {
   "putting-it-all-together": "layers",
   "a-phenomenal-launch-and-charitable-impact": "heart",
   "the-solution": "sparkles",
+  "solution-results": "trophy",
   "personas-identified": "users",
+  "design-process": "workflow",
+  "claude-code-prototyping": "sparkles",
+  "research-discovery": "search",
+  "key-decisions-compromises": "target",
+  "results": "trophy",
 };
 
 export function getCaseStudyIconName(sectionId: string): CaseStudyIconName {

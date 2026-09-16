@@ -16,13 +16,13 @@ export function CaseStudyViewNext({ slug, enterIndex }: CaseStudyViewNextProps) 
 
   return (
     <EnterItem index={enterIndex}>
-      <div className="mt-24 border-t border-black/[0.06] pt-24 dark:border-white/[0.06]">
-        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
-          View Next
+      <div className="mt-16 border-t border-white/[0.06] pt-16 sm:mt-24 sm:pt-24">
+        <p className="text-[15px] leading-[1.75] text-foreground/90">
+          Enjoyed this case study? Check this one out:
         </p>
-        <div className="mt-10 flex justify-center">
+        <div className="relative left-1/2 mt-8 w-[min(calc(100vw-2rem),26rem)] max-w-none -translate-x-1/2 sm:mt-10">
           <FolderDragProvider>
-            <WorkItemCard item={work} />
+            <WorkItemCard item={work} size="large" clickBehavior="direct" />
           </FolderDragProvider>
         </div>
       </div>

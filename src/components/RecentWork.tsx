@@ -244,12 +244,21 @@ export function FolderDragProvider({ children }: { children: ReactNode }) {
   );
 }
 
+const folderSizeStyles = {
+  default: { container: "w-full max-w-[270px]", imageSizes: "270px" },
+  large: { container: "w-full", imageSizes: "(max-width: 900px) 45vw, 420px" },
+} as const;
+
 function FolderStack({
   stackId,
   folders,
+  size = "default",
+  clickBehavior = "fly",
 }: {
   stackId: string;
   folders: WorkItem["folders"];
+  size?: keyof typeof folderSizeStyles;
+  clickBehavior?: "fly" | "direct";
 }) {
   const {
     activeDragStackId,
@@ -260,8 +269,10 @@ function FolderStack({
     findCapAtPoint,
     handleDrop,
   } = useFolderDrag();
-  const { startCaseStudy, isTransitioning, flyingStackId } =
+  const { startCaseStudy, goToCaseStudy, isTransitioning, flyingStackId } =
     useCaseStudyTransition();
+
+  const { container: containerSizeClass, imageSizes } = folderSizeStyles[size];
 
   const containerRef = useRef<HTMLDivElement>(null);
   const capElementRef = useRef<HTMLDivElement | null>(null);
@@ -315,6 +326,12 @@ function FolderStack({
 
   const handleCapClick = useCallback(() => {
     if (isAnyDrag || returnAnim || isTransitioning) return;
+
+    if (clickBehavior === "direct") {
+      goToCaseStudy(stackId);
+      return;
+    }
+
     const capElement = capElementRef.current;
     const leftElement = leftElementRef.current;
     const rightElement = rightElementRef.current;
@@ -325,7 +342,9 @@ function FolderStack({
       folders,
     );
   }, [
+    clickBehavior,
     folders,
+    goToCaseStudy,
     isAnyDrag,
     isTransitioning,
     returnAnim,
@@ -667,7 +686,7 @@ function FolderStack({
   return (
     <div
       ref={containerRef}
-      className="group/stack relative mx-auto aspect-[5/4] w-full max-w-[270px] overflow-visible"
+      className={`group/stack relative mx-auto aspect-[5/4] w-full ${containerSizeClass} overflow-visible`}
     >
       {trails.map((trail) => (
         <div
@@ -681,7 +700,7 @@ function FolderStack({
             src={trail.side === "left" ? folders.left : folders.right}
             alt=""
             fill
-            sizes="270px"
+            sizes={imageSizes}
             draggable={false}
             className="object-contain select-none"
           />
@@ -698,7 +717,7 @@ function FolderStack({
           src={folders.right}
           alt=""
           fill
-          sizes="270px"
+          sizes={imageSizes}
           draggable={false}
           className="pointer-events-none object-contain drop-shadow-lg select-none"
         />
@@ -714,7 +733,7 @@ function FolderStack({
           src={folders.left}
           alt=""
           fill
-          sizes="270px"
+          sizes={imageSizes}
           draggable={false}
           className="pointer-events-none object-contain drop-shadow-lg select-none"
         />
@@ -743,7 +762,7 @@ function FolderStack({
           src={folders.cap}
           alt=""
           fill
-          sizes="270px"
+          sizes={imageSizes}
           draggable={false}
           className="object-contain drop-shadow-lg select-none"
         />
@@ -752,13 +771,34 @@ function FolderStack({
   );
 }
 
-export function WorkItemCard({ item }: { item: WorkItem }) {
+export function WorkItemCard({
+  item,
+  size = "default",
+  clickBehavior = "fly",
+}: {
+  item: WorkItem;
+  size?: keyof typeof folderSizeStyles;
+  clickBehavior?: "fly" | "direct";
+}) {
   return (
-    <article className="flex flex-col items-center">
-      <FolderStack stackId={item.id} folders={item.folders} />
-      <div className="mt-5 text-center">
-        <h3 className="text-[15px] font-semibold text-foreground">{item.title}</h3>
-        <p className="mt-1 text-[12px] text-neutral-500">
+    <article
+      className={`flex flex-col items-center ${size === "large" ? "w-full" : ""}`}
+    >
+      <FolderStack
+        stackId={item.id}
+        folders={item.folders}
+        size={size}
+        clickBehavior={clickBehavior}
+      />
+      <div className={`text-center ${size === "large" ? "mt-8" : "mt-5"}`}>
+        <h3
+          className={`font-semibold text-foreground ${size === "large" ? "text-[18px]" : "text-[15px]"}`}
+        >
+          {item.title}
+        </h3>
+        <p
+          className={`mt-1.5 text-neutral-500 ${size === "large" ? "text-[13px]" : "text-[12px]"}`}
+        >
           {item.company} / {item.date}
         </p>
       </div>
@@ -773,7 +813,7 @@ export function RecentWork({ items }: RecentWorkProps) {
         <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
           Recent Work
         </p>
-        <div className="grid grid-cols-2 gap-x-12 gap-y-16">
+        <div className="grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-16 lg:gap-x-12">
           {items.map((item) => (
             <WorkItemCard key={item.id} item={item} />
           ))}

@@ -64,6 +64,7 @@ type CaseStudyTransitionContextValue = {
     elements: CaseStudyElements,
     assets: CaseStudyAssets,
   ) => void;
+  goToCaseStudy: (slug: string) => void;
   goHome: () => void;
   isExitingCaseStudy: boolean;
   isTransitioning: boolean;
@@ -362,6 +363,24 @@ export function CaseStudyTransitionProvider({
     }, 380 + BLACK_MS);
   }, [clearTimeouts, fadeBlackIn, isTransitioning, queueTimeout, router]);
 
+  const goToCaseStudy = useCallback(
+    (slug: string) => {
+      if (isTransitioning) return;
+
+      clearTimeouts();
+      setIsTransitioning(true);
+      setIsExitingCaseStudy(true);
+
+      queueTimeout(fadeBlackIn, 280);
+      queueTimeout(() => {
+        sessionStorage.setItem("caseStudyEnter", slug);
+        router.push(`/work/${slug}`);
+        setIsExitingCaseStudy(false);
+      }, 280 + BLACK_MS);
+    },
+    [clearTimeouts, fadeBlackIn, isTransitioning, queueTimeout, router],
+  );
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -417,6 +436,7 @@ export function CaseStudyTransitionProvider({
     <CaseStudyTransitionContext.Provider
       value={{
         startCaseStudy,
+        goToCaseStudy,
         goHome,
         isExitingCaseStudy,
         isTransitioning,

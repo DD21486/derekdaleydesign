@@ -13,7 +13,7 @@ function formatTime(date: Date, timeZone: string) {
 }
 
 export function ClockBar() {
-  const [times, setTimes] = useState<{ cin: string; nyc: string } | null>(
+  const [times, setTimes] = useState<{ cincy: string; atx: string } | null>(
     null,
   );
 
@@ -21,8 +21,8 @@ export function ClockBar() {
     const tick = () => {
       const now = new Date();
       setTimes({
-        cin: formatTime(now, "America/New_York"),
-        nyc: formatTime(now, "America/New_York"),
+        cincy: formatTime(now, "America/New_York"),
+        atx: formatTime(now, "America/Chicago"),
       });
     };
 
@@ -32,9 +32,9 @@ export function ClockBar() {
   }, []);
 
   return (
-    <div className="flex items-center gap-4 font-mono text-[11px] tracking-wide text-foreground-subtle">
-      <span>CIN {times?.cin ?? "--:--:--"}</span>
-      <span>NYC {times?.nyc ?? "--:--:--"}</span>
+    <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] tracking-wide text-foreground-subtle sm:gap-4 sm:text-[11px]">
+      <span>Cincy {times?.cincy ?? "--:--:--"}</span>
+      <span>ATX {times?.atx ?? "--:--:--"}</span>
     </div>
   );
 }

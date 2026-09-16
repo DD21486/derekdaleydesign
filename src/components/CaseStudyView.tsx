@@ -5,6 +5,7 @@ import { CaseStudyViewNext } from "@/components/CaseStudyViewNext";
 import { EnterItem } from "@/components/EnterItem";
 import { CaseStudyCredits } from "@/components/CaseStudyCredits";
 import { CaseStudyMediaBlock } from "@/components/CaseStudyMediaBlock";
+import { CaseStudyPersonaList } from "@/components/CaseStudyPersonaList";
 import { CaseStudyOverviewBar } from "@/components/CaseStudyOverviewBar";
 import { CaseStudySummaryPanel } from "@/components/CaseStudySummaryPanel";
 import { CaseStudySectionHeading } from "@/components/CaseStudySectionHeading";
@@ -16,20 +17,54 @@ import { useCaseStudyTransition } from "@/components/CaseStudyTransitionProvider
 import { caseStudySectionId } from "@/components/caseStudyStyles";
 import type {
   CaseStudy,
+  CaseStudyBullet,
   CaseStudyParagraph,
+  CaseStudyParagraphSegment,
   CaseStudySection,
   WorkItem,
 } from "@/lib/content";
 
+function isBulletItem(
+  bullet: CaseStudyBullet,
+): bullet is { title: string; description: string } {
+  return (
+    typeof bullet === "object" &&
+    "title" in bullet &&
+    "description" in bullet
+  );
+}
+
+function isSubheading(
+  paragraph: CaseStudyParagraph,
+): paragraph is { type: "subheading"; value: string } {
+  return (
+    typeof paragraph === "object" &&
+    "type" in paragraph &&
+    paragraph.type === "subheading"
+  );
+}
+
+function isParagraphText(
+  paragraph: CaseStudyParagraph,
+): paragraph is string | CaseStudyParagraphSegment[] {
+  return typeof paragraph === "string" || Array.isArray(paragraph);
+}
+
 function paragraphKey(paragraph: CaseStudyParagraph, index: number) {
   if (typeof paragraph === "string") return paragraph;
+  if (isSubheading(paragraph)) return paragraph.value;
   return `${index}-${paragraph.map((segment) => (segment.type === "link" ? segment.label : segment.value)).join("")}`;
+}
+
+function bulletKey(bullet: CaseStudyBullet, index: number) {
+  if (isBulletItem(bullet)) return bullet.title;
+  return paragraphKey(bullet, index);
 }
 
 function CaseStudyParagraphText({
   paragraph,
 }: {
-  paragraph: CaseStudyParagraph;
+  paragraph: string | CaseStudyParagraphSegment[];
 }) {
   if (typeof paragraph === "string") return paragraph;
 
@@ -88,16 +123,24 @@ function CaseStudySectionBlock({
   return (
     <EnterItem index={enterIndex}>
       <section>
-        <CaseStudySectionHeading id={sectionId}>
+        <CaseStudySectionHeading id={sectionId} iconSrc={section.iconSrc}>
           {section.title}
         </CaseStudySectionHeading>
         {section.paragraphs.length > 0 ? (
           <div className="mt-6 space-y-5">
             {section.paragraphs.map((paragraph, paragraphIndex) => (
               <div key={paragraphKey(paragraph, paragraphIndex)} className="space-y-6">
-                <p className="text-[15px] leading-[1.75] text-foreground/90">
-                  <CaseStudyParagraphText paragraph={paragraph} />
-                </p>
+                {isSubheading(paragraph) ? (
+                  <h3
+                    className={`text-[18px] font-semibold tracking-tight text-foreground ${paragraphIndex > 0 ? "pt-6" : ""}`}
+                  >
+                    {paragraph.value}
+                  </h3>
+                ) : isParagraphText(paragraph) ? (
+                  <p className="text-[15px] leading-[1.75] text-foreground/90">
+                    <CaseStudyParagraphText paragraph={paragraph} />
+                  </p>
+                ) : null}
                 {mediaAfterParagraph(section.media, paragraphIndex).map((media) => (
                   <CaseStudyMediaBlock
                     key={media.alt}
@@ -110,16 +153,36 @@ function CaseStudySectionBlock({
           </div>
         ) : null}
         {section.bullets && section.bullets.length > 0 ? (
-          <ul className="mt-6 list-disc space-y-3 pl-5">
-            {section.bullets.map((bullet, bulletIndex) => (
-              <li
-                key={paragraphKey(bullet, bulletIndex)}
-                className="text-[15px] leading-[1.75] text-foreground/90"
-              >
-                <CaseStudyParagraphText paragraph={bullet} />
-              </li>
-            ))}
+          <ul
+            className={`mt-6 ${
+              isBulletItem(section.bullets[0])
+                ? "space-y-6"
+                : "list-disc space-y-3 pl-5"
+            }`}
+          >
+            {section.bullets.map((bullet, bulletIndex) =>
+              isBulletItem(bullet) ? (
+                <li key={bulletKey(bullet, bulletIndex)}>
+                  <p className="text-[15px] font-semibold text-foreground">
+                    {bullet.title}
+                  </p>
+                  <p className="mt-1 text-[14px] leading-[1.65] text-foreground-muted">
+                    {bullet.description}
+                  </p>
+                </li>
+              ) : isParagraphText(bullet) ? (
+                <li
+                  key={bulletKey(bullet, bulletIndex)}
+                  className="text-[15px] leading-[1.75] text-foreground/90"
+                >
+                  <CaseStudyParagraphText paragraph={bullet} />
+                </li>
+              ) : null,
+            )}
           </ul>
+        ) : null}
+        {section.personas && section.personas.length > 0 ? (
+          <CaseStudyPersonaList personas={section.personas} />
         ) : null}
       </section>
     </EnterItem>
@@ -151,11 +214,11 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
 
   return (
     <div
-      className={`min-h-screen bg-surface ${isExitingCaseStudy ? "case-study-exit" : ""}`}
+      className={`min-h-screen overflow-x-hidden bg-surface ${isExitingCaseStudy ? "case-study-exit" : ""}`}
     >
       <CaseStudyTableOfContents items={tocItems} />
 
-      <div className="mx-auto max-w-4xl px-6 pb-24 pt-8">
+      <div className="mx-auto max-w-4xl px-4 pb-20 pt-6 sm:px-6 sm:pb-24 sm:pt-8">
         <EnterItem index={enterIndex++}>
           <button
             type="button"
@@ -171,10 +234,10 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
             <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
               Case Study
             </p>
-            <h1 className="mt-3 text-[32px] font-semibold tracking-tight text-foreground">
+            <h1 className="mt-3 text-[24px] font-semibold tracking-tight text-foreground sm:text-[32px]">
               {caseStudy.headline ?? work.title}
             </h1>
-            <p className="mt-2 text-[14px] text-neutral-500">
+            <p className="mt-2 text-[13px] text-foreground-muted sm:text-[14px]">
               {work.company} / {work.date}
             </p>
           </header>
@@ -208,14 +271,15 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
               </CaseStudySectionHeading>
               <div className="mt-6 space-y-5">
                 {caseStudy.overviewIntro.paragraphs.map(
-                  (paragraph, paragraphIndex) => (
-                    <p
-                      key={paragraphKey(paragraph, paragraphIndex)}
-                      className="text-[15px] leading-[1.75] text-foreground/90"
-                    >
-                      <CaseStudyParagraphText paragraph={paragraph} />
-                    </p>
-                  ),
+                  (paragraph, paragraphIndex) =>
+                    isParagraphText(paragraph) ? (
+                      <p
+                        key={paragraphKey(paragraph, paragraphIndex)}
+                        className="text-[15px] leading-[1.75] text-foreground/90"
+                      >
+                        <CaseStudyParagraphText paragraph={paragraph} />
+                      </p>
+                    ) : null,
                 )}
               </div>
               {caseStudy.overviewIntro.media?.map((media) => (
@@ -232,7 +296,7 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
           </CaseStudySummaryPanel>
         </EnterItem>
 
-        <div className="mt-24 space-y-24">
+        <div className="mt-16 space-y-16 sm:mt-24 sm:space-y-24">
           {caseStudy.sections.map((section, sectionIndex) => {
             const sectionEnterIndex = enterIndex++;
             const sectionId = caseStudySectionId(section.title);
@@ -242,7 +306,7 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
                 key={section.title}
                 className={
                   sectionIndex > 0
-                    ? "border-t border-black/[0.06] pt-24 dark:border-white/[0.06]"
+                    ? "border-t border-white/[0.06] pt-16 sm:pt-24"
                     : undefined
                 }
               >

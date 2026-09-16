@@ -54,7 +54,7 @@ function HobbyProjectCard({
       <button
         type="button"
         onClick={() => onSelect(item)}
-        className="group/card mx-auto w-[45%] overflow-visible text-left"
+        className="group/card mx-auto w-[min(100%,16rem)] overflow-visible text-left sm:w-[45%]"
         aria-label={`Open ${item.title}`}
       >
         <div

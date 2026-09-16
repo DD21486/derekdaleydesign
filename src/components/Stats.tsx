@@ -45,7 +45,7 @@ function StatIcon({
       }}
     >
       <span
-        className="absolute inset-0 bg-neutral-500/35 transition-opacity duration-500 ease-out group-hover/stat:opacity-0 dark:bg-neutral-400/25"
+        className="absolute inset-0 bg-neutral-400/25 transition-opacity duration-500 ease-out group-hover/stat:opacity-0"
         style={mask}
       />
       <span
@@ -98,10 +98,10 @@ function StatCell({
     >
       <StatIcon icon={stat.icon} rotateX={tilt.x} rotateY={tilt.y} />
       <div className="relative z-10">
-        <div className="font-mono text-2xl font-medium tabular-nums text-foreground">
+        <div className="font-mono text-xl font-medium tabular-nums text-foreground sm:text-2xl">
           {stat.value}
         </div>
-        <div className="mt-1 font-mono text-[10px] uppercase tracking-widest text-neutral-500 dark:text-neutral-400">
+        <div className="mt-1 font-mono text-[9px] uppercase tracking-widest text-foreground-muted sm:text-[10px]">
           {stat.label}
         </div>
       </div>
@@ -123,7 +123,7 @@ export function Stats({ items }: StatsProps) {
   }, []);
 
   return (
-    <div className="mt-10 grid grid-cols-3 gap-4 border-y border-white/5 py-8">
+    <div className="mt-10 grid grid-cols-3 gap-2 border-y border-white/5 py-6 sm:gap-4 sm:py-8">
       {items.map((stat) => (
         <StatCell key={stat.label} stat={stat} mouse={mouse} />
       ))}

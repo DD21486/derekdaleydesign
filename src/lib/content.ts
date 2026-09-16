@@ -12,7 +12,14 @@ export type WorkItem = {
   };
 };
 
-export type CaseStudyMediaLayout = "contained" | "wide";
+export type CaseStudyMediaLayout = "contained" | "wide" | "wide-pair";
+
+export type CaseStudyMediaItem = {
+  src?: string;
+  alt: string;
+  aspect?: string;
+  caption?: string;
+};
 
 export type CaseStudyMedia = {
   src?: string;
@@ -21,6 +28,7 @@ export type CaseStudyMedia = {
   aspect?: string;
   caption?: string;
   afterParagraph?: number;
+  items?: CaseStudyMediaItem[];
 };
 
 export type CaseStudyOverviewItem = {
@@ -33,7 +41,12 @@ export type CaseStudyParagraphSegment =
   | { type: "bold"; value: string }
   | { type: "link"; label: string; href: string };
 
-export type CaseStudyParagraph = string | CaseStudyParagraphSegment[];
+export type CaseStudySubheading = { type: "subheading"; value: string };
+
+export type CaseStudyParagraph =
+  | string
+  | CaseStudyParagraphSegment[]
+  | CaseStudySubheading;
 
 export type CaseStudyOverviewIntro = {
   title: string;
@@ -41,11 +54,27 @@ export type CaseStudyOverviewIntro = {
   media?: CaseStudyMedia[];
 };
 
+export type CaseStudyPersona = {
+  title: string;
+  image: string;
+  imageAlt: string;
+  needs: string[];
+};
+
+export type CaseStudyBulletItem = {
+  title: string;
+  description: string;
+};
+
+export type CaseStudyBullet = CaseStudyParagraph | CaseStudyBulletItem;
+
 export type CaseStudySection = {
   title: string;
   paragraphs: CaseStudyParagraph[];
-  bullets?: CaseStudyParagraph[];
+  bullets?: CaseStudyBullet[];
+  personas?: CaseStudyPersona[];
   media?: CaseStudyMedia[];
+  iconSrc?: string;
 };
 
 export type CaseStudyRole = {
@@ -88,6 +117,7 @@ export const caseStudies: CaseStudy[] = [
     slug: "pantomath",
     headline: "Redesigning Lineage at Scale: A Pantomath Case Study",
     summaryAccent: "blue",
+    viewNext: "stella-blue",
     meta: {
       role: {
         title: "Lead Product Designer",
@@ -142,9 +172,9 @@ export const caseStudies: CaseStudy[] = [
         ],
         media: [
           {
+            src: "/casestudy/lineage/demovsproduction_scale.png",
             alt: "Small pipeline vs. enterprise-scale pipeline side by side",
             layout: "wide",
-            aspect: "16 / 10",
             caption: "Demo-scale vs. enterprise-scale pipeline density",
           },
         ],
@@ -154,6 +184,7 @@ export const caseStudies: CaseStudy[] = [
         paragraphs: [
           "I ran focused feedback sessions with paying customers and enterprise teams to understand exactly how they used lineage and where it broke down. Findings were documented for the team to reference long-term.",
           "That last insight reframed the project. The fix wasn't just \"load faster.\" It was rethinking whether the full graph needed to render up front at all. Usually, it didn't.",
+          { type: "subheading", value: "Competitive Analysis" },
           [
             { type: "bold", value: "Metaplane" },
             {
@@ -173,18 +204,11 @@ export const caseStudies: CaseStudy[] = [
         ],
         media: [
           {
-            alt: "Research synthesis doc, blurred/redacted",
-            layout: "contained",
-            aspect: "4 / 3",
-            caption: "Research synthesis artifact",
-            afterParagraph: 0,
-          },
-          {
             src: "/casestudy/lineage/metaplane-bigeye.png",
             alt: "Metaplane and BigEye lineage views compared",
             layout: "wide",
             caption: "Competitive landscape: Metaplane vs. BigEye",
-            afterParagraph: 3,
+            afterParagraph: 4,
           },
         ],
         bullets: [
@@ -226,52 +250,55 @@ export const caseStudies: CaseStudy[] = [
         title: "Personas Identified",
         paragraphs: [
           "Research kept pointing to four roles. Authors and DREs used lineage as a daily tool. Managers and executives used it to explain, sell, and get oriented. Same graph, different jobs.",
-          [
-            { type: "bold", value: "Data Author" },
-            {
-              type: "text",
-              value:
-                ": builds and owns the pipelines. They open lineage to see how their work connects: upstream sources, downstream dependents, and what a change would break. The full graph impressed them once, then got too dense to think with. Authors needed to start from a single asset, slice to the piece they cared about, and understand a pipeline without drowning in it.",
-            },
-          ],
-          [
-            { type: "bold", value: "Data Reliability Engineer" },
-            {
-              type: "text",
-              value:
-                ": lives in incidents. When something fails, they need to trace impact fast: what broke, what's downstream, and who to tell. The old lineage either didn't load at enterprise scale or was too messy to investigate. DREs needed on-click loading in seconds, clearer tracing, a list view for scanning, and export so findings could leave the app and go into the incident thread.",
-            },
-          ],
-          [
-            { type: "bold", value: "Manager" },
-            {
-              type: "text",
-              value:
-                ": a secondary user, not in the graph every day. They show up for reviews, status conversations, and scope questions, and they inherit whatever Authors and DREs can produce. They needed a view that made sense at a glance and a way to take it with them: export to image or CSV, not another tour of a dense canvas.",
-            },
-          ],
-          [
-            { type: "bold", value: "CFO / CDO" },
-            {
-              type: "text",
-              value:
-                ": rarely a daily user, but often the buyer. Lineage is what gets shown in a sales cycle and in conversations about whether the platform is ready for enterprise scale. If it looks slow, dated, or broken on a real pipeline, the deal suffers. They needed the product to feel credible and world-class: fast on huge graphs, visually modern, something a champion could demo without apology.",
-            },
-          ],
         ],
-        media: [
+        personas: [
           {
-            alt: "Persona grid: Author, DRE, Manager, CFO/CDO",
-            layout: "contained",
-            aspect: "16 / 10",
-            caption: "Personas: Data Author, DRE, Manager, and CFO / CDO",
+            title: "Data Author",
+            image: "/casestudy/lineage/dataauthor.png",
+            imageAlt: "Data Author persona",
+            needs: [
+              "Start from a single asset and slice to what matters",
+              "See upstream and downstream without drowning in the full graph",
+              "Understand what a change would break before shipping it",
+            ],
+          },
+          {
+            title: "Data Reliability Engineer",
+            image: "/casestudy/lineage/datareliabilityeng.png",
+            imageAlt: "Data Reliability Engineer persona",
+            needs: [
+              "On-click loading in seconds, even at enterprise scale",
+              "Clear tracing to investigate incidents fast",
+              "List view and export to share findings in the incident thread",
+            ],
+          },
+          {
+            title: "Manager",
+            image: "/casestudy/lineage/datamanager.png",
+            imageAlt: "Manager persona",
+            needs: [
+              "A view that makes sense at a glance",
+              "Export to image or CSV for reviews and status conversations",
+              "Output they can share without navigating a dense canvas",
+            ],
+          },
+          {
+            title: "CFO / CDO",
+            image: "/casestudy/lineage/CFO_CDO.png",
+            imageAlt: "CFO / CDO persona",
+            needs: [
+              "Fast, credible performance on real large-scale pipelines",
+              "A visually modern experience for sales demos",
+              "Something a champion can show without apology",
+            ],
           },
         ],
       },
       {
         title: "Design Process",
         paragraphs: [
-          "Finding the right rendering tech. Design and engineering iterated together:",
+          { type: "subheading", value: "Working with Engineering" },
+          "I had early discussions with engineering to find the right rendering tech and understand which solution they wanted to pursue, so I could design within real technical limitations instead of assumptions.",
           [
             { type: "bold", value: "React Flow (HTML)" },
             {
@@ -294,134 +321,107 @@ export const caseStudies: CaseStudy[] = [
                 ": closest fit. Our engineer forked it and rewrote much of it for our exact use case.",
             },
           ],
-          "From sketch to shipped:",
+          { type: "subheading", value: "Wireframing" },
           "Rough wireframes for the core mechanics: a lineage explorer, impact \"radius,\" tracing, and a Google Maps-style minimap.",
-          "Looping demo videos to validate interactions early, before heavy engineering investment.",
-          "High-fidelity prototypes, stress-tested against real large-scale pipeline data, not curated demo data.",
-          "The through-line: let people see the whole picture without forcing them to process it all at once.",
+          { type: "subheading", value: "Prototyping" },
+          "I built soft Figma prototypes to demonstrate key functionality for the lineage rework, validating user control flows.",
         ],
         media: [
           {
-            alt: "Tech exploration: React Flow, Sigma.js, Reagraph",
-            layout: "wide",
-            aspect: "16 / 9",
-            caption: "Rendering tech exploration",
-            afterParagraph: 0,
-          },
-          {
+            src: "/casestudy/lineage/lineage_wireframing.png",
             alt: "Early wireframes: explorer, radius/tracing, minimap",
             layout: "wide",
-            aspect: "16 / 10",
             caption: "Wireframe set: core mechanics",
+            afterParagraph: 6,
           },
           {
-            alt: "Looping demo GIF: early interactive prototype",
-            layout: "contained",
-            aspect: "16 / 10",
-            caption: "Early interactive prototype demo",
-          },
-          {
-            alt: "High-fidelity mockups: minimap, filtered view, export flow",
-            layout: "wide",
-            aspect: "16 / 9",
-            caption: "High-fidelity mockups: final interaction patterns",
+            alt: "Early interactive prototype demos",
+            layout: "wide-pair",
+            items: [
+              {
+                src: "/casestudy/lineage/prototype1_expandinglineage.mp4",
+                alt: "Expanding lineage from a single source",
+                caption: "Expanding lineage from a single source",
+              },
+              {
+                src: "/casestudy/lineage/prototype2_walkinglineage.mp4",
+                alt: "Walking Lineage concept",
+                caption: "\"Walking Lineage\" Concept",
+              },
+            ],
+            afterParagraph: 8,
           },
         ],
       },
       {
-        title: "The List View",
+        title: "Claude Code Prototyping",
+        iconSrc: "/icons/claude.svg",
         paragraphs: [
-          "Not every user wanted the graph at all. Some just wanted the data.",
-          "We added a list view as a lightweight alternative to the graphical experience. No need to load the full visual graph just to look up or analyze a pipeline. Users start at a depth of 1 and expand outward, node by node, revealing more of the pipeline as needed instead of rendering everything up front.",
-          "This turned out to be one of the most useful additions for analysis-heavy work: scanning, comparing, and exporting were all faster in list form than in the graph, especially for users who just needed the data, not the visualization.",
+          "I built a Lineage Prototyping Sandbox with Claude Code where I could ship real, functional changes to lineage and evaluate how they felt and performed, not just how they looked in a mockup. I worked against actual demo data from our demo environment, so the scale felt honest instead of completely fabricated.",
         ],
         media: [
           {
-            alt: "List view at depth 1, then expanded several levels deeper",
+            src: "/casestudy/lineage/lineage_sandbox_vid.mp4",
+            alt: "Lineage Prototyping Sandbox demo in Claude Code",
             layout: "wide",
-            aspect: "16 / 10",
-            caption: "List view: depth 1 vs. expanded",
-            afterParagraph: 1,
-          },
-          {
-            alt: "List view demo: expanding depth and exporting to CSV",
-            layout: "contained",
-            aspect: "16 / 10",
-            caption: "List view demo: expand and export",
-          },
-        ],
-        bullets: [
-          [
-            { type: "bold", value: "Depth-based expansion" },
-            {
-              type: "text",
-              value: ": start narrow, expand outward only as far as needed.",
-            },
-          ],
-          [
-            { type: "bold", value: "No graph load required" },
-            {
-              type: "text",
-              value: ": instant, lightweight way to explore a pipeline.",
-            },
-          ],
-          [
-            { type: "bold", value: "Built for analysis" },
-            {
-              type: "text",
-              value: ": easier to scan and compare than a dense visual graph.",
-            },
-          ],
-          [
-            { type: "bold", value: "Export-friendly" },
-            {
-              type: "text",
-              value:
-                ": pairs naturally with CSV export for reporting and deeper analysis.",
-            },
-          ],
-        ],
-      },
-      {
-        title: "The Solution",
-        paragraphs: [],
-        bullets: [
-          "On-click loading for 100% of pipelines, in under 5 seconds.",
-          "Minimap + grouping by platform, so users orient before zooming in.",
-          "Slice-and-dice tools to investigate one part of a pipeline without loading the whole thing.",
-          "List view as a graph-free alternative, built for fast analysis and export.",
-          "Export to image and CSV, so lineage can leave the app.",
-          "Visual refresh to feel modern and world-class, not just functional.",
-        ],
-        media: [
-          {
-            alt: "Final demo: large pipeline, minimap, zoom, slice, export",
-            layout: "wide",
-            aspect: "21 / 9",
-            caption: "Final demo: open, orient, zoom, slice, export",
-          },
-          {
-            alt: "Feature callout strip: minimap, slice/filter, export",
-            layout: "wide",
-            aspect: "16 / 6",
-            caption: "Feature highlights: minimap, slice & filter, export",
+            caption: "Lineage Prototyping Sandbox: real changes, real demo data",
           },
         ],
       },
       {
-        title: "Results",
+        title: "Key Decisions & Compromises",
         paragraphs: [],
         bullets: [
-          "100% of pipelines load on click, in under 5 seconds, including ones that previously failed to load at all.",
-          "Clearer, more direct control for users exploring lineage. Search and filtering replaced passive browsing.",
-          "Lineage went from a one-time \"wow\" to a tool teams actually return to for investigation, stakeholder conversations, and incident analysis.",
-        ],
-        media: [
           {
-            alt: "Before and after: old lineage view vs. redesigned experience",
-            layout: "wide",
-            aspect: "16 / 10",
-            caption: "Before / after: the payoff",
+            title: "No full-picture loads by default",
+            description:
+              "Shifting from a large, beautiful full pipeline to one asset and its immediate dependencies took stakeholder convincing, but it was what users actually wanted and it fixed our two biggest issues: pipelines crashing on load, and users feeling overwhelmed when entering the lineage experience. It was a fundamental UX change that required long conversations with leadership to get everyone aligned.",
+          },
+          {
+            title: "Simplified UI",
+            description:
+              "Load times had to stay fast and snappy. We avoided render-intensive treatments in the UI, or used them only when intentional: drop shadows, images, icons, and the like.",
+          },
+          {
+            title: "Three tools, not five",
+            description:
+              "We originally assumed lineage needed 5+ tools for users to get value. Research narrowed it to three key tools that had to ship. We cut the rest on the premise that if users needed them badly, we'd hear about it. Trimming scope to something manageable paid off, as the simplified experience resonated with users.",
+          },
+        ],
+      },
+      {
+        title: "Solution & Results",
+        paragraphs: [],
+        bullets: [
+          {
+            title: "Enterprise-scale performance",
+            description:
+              "100% of pipelines load on click in under 5 seconds across all customers, including the mega-pipelines which had previously failed to load at all.",
+          },
+          {
+            title: "Orient before you zoom",
+            description:
+              "Minimap and platform grouping give users context before they dive into the graph.",
+          },
+          {
+            title: "Focus without the full load",
+            description:
+              "A curated set of slice-and-dice tools and a list view let users explore one part of a pipeline without rendering everything upfront.",
+          },
+          {
+            title: "Built for real persona-based workflows",
+            description:
+              "Lineage was redesigned around personas and how they actually work, not flashiness and sales demos. Search, filtering, and export replaced passive browsing, turning it from something champions showed in deals into a tool teams used day to day.",
+          },
+          {
+            title: "From demo to daily tool",
+            description:
+              "Lineage went from a one-time \"wow\" to something teams actually return to for investigation, stakeholder conversations, and incident analysis.",
+          },
+          {
+            title: "World-class feel",
+            description:
+              "A visual refresh that holds up in sales demos and enterprise evaluations, not just internal testing.",
           },
         ],
       },
@@ -806,8 +806,8 @@ export const siteConfig = {
   name: "Derek Daley",
   title: "Senior Product Designer",
   email: "hello@example.com",
-  location: "CIN",
-  secondaryLocation: "NYC",
+  location: "Cincy",
+  secondaryLocation: "ATX",
   avatar: "/derek_portrait_1_small.png",
   avatarHover: "/baby_derek.png",
 };

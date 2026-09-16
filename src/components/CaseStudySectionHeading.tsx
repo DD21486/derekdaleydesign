@@ -9,6 +9,7 @@ import {
 type CaseStudySectionHeadingProps = {
   id?: string;
   icon?: CaseStudyIconName;
+  iconSrc?: string;
   inPanel?: boolean;
   children: ReactNode;
 };
@@ -16,6 +17,7 @@ type CaseStudySectionHeadingProps = {
 export function CaseStudySectionHeading({
   id,
   icon,
+  iconSrc,
   inPanel = false,
   children,
 }: CaseStudySectionHeadingProps) {
@@ -29,10 +31,20 @@ export function CaseStudySectionHeading({
       }`}
     >
       <span className="flex items-center gap-3">
-        <CaseStudyIcon
-          name={iconName}
-          className="h-6 w-6 shrink-0 text-foreground/75"
-        />
+        {iconSrc ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={iconSrc}
+            alt=""
+            aria-hidden
+            className="h-6 w-6 shrink-0"
+          />
+        ) : (
+          <CaseStudyIcon
+            name={iconName}
+            className="h-6 w-6 shrink-0 text-foreground/75"
+          />
+        )}
         <span>{children}</span>
       </span>
     </h2>

@@ -25,7 +25,7 @@ export default function Home() {
       <div className="min-h-screen bg-surface">
         <EnterItem delay={0.5} fadeOnly duration={0.5}>
           <header className="sticky top-0 z-10 border-b border-white/5 bg-surface/80 backdrop-blur-md">
-            <div className="mx-auto flex max-w-content items-center justify-between px-5 py-3">
+            <div className="mx-auto flex max-w-content items-center justify-between gap-3 px-5 py-3">
               <ClockBar />
               <HeaderActions
                 aboutText={aboutContent.text}
@@ -46,7 +46,7 @@ export default function Home() {
             </EnterItem>
 
             <EnterItem index={2}>
-              <h1 className="text-[28px] font-semibold tracking-tight text-foreground">
+              <h1 className="text-[24px] font-semibold tracking-tight text-foreground sm:text-[28px]">
                 {siteConfig.name}
               </h1>
             </EnterItem>
@@ -63,13 +63,13 @@ export default function Home() {
           </div>
 
           <EnterItem index={8}>
-            <div className="mx-auto max-w-4xl px-12 pt-24 sm:px-16">
+            <div className="mx-auto max-w-4xl px-5 pt-16 sm:px-12 sm:pt-24 lg:px-16">
               <RecentWork items={recentWork} />
             </div>
           </EnterItem>
 
           <EnterItem index={9}>
-            <div className="mx-auto max-w-4xl px-12 py-24 sm:px-16">
+            <div className="mx-auto max-w-4xl px-5 py-16 sm:px-12 sm:py-24 lg:px-16">
               <HobbyProjects items={hobbyProjects} />
             </div>
           </EnterItem>

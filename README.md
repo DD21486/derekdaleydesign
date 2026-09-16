@@ -16,7 +16,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 - **Content** — Edit `src/lib/content.ts` for bio, links, and project placeholders
 - **Avatar** — Update `siteConfig.avatar` in `src/lib/content.ts` (currently `public/derek_portrait_1.png`)
 - **Email & links** — Update placeholders in `siteConfig` and `navLinks`
-- **Theme** — Dark mode by default; toggle in the top-right corner
+- **Theme** — Dark mode only
 
 ## Stack
 

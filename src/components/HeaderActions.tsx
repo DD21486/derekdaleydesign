@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { AboutModal } from "@/components/AboutModal";
-import { ThemeToggle } from "@/components/ThemeToggle";
 import type { AboutBentoImage } from "@/lib/content";
 
 type HeaderActionsProps = {
@@ -23,7 +22,6 @@ export function HeaderActions({ aboutText, aboutColumns }: HeaderActionsProps) {
         >
           [about me]
         </button>
-        <ThemeToggle />
       </div>
 
       <AboutModal

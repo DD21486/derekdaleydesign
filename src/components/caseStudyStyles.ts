@@ -6,4 +6,4 @@ export function caseStudySectionId(title: string) {
 }
 
 export const caseStudySectionHeadingClass =
-  "text-[24px] font-semibold leading-tight tracking-tight text-foreground";
+  "text-[20px] font-semibold leading-tight tracking-tight text-foreground sm:text-[24px]";
