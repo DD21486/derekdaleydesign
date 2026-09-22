@@ -90,15 +90,15 @@ function getClampedTooltipPosition(x: number, y: number) {
 
 function GraphControlsHint() {
   return (
-    <div className="absolute bottom-6 left-6 rounded-lg border border-white/10 bg-surface-elevated/80 p-3 backdrop-blur-sm">
+    <div className="absolute bottom-6 left-4 max-w-[calc(100%-8.5rem)] rounded-lg border border-white/10 bg-surface-elevated/80 p-3 backdrop-blur-sm sm:left-6 sm:max-w-none">
       <div className="flex items-center gap-2.5">
         <div className="flex items-center gap-1 text-foreground-muted">
-          <Mouse className="h-4 w-4" strokeWidth={1.5} aria-hidden />
-          <Move className="h-4 w-4" strokeWidth={1.5} aria-hidden />
+          <Mouse className="h-4 w-4 shrink-0" strokeWidth={1.5} aria-hidden />
+          <Move className="h-4 w-4 shrink-0" strokeWidth={1.5} aria-hidden />
         </div>
         <span className="text-[11px] text-foreground-muted">Drag to move</span>
       </div>
-      <div className="mt-2.5 flex items-center gap-2.5">
+      <div className="mt-2.5 hidden items-center gap-2.5 sm:flex">
         <MouseWheelIcon className="h-4 w-4 text-foreground-muted" />
         <span className="text-[11px] text-foreground-muted">Scroll to zoom in / out</span>
       </div>
@@ -225,7 +225,7 @@ function GraphTooltip({ node, x, y }: GraphTooltipProps) {
 
   return (
     <div
-      className="life-graph-tooltip-in pointer-events-none fixed z-[60] w-72 rounded-xl border border-cyan-400/20 bg-black/50 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.45),0_0_24px_rgba(34,211,238,0.12)] backdrop-blur-md"
+      className="life-graph-tooltip-in pointer-events-none fixed z-[60] w-[min(18rem,calc(100vw-2rem))] rounded-xl border border-cyan-400/20 bg-black/50 p-4 shadow-[0_16px_48px_rgba(0,0,0,0.45),0_0_24px_rgba(34,211,238,0.12)] backdrop-blur-md"
       style={{
         left: clampedX,
         top: clampedY - 16,
@@ -514,7 +514,7 @@ export function LifeGraph({ nodes, edges }: LifeGraphProps) {
 
       <GraphControlsHint />
 
-      <div className="absolute bottom-6 right-6 flex items-center gap-1 rounded-lg border border-white/10 bg-surface-elevated/80 p-1 backdrop-blur-sm">
+      <div className="absolute bottom-6 right-4 flex items-center gap-1 rounded-lg border border-white/10 bg-surface-elevated/80 p-1 backdrop-blur-sm sm:right-6">
         <button
           type="button"
           onClick={() => zoomBy(0.85)}

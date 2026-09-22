@@ -1,3 +1,4 @@
+import { CaseStudySlideCarousel } from "@/components/CaseStudySlideCarousel";
 import type { CaseStudyMedia, CaseStudyMediaItem } from "@/lib/content";
 
 type CaseStudyMediaBlockProps = {
@@ -67,6 +68,30 @@ function MediaFrame({ media }: { media: CaseStudyMediaItem }) {
   );
 }
 
+function LogoMark({
+  item,
+  className,
+  driftClass,
+}: {
+  item?: CaseStudyMediaItem;
+  className: string;
+  driftClass: string;
+}) {
+  if (!item?.src) return null;
+
+  return (
+    <div className={`absolute ${className} ${driftClass}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={item.src}
+        alt={item.alt}
+        className="h-auto w-full origin-center transition-transform duration-500 ease-out hover:scale-110"
+        draggable={false}
+      />
+    </div>
+  );
+}
+
 function MediaCaption({ caption }: { caption: string }) {
   return (
     <figcaption className="mt-3 text-center text-[13px] text-foreground-muted">
@@ -80,6 +105,48 @@ export function CaseStudyMediaBlock({
   className = "",
 }: CaseStudyMediaBlockProps) {
   const caption = media.caption ? <MediaCaption caption={media.caption} /> : null;
+
+  if (media.layout === "logo-cluster" && media.items) {
+    const [blueBottle, chamberlain, stumptown, blackRifle] = media.items;
+
+    return (
+      <div
+        className={`relative mx-auto h-[300px] w-full max-w-[36rem] sm:h-[420px] sm:max-w-[40rem] ${className}`}
+        aria-label={media.alt}
+      >
+        <LogoMark
+          item={blueBottle}
+          className="left-[4%] top-[6%] w-[24%]"
+          driftClass="logo-drift-1"
+        />
+        <LogoMark
+          item={chamberlain}
+          className="right-[1%] top-0 w-[50%]"
+          driftClass="logo-drift-2"
+        />
+        <LogoMark
+          item={stumptown}
+          className="bottom-[6%] left-[8%] w-[42%]"
+          driftClass="logo-drift-3"
+        />
+        <LogoMark
+          item={blackRifle}
+          className="bottom-[4%] right-[12%] w-[24%]"
+          driftClass="logo-drift-4"
+        />
+      </div>
+    );
+  }
+
+  if (media.layout === "slider" && media.items) {
+    return (
+      <CaseStudySlideCarousel
+        slides={media.items}
+        label={media.alt}
+        className={className}
+      />
+    );
+  }
 
   if (media.layout === "wide-pair" && media.items) {
     const [left, right] = media.items;

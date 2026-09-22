@@ -12,7 +12,12 @@ export type WorkItem = {
   };
 };
 
-export type CaseStudyMediaLayout = "contained" | "wide" | "wide-pair";
+export type CaseStudyMediaLayout =
+  | "contained"
+  | "wide"
+  | "wide-pair"
+  | "slider"
+  | "logo-cluster";
 
 export type CaseStudyMediaItem = {
   src?: string;
@@ -28,6 +33,8 @@ export type CaseStudyMedia = {
   aspect?: string;
   caption?: string;
   afterParagraph?: number;
+  beforeContent?: boolean;
+  beforeTitle?: boolean;
   items?: CaseStudyMediaItem[];
 };
 
@@ -64,6 +71,7 @@ export type CaseStudyPersona = {
 export type CaseStudyBulletItem = {
   title: string;
   description: string;
+  icon?: string;
 };
 
 export type CaseStudyBullet = CaseStudyParagraph | CaseStudyBulletItem;
@@ -607,45 +615,35 @@ export const caseStudies: CaseStudy[] = [
       },
       {
         title: "Results and Achievements",
-        paragraphs: [
-          [
-            { type: "bold", value: "Platform Powerhouse: " },
-            {
-              type: "text",
-              value:
-                "Developed a comprehensive pay-per-view platform complete with user authentication, payment processing, and an internal CMS backend. This backend empowers stakeholders to seamlessly integrate and manage assets, facilitating the swift creation, administration, and launch of pay-per-view events.",
-            },
-          ],
-          [
-            { type: "bold", value: "Exceeding Expectations: " },
-            {
-              type: "text",
-              value:
-                "The maiden voyage of Barstool.tv pay-per-view exceeded expectations, generating 40,000+ pay-per-view purchases. Internally, enthusiasm and excitement took hold, fueled by Barstool's substantial investments in live comedy within New York City.",
-            },
-          ],
-          [
-            { type: "bold", value: "Whirlwind Event Launch: " },
-            {
-              type: "text",
-              value:
-                "On Tuesday, August 15th, our team received a sudden request to support a pay-per-view event scheduled for the next night, the 20th-anniversary Barstool Sports Awards. This event was not originally supposed to be pay-per-view, but once leadership realized we had the capability, they decided to give it its first test. We managed to create assets, set up, and launch an entire pay-per-view event in under 24 hours.",
-            },
-          ],
-          [
-            { type: "bold", value: "Versatile Content Hub: " },
-            {
-              type: "text",
-              value:
-                "The platform now stands as the optimal channel for releasing paid comedy specials, Barstool events, and an array of compelling content.",
-            },
-          ],
+        paragraphs: [],
+        bullets: [
+          {
+            title: "Platform Powerhouse",
+            description:
+              "Developed a comprehensive pay-per-view platform complete with user authentication, payment processing, and an internal CMS backend. This backend empowers stakeholders to seamlessly integrate and manage assets, facilitating the swift creation, administration, and launch of pay-per-view events.",
+          },
+          {
+            title: "Exceeding Expectations",
+            description:
+              "The maiden voyage of Barstool.tv pay-per-view exceeded expectations, generating 40,000+ pay-per-view purchases. Internally, enthusiasm and excitement took hold, fueled by Barstool's substantial investments in live comedy within New York City.",
+          },
+          {
+            title: "Whirlwind Event Launch",
+            description:
+              "On Tuesday, August 15th, our team received a sudden request to support a pay-per-view event scheduled for the next night, the 20th-anniversary Barstool Sports Awards. This event was not originally supposed to be pay-per-view, but once leadership realized we had the capability, they decided to give it its first test. We managed to create assets, set up, and launch an entire pay-per-view event in under 24 hours.",
+          },
+          {
+            title: "Versatile Content Hub",
+            description:
+              "The platform now stands as the optimal channel for releasing paid comedy specials, Barstool events, and an array of compelling content.",
+          },
         ],
       },
     ],
   },
   {
     slug: "stella-blue",
+    viewNext: "barstool",
     meta: {
       role: {
         title: "Senior UX / UI Designer",
@@ -657,97 +655,181 @@ export const caseStudies: CaseStudy[] = [
         { name: "Joe Bona", role: "SWE" },
         { name: "Nick Morrison", role: "SWE" },
       ],
-      timeline: "Designed and built in 8 weeks, launched November '22",
+      timeline: "Designed and built in 8 weeks, launched late October 2024",
     },
     hero: {
+      src: "/casestudy/stellablue/StellaBlue_Background_LowDataSize.mp4",
       alt: "Stella Blue Coffee website hero",
       layout: "wide",
-      aspect: "21 / 9",
+      aspect: "16 / 9",
     },
     overview: [
-      { label: "Industry", value: "Retail" },
-      { label: "Client", value: "Stella Blue Coffee" },
+      { label: "Industry", value: "Ecomm" },
+      { label: "Client", value: "Barstool Sports" },
       { label: "Platform", value: "Web (Desktop/Mobile)" },
-      { label: "Year", value: "2022" },
+      { label: "Year", value: "2024" },
     ],
     overviewIntro: {
       title: "Overview",
       paragraphs: [
-        "My approach was rooted in user-centered design, data-driven decisions, and seamless collaboration with stakeholders to conceive, design, and develop the website.",
+        "Stella Blue needed a DTC website from zero. The brand is Dan \"Big Cat\" Katz and Barstool Sports, so much of the traffic would land from social and buy on impulse. The same site had to earn trust from coffee buyers who are skeptical of a personality brand. Coffee Club, not the single bag, had to be the main way to purchase.",
+        "The site launched in late October 2024. It hit the year-end revenue goal within 48 hours. About six weeks later, Stella Blue had tripled its annual revenue goal, entirely through the website.",
       ],
     },
     sections: [
       {
-        title: "Competitive Analysis and Research",
-        paragraphs: [
-          "My journey began by delving into comprehensive competitive research, where I meticulously examined coffee and DTC eCommerce landscapes, uncovering noteworthy trends, patterns, and key competitors.",
-        ],
-        bullets: [
-          "The online coffee market is fiercely competitive, favoring vibrant, personalized brands.",
-          "Subscriptions and bundles boost average order value and revenue compared to selling individual coffee bags.",
-          "Some eCommerce experiences are overly complex; our aim was simplicity and user-friendliness.",
-        ],
-      },
-      {
-        title: "User Discovery",
-        paragraphs: [
-          "For Stella Blue, we designed multiple coffee purchase paths. I created UX flows to identify gaps concurrently with wireframe development using FigJam.",
-        ],
+        title: "What Research Changed",
         media: [
           {
-            alt: "Stella Blue purchase path flows",
-            layout: "contained",
-            aspect: "16 / 10",
+            alt: "Competitor coffee logos",
+            layout: "logo-cluster",
+            beforeTitle: true,
+            items: [
+              {
+                src: "/casestudy/stellablue/bluebottlecoffee_logo.png",
+                alt: "Blue Bottle Coffee",
+              },
+              {
+                src: "/casestudy/stellablue/chamberlaincoffee_logo.png",
+                alt: "Chamberlain Coffee",
+              },
+              {
+                src: "/casestudy/stellablue/stumptown_coffeelogo.png",
+                alt: "Stumptown Coffee Roasters",
+              },
+              {
+                src: "/casestudy/stellablue/blackriflecoffee_logo.png",
+                alt: "Black Rifle Coffee Company",
+              },
+            ],
+          },
+        ],
+        paragraphs: [
+          "Competitive research changed three decisions. The rest of the work follows from them.",
+        ],
+        bullets: [
+          {
+            title: "Subscriptions Carry the Business",
+            icon: "layers",
+            description:
+              "Subscriptions and bundles beat one-off bags on order value. Coffee Club had to be a primary path on the site, not a link in the footer.",
+          },
+          {
+            title: "Personality Is Not Proof",
+            icon: "target",
+            description:
+              "A recognizable brand wins the first click. It loses the coffee skeptic unless sourcing, flavor, and charity are specific on the page.",
+          },
+          {
+            title: "Social Traffic Has No Patience",
+            icon: "sparkles",
+            description:
+              "Most coffee sites ask too much of someone buying from a post. Purchase paths and checkout had to be obvious immediately.",
           },
         ],
       },
       {
-        title: "Brainstorming and Wireframing",
+        title: "The On-the-Go User",
         paragraphs: [
-          "Daily meetings with stakeholders involved brainstorming and refining ideas to chart the website's direction. We formulated key questions to guide our design:",
-        ],
-        bullets: [
-          "How can we amplify Dan's appeal for users in an engaging manner?",
-          "What strategies can simplify user entry into the subscription funnel?",
-          "Balancing a light and fun vibe with a polished eCommerce experience, how can we achieve this synergy?",
-        ],
-      },
-      {
-        title: "Visual Exploration and Brand Identity",
-        paragraphs: [
-          "While pinpointing eCommerce needs, we collaborated with stakeholders to envision the brand's imagery for the website. I developed mood boards featuring coffee-related visuals that aligned with the site's direction and crafted a style guide that harmonized with both the coffee packaging art and modern web design standards.",
-          "As we moved to the project's final stages, which included high-fidelity mockups, prototypes, and early development, our focus shifted from UX to UI. We had discussions on promoting our Coffee Club Subscription, improving our UI to highlight value propositions for better conversions, and other enhancements. As the experience evolved, we collaborated closely with developers to provide feedback as needed.",
+          "This shopper is already on social, sees Dan or the brand, and is ready to buy. The job was to get them into a purchase without making them hunt.",
+          "The header is a looping video of Dan (see top of case study), so the brand is clear in the first second. Shop and Coffee Club sit in view with that video. Gifting is a third path, still simple, for someone buying for a fan rather than for themselves.",
         ],
         media: [
           {
-            alt: "Stella Blue brand mood boards and style exploration",
+            src: "/casestudy/stellablue/mobilemmocks.png",
+            alt: "Stella Blue mobile mocks",
             layout: "wide",
-            aspect: "16 / 9",
+          },
+          {
+            src: "/casestudy/stellablue/StellaGiftTable.png",
+            alt: "Stella Blue gift table",
+            layout: "wide",
           },
         ],
       },
       {
-        title: "Putting It All Together",
-        paragraphs: ["Key website successes:"],
-        bullets: [
-          "Engaging Video Header: Featuring a looping video of Dan, this header quickly captured users' attention and conveyed the brand's identity.",
-          "User-Friendly Subscription Flow: A straightforward build-your-own subscription experience, minimizing friction for seamless checkout.",
-          "Balancing Cartoon and Real Photography: Seamlessly integrated lighthearted cartoon branding with impactful real-world photography. We infused humor into the user experience for less serious elements, delighting users.",
+        title: "The Coffee Enthusiast",
+        paragraphs: [
+          "This shopper likes coffee and does not trust a personality brand yet. They need the finer details before they will buy.",
+          "The product page states where the beans come from, how the coffee tastes, and exactly what the charity contribution is. Those details are the social proof. Humor stays in the brand, not in the facts.",
         ],
         media: [
           {
-            alt: "Stella Blue homepage and subscription flow",
+            src: "/casestudy/stellablue/StellaPDP.png",
+            alt: "Stella Blue product detail page",
             layout: "wide",
-            aspect: "16 / 10",
           },
         ],
       },
       {
-        title: "A Phenomenal Launch and Charitable Impact",
+        title: "The Subscriber",
         paragraphs: [
-          "The Stella Blue website launched in mid-November 2022, achieving the year-end revenue goal within 48 hours. A testament to combining great personalities, brand, design, and engineering.",
-          "By the end of 2022, Stella Blue Coffee tripled its annual revenue goal, exclusively through the website, live for just a month and a half.",
-          "Stella Blue has garnered outstanding reviews and maintains its strong performance. Personally, I take great pride in our partnership with PAWS Chicago, contributing a portion of our proceeds to support local dog adoption efforts in Chicago.",
+          "This shopper wants coffee on a schedule and does not want to rebuild the order every time. Price and what is included have to be obvious.",
+          "Coffee Club is a primary path from the homepage, not a footer link. The flow lets them choose coffees, see the price, and subscribe. Customization is there. The decision is not repeated on every delivery.",
+        ],
+        media: [
+          {
+            src: "/casestudy/stellablue/StellaCoffeeClubSelection.png",
+            alt: "Stella Blue Coffee Club selection",
+            layout: "wide",
+          },
+          {
+            alt: "Stella Blue brand system",
+            layout: "wide-pair",
+            items: [
+              {
+                src: "/casestudy/stellablue/StellaBlue_Brand1.png",
+                alt: "Stella Blue logo variations",
+              },
+              {
+                src: "/casestudy/stellablue/StellaBlue_Brand2.png",
+                alt: "Stella Blue Coffee Club colors",
+              },
+            ],
+          },
+        ],
+      },
+      {
+        title: "Launch and Charitable Impact",
+        paragraphs: [
+          "Stella Blue has held up since launch, with strong reviews and a real charity commitment. A portion of proceeds supports local dog adoption in Chicago through PAWS Chicago.",
+        ],
+        bullets: [
+          {
+            title: "Year-End Goal, Then Triple",
+            icon: "trophy",
+            description:
+              "The site launched in late October 2024 and hit the year-end revenue goal within 48 hours. By the end of 2024 it had tripled the annual goal, after about a month and a half live, with every sale coming through the site.",
+          },
+          {
+            title: "Building a Brand That Lasts",
+            icon: "sparkles",
+            description:
+              "Stella Blue is still a highly profitable brand for the Barstool family of brands.",
+          },
+          {
+            title: "A Partnership That Held",
+            icon: "heart",
+            description:
+              "Reviews stayed strong after launch. A portion of proceeds still supports local dog adoption in Chicago through PAWS Chicago.",
+          },
+        ],
+        media: [
+          {
+            alt: "Stella Blue launch impact slides",
+            layout: "slider",
+            beforeContent: true,
+            items: [
+              { src: "/casestudy/stellablue/slide_1.png", alt: "Stella Blue launch slide 1" },
+              { src: "/casestudy/stellablue/slide_2.png", alt: "Stella Blue launch slide 2" },
+              { src: "/casestudy/stellablue/slide_3.png", alt: "Stella Blue launch slide 3" },
+              { src: "/casestudy/stellablue/slide_4.png", alt: "Stella Blue launch slide 4" },
+              { src: "/casestudy/stellablue/slide_5.png", alt: "Stella Blue launch slide 5" },
+              { src: "/casestudy/stellablue/slide_6.png", alt: "Stella Blue launch slide 6" },
+              { src: "/casestudy/stellablue/slide_7.png", alt: "Stella Blue launch slide 7" },
+              { src: "/casestudy/stellablue/slide_8.png", alt: "Stella Blue launch slide 8" },
+            ],
+          },
         ],
       },
     ],
@@ -816,7 +898,7 @@ export const bio = {
   intro: [
     {
       segments: [
-        { type: "text", value: "Currently leading design at " },
+        { type: "text", value: "Currently design lead & design engineer at " },
         { type: "company", company: companies.pantomath },
         { type: "muted", value: " (Seed→Series B | $10M+ ARR growth)" },
         {
@@ -999,7 +1081,7 @@ export const hobbyProjects: HobbyProject[] = [
   {
     id: "coney-counter",
     title: "Coney Counter",
-    subtitle: "Cincinnati Coney Tracking Webapp",
+    subtitle: "Coney Tracking",
     image: "/coneycounter.png",
     detail: {
       date: "Sep' 25",
@@ -1130,9 +1212,78 @@ export const hobbyProjects: HobbyProject[] = [
     },
   },
   {
+    id: "traeva",
+    title: "Traeva",
+    subtitle: "Discover Wildlife",
+    image: "/traeva.png",
+    detail: {
+      date: "2026 - Present",
+      status: {
+        label: "In Development",
+        tone: "active",
+        icon: "play",
+      },
+      skills: [
+        { label: "Systems Design", icon: "network" },
+        { label: "Coding", icon: "layers" },
+        { label: "GIS & Mapping", icon: "scan-eye" },
+        { label: "UI/UX Design", icon: "pen-tool" },
+        { label: "Data Curation", icon: "database" },
+      ],
+      tools: [
+        "Cursor",
+        "ChatGPT",
+        "React / TypeScript",
+        "Figma",
+        "Photoshop",
+        "MapLibre GL",
+      ].map(hobbyTool),
+      banner: "/traeva_banner.png",
+      sections: [
+        {
+          title: "Why I'm Building It",
+          blocks: [
+            {
+              type: "paragraph",
+              text: "I've always loved being outdoors and traveling. Hiking, camping, road trips, whatever gets me somewhere new. There's something about being in an unfamiliar place that makes you pay closer attention to what's around you.",
+            },
+            {
+              type: "image",
+              src: "/hobby/traeva_1.png",
+              alt: "Traeva wildlife discovery",
+            },
+            {
+              type: "paragraph",
+              text: "I've also always found maps fascinating. Not just for getting from A to B, but for understanding a place before you're even there. Zooming in, panning around, imagining what might be living in that patch of green.",
+            },
+            {
+              type: "image",
+              src: "/hobby/traeva_2.png",
+              alt: "Traeva map exploration",
+            },
+            {
+              type: "paragraph",
+              text: "Traeva came from wanting to see what I could do with publicly available map and wildlife data. There's a surprising amount of it out there, and I wanted to explore how design could make that information feel useful, beautiful, and worth discovering.",
+            },
+            {
+              type: "image",
+              src: "/hobby/traeva_3.png",
+              alt: "Traeva interface exploration",
+            },
+            {
+              type: "cta",
+              label: "Explore Traeva",
+              href: "https://traeva-seven.vercel.app/",
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     id: "sysmud",
     title: "Sysmud",
-    subtitle: "In-browser MMO Experiment",
+    subtitle: "In-Browser MMO",
     image: "/sysmud.png",
     detail: {
       date: "Nov 26' - Jan 26'",
@@ -1179,6 +1330,64 @@ export const hobbyProjects: HobbyProject[] = [
         },
       ],
     },
+  },
+];
+
+export type WorkHistoryItem = {
+  title: string;
+  company: string;
+  dates: string;
+  duration?: string;
+  employmentType?: string;
+};
+
+export const workHistory: WorkHistoryItem[] = [
+  {
+    title: "Senior Product Designer & Design Engineer",
+    company: "Pantomath",
+    employmentType: "Full-time",
+    dates: "Sep 2023 - Present",
+    duration: "3 yrs 1 mo",
+  },
+  {
+    title: "Senior UX / UI Designer",
+    company: "Barstool Sports",
+    employmentType: "Full-time",
+    dates: "May 2022 - Sep 2023",
+    duration: "1 yr 5 mos",
+  },
+  {
+    title: "Associate Product Designer",
+    company: "Kroger Digital",
+    employmentType: "Full-time",
+    dates: "Nov 2020 - May 2022",
+    duration: "1 yr 7 mos",
+  },
+  {
+    title: "User Interface Designer",
+    company: "Kroger Digital",
+    employmentType: "Full-time",
+    dates: "Jun 2018 - Nov 2020",
+    duration: "2 yrs 6 mos",
+  },
+  {
+    title: "Visual Specialist",
+    company: "CompleteSet",
+    employmentType: "Full-time",
+    dates: "May 2017 - Jan 2018",
+    duration: "9 mos",
+  },
+  {
+    title: "Digital Content Manager",
+    company: "The Northerner",
+    dates: "Aug 2015 - May 2017",
+    duration: "1 yr 10 mos",
+  },
+  {
+    title: "Full Stack Designer",
+    company: "EventSpider LLC",
+    dates: "May 2015 - Oct 2017",
+    duration: "2 yrs",
   },
 ];
 

@@ -54,7 +54,7 @@ function HobbyProjectCard({
       <button
         type="button"
         onClick={() => onSelect(item)}
-        className="group/card mx-auto w-[min(100%,16rem)] overflow-visible text-left sm:w-[45%]"
+        className="group/card mx-auto w-full overflow-visible text-left lg:max-w-[8.75rem]"
         aria-label={`Open ${item.title}`}
       >
         <div
@@ -71,7 +71,7 @@ function HobbyProjectCard({
             src={item.image}
             alt={item.title}
             fill
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            sizes="(max-width: 1024px) 50vw, 140px"
             className="pointer-events-none object-cover select-none"
           />
         </div>
@@ -93,7 +93,7 @@ export function HobbyProjects({ items }: HobbyProjectsProps) {
         <p className="mb-10 font-mono text-[11px] uppercase tracking-[0.15em] text-foreground-subtle">
           Hobby Projects
         </p>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-8 lg:grid-cols-4">
           {items.map((item) => (
             <HobbyProjectCard
               key={item.id}

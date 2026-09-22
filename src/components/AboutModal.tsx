@@ -39,7 +39,7 @@ export function AboutModal({ open, onClose, text, columns }: AboutModalProps) {
             </button>
           </div>
 
-          <div className="mt-4 grid grid-cols-3 gap-5">
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 sm:gap-5">
             {columns.map((column, columnIndex) => (
               <div key={columnIndex} className="flex flex-col gap-5">
                 {column.map((image, rowIndex) => (

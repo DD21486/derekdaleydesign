@@ -10,6 +10,11 @@ import { CaseStudyOverviewBar } from "@/components/CaseStudyOverviewBar";
 import { CaseStudySummaryPanel } from "@/components/CaseStudySummaryPanel";
 import { CaseStudySectionHeading } from "@/components/CaseStudySectionHeading";
 import {
+  CaseStudyIcon,
+  caseStudyIcons,
+  type CaseStudyIconName,
+} from "@/components/caseStudyIcons";
+import {
   CaseStudyTableOfContents,
   type CaseStudyTocItem,
 } from "@/components/CaseStudyTableOfContents";
@@ -26,12 +31,20 @@ import type {
 
 function isBulletItem(
   bullet: CaseStudyBullet,
-): bullet is { title: string; description: string } {
+): bullet is { title: string; description: string; icon?: string } {
   return (
     typeof bullet === "object" &&
     "title" in bullet &&
     "description" in bullet
   );
+}
+
+function getBulletIconName(icon?: string): CaseStudyIconName {
+  if (icon && icon in caseStudyIcons) {
+    return icon as CaseStudyIconName;
+  }
+
+  return "briefcase";
 }
 
 function isSubheading(
@@ -123,9 +136,19 @@ function CaseStudySectionBlock({
   return (
     <EnterItem index={enterIndex}>
       <section>
+        {section.media
+          ?.filter((media) => media.beforeTitle)
+          .map((media) => (
+            <CaseStudyMediaBlock key={media.alt} media={media} className="mb-10" />
+          ))}
         <CaseStudySectionHeading id={sectionId} iconSrc={section.iconSrc}>
           {section.title}
         </CaseStudySectionHeading>
+        {section.media
+          ?.filter((media) => media.beforeContent)
+          .map((media) => (
+            <CaseStudyMediaBlock key={media.alt} media={media} className="mt-8" />
+          ))}
         {section.paragraphs.length > 0 ? (
           <div className="mt-6 space-y-5">
             {section.paragraphs.map((paragraph, paragraphIndex) => (
@@ -162,13 +185,31 @@ function CaseStudySectionBlock({
           >
             {section.bullets.map((bullet, bulletIndex) =>
               isBulletItem(bullet) ? (
-                <li key={bulletKey(bullet, bulletIndex)}>
-                  <p className="text-[15px] font-semibold text-foreground">
-                    {bullet.title}
-                  </p>
-                  <p className="mt-1 text-[14px] leading-[1.65] text-foreground-muted">
-                    {bullet.description}
-                  </p>
+                <li
+                  key={bulletKey(bullet, bulletIndex)}
+                  className={
+                    bullet.icon ? "flex gap-4" : undefined
+                  }
+                >
+                  {bullet.icon ? (
+                    <div
+                      aria-hidden
+                      className="flex w-11 shrink-0 self-stretch items-center justify-center rounded-xl bg-gradient-to-b from-blue-600 via-blue-500 to-sky-400"
+                    >
+                      <CaseStudyIcon
+                        name={getBulletIconName(bullet.icon)}
+                        className="h-5 w-5 text-white/90"
+                      />
+                    </div>
+                  ) : null}
+                  <div className="min-w-0 flex-1">
+                    <p className="text-[15px] font-semibold text-foreground">
+                      {bullet.title}
+                    </p>
+                    <p className="mt-1 text-[14px] leading-[1.65] text-foreground-muted">
+                      {bullet.description}
+                    </p>
+                  </div>
                 </li>
               ) : isParagraphText(bullet) ? (
                 <li
@@ -316,7 +357,12 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
                   enterIndex={sectionEnterIndex}
                 />
                 {section.media
-                  ?.filter((media) => media.afterParagraph === undefined)
+                  ?.filter(
+                    (media) =>
+                      media.afterParagraph === undefined &&
+                      !media.beforeContent &&
+                      !media.beforeTitle,
+                  )
                   .map((media) => (
                   <EnterItem
                     key={`${section.title}-${media.alt}`}
@@ -333,6 +379,18 @@ export function CaseStudyView({ work, caseStudy }: CaseStudyViewProps) {
         {caseStudy.viewNext ? (
           <CaseStudyViewNext slug={caseStudy.viewNext} enterIndex={enterIndex++} />
         ) : null}
+
+        <EnterItem index={enterIndex++}>
+          <div className="mt-14 flex justify-center sm:mt-16">
+            <button
+              type="button"
+              onClick={goHome}
+              className="font-mono text-[13px] text-foreground-muted transition-colors hover:text-foreground"
+            >
+              [back to home]
+            </button>
+          </div>
+        </EnterItem>
       </div>
     </div>
   );

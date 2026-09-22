@@ -1,11 +1,11 @@
 import { Avatar } from "@/components/Avatar";
 import { Bio } from "@/components/Bio";
 import { ClockBar } from "@/components/ClockBar";
-import { ContactForm } from "@/components/ContactForm";
 import { EnterItem } from "@/components/EnterItem";
 import { HeaderActions } from "@/components/HeaderActions";
 import { HobbyProjects } from "@/components/HobbyProjects";
 import { HomeEntrance } from "@/components/HomeEntrance";
+import { WorkHistory } from "@/components/WorkHistory";
 import { NavLinks } from "@/components/NavLinks";
 import { RecentWork } from "@/components/RecentWork";
 import { Stats } from "@/components/Stats";
@@ -17,6 +17,7 @@ import {
   recentWork,
   siteConfig,
   stats,
+  workHistory,
 } from "@/lib/content";
 
 export default function Home() {
@@ -25,7 +26,7 @@ export default function Home() {
       <div className="min-h-screen bg-surface">
         <EnterItem delay={0.5} fadeOnly duration={0.5}>
           <header className="sticky top-0 z-10 border-b border-white/5 bg-surface/80 backdrop-blur-md">
-            <div className="mx-auto flex max-w-content items-center justify-between gap-3 px-5 py-3">
+            <div className="mx-auto flex max-w-content flex-wrap items-center justify-between gap-x-3 gap-y-1 px-5 py-3">
               <ClockBar />
               <HeaderActions
                 aboutText={aboutContent.text}
@@ -74,11 +75,11 @@ export default function Home() {
             </div>
           </EnterItem>
 
-          <div className="mx-auto max-w-content px-5 pb-20">
-            <EnterItem index={10}>
-              <ContactForm />
-            </EnterItem>
-          </div>
+          <EnterItem index={10}>
+            <div className="mx-auto max-w-4xl px-5 pb-20 sm:px-12 lg:px-16">
+              <WorkHistory items={workHistory} />
+            </div>
+          </EnterItem>
         </main>
       </div>
     </HomeEntrance>

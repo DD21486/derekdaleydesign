@@ -39,7 +39,7 @@ function StatIcon({
   return (
     <span
       aria-hidden
-      className="pointer-events-none absolute left-1/2 top-1/2 h-24 w-24 transition-transform duration-150 ease-out will-change-transform"
+      className="pointer-events-none absolute left-1/2 top-1/2 h-16 w-16 transition-transform duration-150 ease-out will-change-transform sm:h-24 sm:w-24"
       style={{
         transform: `translate(-50%, -50%) perspective(700px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`,
       }}
@@ -101,7 +101,7 @@ function StatCell({
         <div className="font-mono text-xl font-medium tabular-nums text-foreground sm:text-2xl">
           {stat.value}
         </div>
-        <div className="mt-1 font-mono text-[9px] uppercase tracking-widest text-foreground-muted sm:text-[10px]">
+        <div className="mt-1 px-1 font-mono text-[8px] uppercase leading-tight tracking-[0.12em] text-foreground-muted sm:text-[10px] sm:tracking-widest">
           {stat.label}
         </div>
       </div>

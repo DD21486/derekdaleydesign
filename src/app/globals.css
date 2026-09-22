@@ -254,6 +254,71 @@
     will-change: transform, top, left, width, height;
   }
 
+  @keyframes logo-drift-1 {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(10px, -12px, 0);
+    }
+  }
+
+  @keyframes logo-drift-2 {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(-12px, 8px, 0);
+    }
+  }
+
+  @keyframes logo-drift-3 {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(8px, 12px, 0);
+    }
+  }
+
+  @keyframes logo-drift-4 {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(-8px, -10px, 0);
+    }
+  }
+
+  .logo-drift-1 {
+    animation: logo-drift-1 9s ease-in-out infinite;
+  }
+
+  .logo-drift-2 {
+    animation: logo-drift-2 11s ease-in-out infinite;
+  }
+
+  .logo-drift-3 {
+    animation: logo-drift-3 8.5s ease-in-out infinite;
+  }
+
+  .logo-drift-4 {
+    animation: logo-drift-4 10s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .logo-drift-1,
+    .logo-drift-2,
+    .logo-drift-3,
+    .logo-drift-4 {
+      animation: none;
+    }
+  }
+
   @keyframes case-study-fly-cap-out {
     0% {
       opacity: 1;
