@@ -1,4 +1,5 @@
 import { CaseStudySlideCarousel } from "@/components/CaseStudySlideCarousel";
+import { CaseStudyVideo } from "@/components/CaseStudyVideo";
 import type { CaseStudyMedia, CaseStudyMediaItem } from "@/lib/content";
 
 type CaseStudyMediaBlockProps = {
@@ -13,32 +14,10 @@ function isVideoSrc(src: string) {
   return /\.(mp4|webm|mov)$/i.test(src);
 }
 
-function VideoMedia({
-  media,
-  className,
-}: {
-  media: CaseStudyMediaItem;
-  className: string;
-}) {
-  return (
-    <video
-      src={media.src}
-      autoPlay
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      aria-label={media.alt}
-      className={className}
-      style={media.aspect ? { aspectRatio: media.aspect } : undefined}
-    />
-  );
-}
-
 function MediaFrame({ media }: { media: CaseStudyMediaItem }) {
   if (media.src && isVideoSrc(media.src)) {
     return (
-      <VideoMedia
+      <CaseStudyVideo
         media={media}
         className="h-auto w-full rounded-2xl object-cover"
       />
@@ -154,7 +133,7 @@ export function CaseStudyMediaBlock({
 
       if (variant === "primary") {
         return (
-          <VideoMedia
+          <CaseStudyVideo
             media={item}
             className="h-auto w-full rounded-2xl object-cover"
           />
@@ -163,7 +142,7 @@ export function CaseStudyMediaBlock({
 
       return (
         <div className="flex min-h-0 items-center justify-center rounded-2xl bg-[#E1E3E7] md:h-full">
-          <VideoMedia
+          <CaseStudyVideo
             media={item}
             className="h-auto w-full object-contain md:max-h-full md:max-w-full"
           />

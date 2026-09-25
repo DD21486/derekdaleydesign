@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { LoadingSpinner } from "@/components/LoadingSpinner";
 import type { CompanyLinkData } from "@/lib/content";
 
 type CompanyLinkProps = {
@@ -10,6 +11,7 @@ type CompanyLinkProps = {
 
 export function CompanyLink({ company }: CompanyLinkProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [videoReady, setVideoReady] = useState(false);
 
   const handlePreviewEnter = () => {
     const video = videoRef.current;
@@ -52,17 +54,28 @@ export function CompanyLink({ company }: CompanyLinkProps) {
         aria-hidden
         className="pointer-events-none absolute bottom-[calc(100%+10px)] left-1/2 z-30 -translate-x-1/2 scale-95 opacity-0 transition duration-200 ease-out group-hover/link:scale-100 group-hover/link:opacity-100"
       >
-        <span className="block w-52 overflow-hidden rounded-2xl border border-white/10 bg-surface-elevated shadow-2xl">
+        <span className="relative block w-52 overflow-hidden rounded-2xl border border-white/10 bg-surface-elevated shadow-2xl">
           {company.previewVideo ? (
-            <video
-              ref={videoRef}
-              src={company.previewVideo}
-              muted
-              loop
-              playsInline
-              preload="none"
-              className="aspect-[4/3] w-full object-cover"
-            />
+            <>
+              <video
+                ref={videoRef}
+                src={company.previewVideo}
+                muted
+                loop
+                playsInline
+                preload="none"
+                aria-busy={!videoReady}
+                className="aspect-[4/3] w-full bg-surface-muted object-cover"
+                onLoadedData={() => setVideoReady(true)}
+                onCanPlay={() => setVideoReady(true)}
+                onError={() => setVideoReady(true)}
+              />
+              {videoReady ? null : (
+                <span className="pointer-events-none absolute inset-0 flex items-center justify-center">
+                  <LoadingSpinner className="h-5 w-5" label="Loading video" />
+                </span>
+              )}
+            </>
           ) : (
             <span className="flex aspect-[4/3] items-center justify-center bg-surface-muted">
               <span className="font-mono text-[11px] uppercase tracking-widest text-foreground-subtle">
