@@ -57,6 +57,16 @@ function isSubheading(
   );
 }
 
+function isNote(
+  paragraph: CaseStudyParagraph,
+): paragraph is { type: "note"; value: string } {
+  return (
+    typeof paragraph === "object" &&
+    "type" in paragraph &&
+    paragraph.type === "note"
+  );
+}
+
 function isParagraphText(
   paragraph: CaseStudyParagraph,
 ): paragraph is string | CaseStudyParagraphSegment[] {
@@ -65,7 +75,7 @@ function isParagraphText(
 
 function paragraphKey(paragraph: CaseStudyParagraph, index: number) {
   if (typeof paragraph === "string") return paragraph;
-  if (isSubheading(paragraph)) return paragraph.value;
+  if (isSubheading(paragraph) || isNote(paragraph)) return paragraph.value;
   return `${index}-${paragraph.map((segment) => (segment.type === "link" ? segment.label : segment.value)).join("")}`;
 }
 
@@ -152,13 +162,20 @@ function CaseStudySectionBlock({
         {section.paragraphs.length > 0 ? (
           <div className="mt-6 space-y-5">
             {section.paragraphs.map((paragraph, paragraphIndex) => (
-              <div key={paragraphKey(paragraph, paragraphIndex)} className="space-y-6">
+              <div
+                key={paragraphKey(paragraph, paragraphIndex)}
+                className={`space-y-6 ${isNote(paragraph) ? "pt-6" : ""}`}
+              >
                 {isSubheading(paragraph) ? (
                   <h3
                     className={`text-[18px] font-semibold tracking-tight text-foreground ${paragraphIndex > 0 ? "pt-6" : ""}`}
                   >
                     {paragraph.value}
                   </h3>
+                ) : isNote(paragraph) ? (
+                  <p className="text-[15px] italic leading-[1.75] text-foreground-muted">
+                    {paragraph.value}
+                  </p>
                 ) : isParagraphText(paragraph) ? (
                   <p className="text-[15px] leading-[1.75] text-foreground/90">
                     <CaseStudyParagraphText paragraph={paragraph} />

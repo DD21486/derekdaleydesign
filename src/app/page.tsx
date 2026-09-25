@@ -8,6 +8,7 @@ import { HomeEntrance } from "@/components/HomeEntrance";
 import { WorkHistory } from "@/components/WorkHistory";
 import { NavLinks } from "@/components/NavLinks";
 import { RecentWork } from "@/components/RecentWork";
+import { SelectedWork } from "@/components/SelectedWork";
 import { Stats } from "@/components/Stats";
 import {
   aboutContent,
@@ -15,10 +16,14 @@ import {
   hobbyProjects,
   navLinks,
   recentWork,
+  selectedWork,
   siteConfig,
   stats,
   workHistory,
 } from "@/lib/content";
+
+const showFolderCaseStudies = false;
+const showStats = false;
 
 export default function Home() {
   return (
@@ -58,14 +63,24 @@ export default function Home() {
               <NavLinks links={navLinks} email={siteConfig.email} />
             </EnterItem>
 
-            <EnterItem index={7}>
-              <Stats items={stats} />
-            </EnterItem>
+            {showStats ? (
+              <EnterItem index={7}>
+                <Stats items={stats} />
+              </EnterItem>
+            ) : null}
           </div>
+
+          {showFolderCaseStudies ? (
+            <EnterItem index={8}>
+              <div className="mx-auto max-w-4xl px-5 pt-16 sm:px-12 sm:pt-24 lg:px-16">
+                <RecentWork items={recentWork} />
+              </div>
+            </EnterItem>
+          ) : null}
 
           <EnterItem index={8}>
             <div className="mx-auto max-w-4xl px-5 pt-16 sm:px-12 sm:pt-24 lg:px-16">
-              <RecentWork items={recentWork} />
+              <SelectedWork items={selectedWork} />
             </div>
           </EnterItem>
 

@@ -23,7 +23,6 @@ export type CaseStudyMediaItem = {
   src?: string;
   alt: string;
   aspect?: string;
-  caption?: string;
 };
 
 export type CaseStudyMedia = {
@@ -31,7 +30,6 @@ export type CaseStudyMedia = {
   alt: string;
   layout: CaseStudyMediaLayout;
   aspect?: string;
-  caption?: string;
   afterParagraph?: number;
   beforeContent?: boolean;
   beforeTitle?: boolean;
@@ -50,10 +48,13 @@ export type CaseStudyParagraphSegment =
 
 export type CaseStudySubheading = { type: "subheading"; value: string };
 
+export type CaseStudyNote = { type: "note"; value: string };
+
 export type CaseStudyParagraph =
   | string
   | CaseStudyParagraphSegment[]
-  | CaseStudySubheading;
+  | CaseStudySubheading
+  | CaseStudyNote;
 
 export type CaseStudyOverviewIntro = {
   title: string;
@@ -141,7 +142,6 @@ export const caseStudies: CaseStudy[] = [
       src: "/casestudy/lineage/Header.mp4",
       alt: "Final lineage graph: large pipeline with minimap visible",
       layout: "wide",
-      caption: "Hero: final lineage graph at scale with minimap",
     },
     overview: [
       { label: "Industry", value: "Enterprise SaaS" },
@@ -160,30 +160,23 @@ export const caseStudies: CaseStudy[] = [
       {
         title: "The Problem",
         paragraphs: [
-          [
-            { type: "bold", value: "Technical: " },
-            {
-              type: "text",
-              value:
-                "Large pipelines loaded slowly. The biggest ones sometimes didn't load at all.",
-            },
-          ],
-          [
-            { type: "bold", value: "Experiential: " },
-            {
-              type: "text",
-              value:
-                "Even when they loaded, pipelines were too dense to make sense of. Cool in a demo, useless in real work.",
-            },
-          ],
-          "Fixing one without the other wouldn't work. The backend rebuild needed a UX layer designed for scale, and vice versa.",
+          { type: "subheading", value: "Technical" },
+          "Large pipelines loaded slowly. The biggest ones sometimes didn't load at all.",
+          { type: "subheading", value: "Experiential" },
+          "Even when they loaded, pipelines were too dense to make sense of. Cool in a demo, useless in real work.",
+          { type: "subheading", value: "Lack of Tooling" },
+          "Users found it difficult to slice a large graph and find the set of assets they needed. The full pipeline was the only view.",
+          {
+            type: "note",
+            value:
+              "Fixing one without the other wouldn't work. The backend rebuild needed a UX layer designed for scale, and vice versa.",
+          },
         ],
         media: [
           {
             src: "/casestudy/lineage/demovsproduction_scale.png",
             alt: "Small pipeline vs. enterprise-scale pipeline side by side",
             layout: "wide",
-            caption: "Demo-scale vs. enterprise-scale pipeline density",
           },
         ],
       },
@@ -215,7 +208,6 @@ export const caseStudies: CaseStudy[] = [
             src: "/casestudy/lineage/metaplane-bigeye.png",
             alt: "Metaplane and BigEye lineage views compared",
             layout: "wide",
-            caption: "Competitive landscape: Metaplane vs. BigEye",
             afterParagraph: 4,
           },
         ],
@@ -339,7 +331,6 @@ export const caseStudies: CaseStudy[] = [
             src: "/casestudy/lineage/lineage_wireframing.png",
             alt: "Early wireframes: explorer, radius/tracing, minimap",
             layout: "wide",
-            caption: "Wireframe set: core mechanics",
             afterParagraph: 6,
           },
           {
@@ -349,12 +340,10 @@ export const caseStudies: CaseStudy[] = [
               {
                 src: "/casestudy/lineage/prototype1_expandinglineage.mp4",
                 alt: "Expanding lineage from a single source",
-                caption: "Expanding lineage from a single source",
               },
               {
                 src: "/casestudy/lineage/prototype2_walkinglineage.mp4",
                 alt: "Walking Lineage concept",
-                caption: "\"Walking Lineage\" Concept",
               },
             ],
             afterParagraph: 8,
@@ -372,7 +361,6 @@ export const caseStudies: CaseStudy[] = [
             src: "/casestudy/lineage/lineage_sandbox_vid.mp4",
             alt: "Lineage Prototyping Sandbox demo in Claude Code",
             layout: "wide",
-            caption: "Lineage Prototyping Sandbox: real changes, real demo data",
           },
         ],
       },
@@ -441,7 +429,7 @@ export const caseStudies: CaseStudy[] = [
     summaryWatermark: "/casestudy/barstooltv/barstool_ascii.gif",
     meta: {
       role: {
-        title: "Lead Designer",
+        title: "Senior UX / UI Designer",
         focus:
           "User Experience, Interaction Design, Visual Design, User Flows, Research",
       },
@@ -450,7 +438,7 @@ export const caseStudies: CaseStudy[] = [
         { name: "Mike Nichols", role: "SWE" },
         { name: "Darren Carlin", role: "SWE" },
       ],
-      timeline: "Designed and built in 6 weeks, debuted August '23",
+      timeline: "Designed and built in 6 weeks, debuted August 22'",
     },
     hero: {
       src: "/casestudy/barstooltv/BarstoolTV_Header.webp",
@@ -461,7 +449,7 @@ export const caseStudies: CaseStudy[] = [
       { label: "Industry", value: "Media" },
       { label: "Client", value: "Barstool Sports" },
       { label: "Platform", value: "Web (Desktop/Mobile)" },
-      { label: "Year", value: "2023" },
+      { label: "Year", value: "2022" },
     ],
     overviewIntro: {
       title: "Overview",
@@ -655,7 +643,7 @@ export const caseStudies: CaseStudy[] = [
         { name: "Joe Bona", role: "SWE" },
         { name: "Nick Morrison", role: "SWE" },
       ],
-      timeline: "Designed and built in 8 weeks, launched late October 2024",
+      timeline: "Designed and built in 8 weeks, launched late October 2023",
     },
     hero: {
       src: "/casestudy/stellablue/StellaBlue_Background_LowDataSize.mp4",
@@ -667,13 +655,13 @@ export const caseStudies: CaseStudy[] = [
       { label: "Industry", value: "Ecomm" },
       { label: "Client", value: "Barstool Sports" },
       { label: "Platform", value: "Web (Desktop/Mobile)" },
-      { label: "Year", value: "2024" },
+      { label: "Year", value: "2023" },
     ],
     overviewIntro: {
       title: "Overview",
       paragraphs: [
         "Stella Blue needed a DTC website from zero. The brand is Dan \"Big Cat\" Katz and Barstool Sports, so much of the traffic would land from social and buy on impulse. The same site had to earn trust from coffee buyers who are skeptical of a personality brand. Coffee Club, not the single bag, had to be the main way to purchase.",
-        "The site launched in late October 2024. It hit the year-end revenue goal within 48 hours. About six weeks later, Stella Blue had tripled its annual revenue goal, entirely through the website.",
+        "The site launched in late October 2023. It hit the year-end revenue goal within 48 hours. About six weeks later, Stella Blue had tripled its annual revenue goal, entirely through the website.",
       ],
     },
     sections: [
@@ -799,7 +787,7 @@ export const caseStudies: CaseStudy[] = [
             title: "Year-End Goal, Then Triple",
             icon: "trophy",
             description:
-              "The site launched in late October 2024 and hit the year-end revenue goal within 48 hours. By the end of 2024 it had tripled the annual goal, after about a month and a half live, with every sale coming through the site.",
+              "The site launched in late October 2023 and hit the year-end revenue goal within 48 hours. By the end of 2023 it had tripled the annual goal, after about a month and a half live, with every sale coming through the site.",
           },
           {
             title: "Building a Brand That Lasts",
@@ -904,7 +892,7 @@ export const bio = {
         {
           type: "text",
           value:
-            ". I design tools and AI experiences that automate data operations at enterprise scale. I design in code daily, ship straight to production, and own product, marketing, and brand end-to-end as a team of one.",
+            ". I design tools and AI experiences that automate data operations at enterprise scale. I design in code daily, ship straight to production, and own product, marketing, and brand end-to-end as the only designer.",
         },
       ],
     },
@@ -993,15 +981,70 @@ export const recentWork: WorkItem[] = [
     id: "barstool",
     title: "BarstoolTV",
     company: "Barstool Sports",
-    date: "Spring 23'",
+    date: "August 22'",
     folders: barstoolFolders,
   },
   {
     id: "stella-blue",
     title: "Stella Blue",
     company: "Stella Blue",
-    date: "Fall 24'",
+    date: "Fall 23'",
     folders: stellaBlueFolders,
+  },
+];
+
+export type SelectedWorkItem = {
+  id: string;
+  metric: string;
+  metricLabel: string;
+  outcome: string;
+  description: string;
+  company: string;
+  role: string;
+  year: string;
+  image: string;
+  imageAlt: string;
+};
+
+export const selectedWork: SelectedWorkItem[] = [
+  {
+    id: "pantomath",
+    metric: "<5s",
+    metricLabel: "Load time",
+    outcome:
+      "Lineage at Pantomath took 30+ seconds to load and lacked useful tools. Pipelines now open in under 5 seconds.",
+    description: "Redesigning a technical tool while decreasing load times",
+    company: "Pantomath",
+    role: "Lead Product Designer",
+    year: "2026",
+    image: "/casestudy/lineage/demovsproduction_scale.png",
+    imageAlt: "Demo-scale lineage beside an enterprise-scale pipeline",
+  },
+  {
+    id: "stella-blue",
+    metric: "3×",
+    metricLabel: "Revenue",
+    outcome: "Creating an on-brand coffee DTC experience from scratch.",
+    description: "Hitting 3x revenue goal in 48 hrs",
+    company: "Stella Blue",
+    role: "Senior UX / UI Designer",
+    year: "2023",
+    image: "/casestudy/stellablue/mobilemmocks.png",
+    imageAlt: "Stella Blue mobile shop, Coffee Club, and product page",
+  },
+  {
+    id: "barstool",
+    metric: "40k+",
+    metricLabel: "Purchases",
+    outcome:
+      "Designing a net-new pay-per-view offering for the largest media family of brands in the world.",
+    description:
+      "Creating a PPV service for both user and business",
+    company: "Barstool Sports",
+    role: "Senior UX / UI Designer",
+    year: "2022",
+    image: "/casestudy/barstooltv/BarstoolTV_Streamlined.png",
+    imageAlt: "BarstoolTV pay-per-view interface",
   },
 ];
 
@@ -1245,7 +1288,7 @@ export const hobbyProjects: HobbyProject[] = [
           blocks: [
             {
               type: "paragraph",
-              text: "I've always loved being outdoors and traveling. Hiking, camping, road trips, whatever gets me somewhere new. There's something about being in an unfamiliar place that makes you pay closer attention to what's around you.",
+              text: "TLDR: I like maps and animals.",
             },
             {
               type: "image",
@@ -1254,7 +1297,7 @@ export const hobbyProjects: HobbyProject[] = [
             },
             {
               type: "paragraph",
-              text: "I've also always found maps fascinating. Not just for getting from A to B, but for understanding a place before you're even there. Zooming in, panning around, imagining what might be living in that patch of green.",
+              text: "Maps were always interesting to me. Not just for getting from A to B, but for understanding a place before you're even there. Zooming in, panning around, imagining what might be living in that patch of green.",
             },
             {
               type: "image",
@@ -1286,7 +1329,7 @@ export const hobbyProjects: HobbyProject[] = [
     subtitle: "In-Browser MMO",
     image: "/sysmud.png",
     detail: {
-      date: "Nov 26' - Jan 26'",
+      date: "Nov 25'",
       status: {
         label: "Paused",
         tone: "paused",

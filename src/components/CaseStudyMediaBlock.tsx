@@ -92,20 +92,10 @@ function LogoMark({
   );
 }
 
-function MediaCaption({ caption }: { caption: string }) {
-  return (
-    <figcaption className="mt-3 text-center text-[13px] text-foreground-muted">
-      {caption}
-    </figcaption>
-  );
-}
-
 export function CaseStudyMediaBlock({
   media,
   className = "",
 }: CaseStudyMediaBlockProps) {
-  const caption = media.caption ? <MediaCaption caption={media.caption} /> : null;
-
   if (media.layout === "logo-cluster" && media.items) {
     const [blueBottle, chamberlain, stumptown, blackRifle] = media.items;
 
@@ -187,7 +177,6 @@ export function CaseStudyMediaBlock({
           {[left, right].map((item, index) => (
             <figure key={item.alt}>
               <PairVideo item={item} variant={index === 0 ? "primary" : "boxed"} />
-              {item.caption ? <MediaCaption caption={item.caption} /> : null}
             </figure>
           ))}
         </div>
@@ -196,10 +185,6 @@ export function CaseStudyMediaBlock({
           <div className="grid grid-cols-2 items-stretch gap-5">
             <PairVideo item={left} variant="primary" />
             <PairVideo item={right} variant="boxed" />
-          </div>
-          <div className="mt-3 grid grid-cols-2 gap-5">
-            {left.caption ? <MediaCaption caption={left.caption} /> : <div />}
-            {right.caption ? <MediaCaption caption={right.caption} /> : null}
           </div>
         </div>
       </div>
@@ -210,7 +195,6 @@ export function CaseStudyMediaBlock({
     return (
       <figure className={`${wideMediaClass} ${className}`}>
         <MediaFrame media={media} />
-        {caption}
       </figure>
     );
   }
@@ -218,7 +202,6 @@ export function CaseStudyMediaBlock({
   return (
     <figure className={`my-8 w-full ${className}`}>
       <MediaFrame media={media} />
-      {caption}
     </figure>
   );
 }

@@ -54,7 +54,7 @@ function HobbyProjectCard({
       <button
         type="button"
         onClick={() => onSelect(item)}
-        className="group/card mx-auto w-full overflow-visible text-left lg:max-w-[8.75rem]"
+        className="group/card mx-auto w-full max-w-[7rem] overflow-visible text-left"
         aria-label={`Open ${item.title}`}
       >
         <div
@@ -71,7 +71,7 @@ function HobbyProjectCard({
             src={item.image}
             alt={item.title}
             fill
-            sizes="(max-width: 1024px) 50vw, 140px"
+            sizes="112px"
             className="pointer-events-none object-cover select-none"
           />
         </div>

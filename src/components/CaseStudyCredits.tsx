@@ -26,7 +26,7 @@ export function CaseStudyCredits({ meta, className = "" }: CaseStudyCreditsProps
       {hasTeam ? (
         <section>
           <CaseStudySectionHeading icon="users" inPanel>
-            The Team
+            Worked with
           </CaseStudySectionHeading>
           <ul className="mt-6 space-y-2.5">
             {meta.team.map((member) => (
